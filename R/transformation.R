@@ -1,5 +1,6 @@
 library(RSQLite)
 library(readr)
+
 print("Reading the data")
 # Reading the csv file
 product_data <- readr::read_csv("data_upload/MOCK_DATA_PRODUCTS.csv",show_col_types = FALSE)

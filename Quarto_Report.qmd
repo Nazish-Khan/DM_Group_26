@@ -3,17 +3,19 @@
 ### Synthetic Data Generation
 
 We randomly synthesise the data for all entities table by using a generative A.I. Website called “mockaroo” as a base dataset. However, we do not include any foreign key in these synthesise dataset as we will link this attribute by using R software. The number of rows in each entity table is as follows.
---------------------------	| ---------------------------------	|
-TABLE NAME		|	Number of rows	|
---------------------------	| ---------------------------------	|
-SUPPLIERS		|		200		|
-CUSTOMERS		|		500		|
-ADVERTISEMENTS	|		500		|
-WAREHOUSES	|		50		|
-PRODUCTS		|		500		| 
-CATEGORIES		|		6		|
-ORDERS_DETAILS	|		500		|
--------------------------- | ----------------	------------------|
+
+-----------------| -----------------|
+TABLE NAME		   |	Number of rows	|
+-----------------| -----------------|
+SUPPLIERS		     |		200		        |
+CUSTOMERS		     |		500		        |
+ADVERTISEMENTS	 |		500		        |
+WAREHOUSES	     |		50		        |
+PRODUCTS		     |		500		        | 
+CATEGORIES		   |		6		          |
+ORDERS_DETAILS	 |		500		        |
+---------------- | ----------------	|
+>>>>>>> 681a0b314e77c2d16a031098d08dc394ca1dfbe8
 
 Then, we randomly transfer a foreign key to any entity, which contains a foreign key by using a package ‘tidyverse’ in R software.
 
@@ -228,4 +230,5 @@ write.csv(Order_data, file = output_file_name, row.names = FALSE)
 cat("Dataset with 1000 records saved to:", output_file_name, "\n")
 ```
 Now, we have all the datasets which we want to import into the tables, which we already create for these datasets.
+<<<<<<< HEAD
 

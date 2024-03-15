@@ -30,3 +30,11 @@ jobs:
       - name: Execute R script
         run: |
           Rscript R/transformation.R
+
+      - name: Commit and push changes to database
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Update database with processed data
+          commit_user_name: GitHub Actions
+          commit_user_email: actions@github.com
+          branch: main

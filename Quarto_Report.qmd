@@ -3,6 +3,7 @@
 ### Synthetic Data Generation
 
 We randomly synthesise the data for all entities table by using a generative A.I. Website called “mockaroo” as a base dataset. However, we do not include any foreign key in these synthesise dataset as we will link this attribute by using R software. The number of rows in each entity table is as follows.
+<<<<<<< HEAD
 -----------------| -----------------|
 TABLE NAME		   |	Number of rows	|
 -----------------| -----------------|
@@ -32,7 +33,11 @@ generate_random_related_id <- function(df, column_name) {
 }
 
 # Generate random values for 'Related_id' and add it as a new column
+<<<<<<< HEAD
 df$related_id <- generate_random_related_id(df, "customer_id")
+=======
+df$Related_id <- generate_random_related_id(df, "Customer_id")
+>>>>>>> 99dc30ac927fa4dc10e2e0d22582c477397bd302
 
 # Specify the output file name with absolute path
 output_file_name <- "Customer_data_with_related_id.csv"
@@ -40,7 +45,11 @@ output_file_name <- "Customer_data_with_related_id.csv"
 # Save the modified data frame to a new CSV file
 write.csv(df, file = output_file_name, row.names = FALSE)
 
+<<<<<<< HEAD
 cat("DataFrame with 'related_id' column saved to:", output_file_name, "\n")
+=======
+cat("DataFrame with 'Related_id' column saved to:", output_file_name, "\n")
+>>>>>>> 99dc30ac927fa4dc10e2e0d22582c477397bd302
 ```
 ```{r}
 # Insert foreign keys from Supplier entity and Product entity in Advertisement entity
@@ -50,11 +59,19 @@ Supplier_data <- read.csv("Supplier_data (200).csv")
 Product_data <- read.csv("Product_data.csv")
 
 # Ensure columns Supplier_id and Product_id have the same name
+<<<<<<< HEAD
 colnames(Supplier_data)[1] <- "supplier_id"
 colnames(Product_data)[1] <- "product_id"
 
 # Match Supplier_id with Product_id based on category_id
 matched_data <- merge(Supplier_data, Product_data, by = "category_id")
+=======
+colnames(Supplier_data)[1] <- "Supplier_id"
+colnames(Product_data)[1] <- "Product_id"
+
+# Match Supplier_id with Product_id based on Category_id
+matched_data <- merge(Supplier_data, Product_data, by = "Category_id")
+>>>>>>> 99dc30ac927fa4dc10e2e0d22582c477397bd302
 
 # Specify the replacement probability (adjust as needed)
 replacement_probability <- 0.2
@@ -66,21 +83,34 @@ num_replacements <- round(nrow(Advertisements_data) * replacement_probability)
 random_indices <- sample(nrow(matched_data), nrow(Advertisements_data), replace = num_replacements > 0)
 
 # Add Supplier_id and Product_id columns to Advertisements_data
+<<<<<<< HEAD
 Advertisements_data$supplier_id <- matched_data$supplier_id[random_indices]
 Advertisements_data$product_id <- matched_data$product_id[random_indices]
+=======
+Advertisements_data$Supplier_id <- matched_data$Supplier_id[random_indices]
+Advertisements_data$Product_id <- matched_data$Product_id[random_indices]
+>>>>>>> 99dc30ac927fa4dc10e2e0d22582c477397bd302
 
 # Save the modified DataFrame to a new CSV file
 output_file_name <- "Advertisements_data_with_ids.csv"
 write.csv(Advertisements_data, file = output_file_name, row.names = FALSE)
 
+<<<<<<< HEAD
 cat("DataFrame with 'supplier_id' and 'product_id' columns saved to:", output_file_name, "\n")
 ```
 
+=======
+cat("DataFrame with 'Supplier_id' and 'Product_id' columns saved to:", output_file_name, "\n")
+```
+
+ 
+>>>>>>> 99dc30ac927fa4dc10e2e0d22582c477397bd302
 For the relationship table, we also use R software randomly creating these tables to ensure that all composite keys in these table are reference from the primary keys in the entitiy tables as these many to many relationships table primary keys are composite keys from their related entities and we must ensure that the composite key in each table is unique as they are primary keys of these table.
 
 ```{r}
 # Create relationship table of Supply 
 # Ensure columns Supplier_id and Product_id have the same name
+<<<<<<< HEAD
 colnames(Supplier_data)[1] <- "supplier_id"
 colnames(Product_data)[1] <- "product_id"
 
@@ -91,12 +121,25 @@ matched_data <- merge(supplier_data, product_data, by = "category_id")
 unique_combinations <- unique(matched_data[, c("supplier_id", "product_id")])
 if (nrow(unique_combinations) < 1500) {
   stop("Insufficient unique combinations of supplier_id and product_id.")
+=======
+colnames(Supplier_data)[1] <- "Supplier_id"
+colnames(Product_data)[1] <- "Product_id"
+
+# Match Supplier_id with Product_id based on Category_id
+matched_data <- merge(Supplier_data, Product_data, by = "Category_id")
+
+# Randomly select 1500 unique combinations of Supplier_id and Product_id
+unique_combinations <- unique(matched_data[, c("Supplier_id", "Product_id")])
+if (nrow(unique_combinations) < 1500) {
+  stop("Insufficient unique combinations of Supplier_id and Product_id.")
+>>>>>>> 99dc30ac927fa4dc10e2e0d22582c477397bd302
 }
 random_indices <- sample(nrow(unique_combinations), 1500, replace = FALSE)
 selected_combinations <- unique_combinations[random_indices, ]
 
 # Generate random Product_cost values lower than Product_price by 5% - 30%
 set.seed(123)  # Set seed for reproducibility
+<<<<<<< HEAD
 product_cost <- matched_data$product_price[random_indices] * runif(1500, 0.70, 0.95)
 
 # Generate random Quantity values
@@ -108,6 +151,19 @@ SUPPLY_data <- data.frame(
   supplier_id = selected_combinations$supplier_id,
   product_cost = product_cost,
   supply_quantity = supply_quantity
+=======
+Product_cost <- matched_data$Product_price[random_indices] * runif(1500, 0.70, 0.95)
+
+# Generate random Quantity values
+Quantity <- sample(10:100, 1500, replace = TRUE)
+
+# Combine Supplier_id, Product_id, Product_cost, and Quantity into a data frame
+SUPPLY_data <- data.frame(
+  Product_id = selected_combinations$Product_id,
+  Supplier_id = selected_combinations$Supplier_id,
+  Product_cost = Product_cost,
+  Quantity = Quantity
+>>>>>>> 99dc30ac927fa4dc10e2e0d22582c477397bd302
 )
 
 # Save the generated data to a new CSV file
@@ -118,18 +174,32 @@ cat("Dataset with 1500 records saved to:", output_file_name, "\n")
 ```
 
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 99dc30ac927fa4dc10e2e0d22582c477397bd302
 ```{r}
 # Create relationship table of Storage (Where Product_data must exist in supply table)
 # Read the CSV files
 Warehouse_data <- read.csv("Warehouse_data.csv")
 
 # Ensure columns Warehouse_id and Product_id have the same name
+<<<<<<< HEAD
 colnames(Warehouse_data)[1] <- "warehouse_id"
 colnames(Product_data)[1] <- "product_id"
 
 # Randomly select 1500 unique combinations of Product_id from SUPPLY df and Warehouse_id
 unique_combinations <- expand.grid(product_id = unique(SUPPLY_data$product_id),
                                    warehouse_id = unique(Warehouse_data$warehouse_id))
+=======
+colnames(Warehouse_data)[1] <- "Warehouse_id"
+colnames(Product_data)[1] <- "Product_id"
+
+# Randomly select 1500 unique combinations of Product_id from SUPPLY df and Warehouse_id
+unique_combinations <- expand.grid(Product_id = unique(SUPPLY_data$Product_id),
+                                   Warehouse_id = unique(Warehouse_data$Warehouse_id))
+>>>>>>> 99dc30ac927fa4dc10e2e0d22582c477397bd302
 random_indices <- sample(nrow(unique_combinations), 1500, replace = FALSE)
 selected_combinations <- unique_combinations[random_indices, ]
 
@@ -142,10 +212,17 @@ Store_quantity <- sample(1:100, 1500, replace = TRUE)
 
 # Combine Product_id, Warehouse_id, Store_date, and Store_quantity into a data frame
 Store_data <- data.frame(
+<<<<<<< HEAD
   product_id = selected_combinations$Product_id,
   warehouse_id = selected_combinations$Warehouse_id,
   store_date = Store_date,
   store_quantity = Store_quantity
+=======
+  Product_id = selected_combinations$Product_id,
+  Warehouse_id = selected_combinations$Warehouse_id,
+  Store_date = Store_date,
+  Store_quantity = Store_quantity
+>>>>>>> 99dc30ac927fa4dc10e2e0d22582c477397bd302
 )
 
 # Save the generated data to a new CSV file
@@ -155,8 +232,14 @@ write.csv(Store_data, file = output_file_name, row.names = FALSE)
 cat("Dataset with 1500 records saved to:", output_file_name, "\n")
 ```
 
+<<<<<<< HEAD
 ```{r}
 #Create an order relationship table (Where supplier_id and product_id should exist in SUPPLY)
+=======
+ 
+```{r}
+Create an order relationship table (Where Supplier_id and Product_id should exist in SUPPLY)
+>>>>>>> 99dc30ac927fa4dc10e2e0d22582c477397bd302
 # Read the CSV files
 Customer_data <- read.csv("Customer_data.csv")
 Supplier_data <- read.csv("Supplier_data (200).csv")
@@ -165,6 +248,7 @@ Product_data <- read.csv("Product_data.csv")
 SUPPLY_data <- read.csv("SUPPLY_data.csv")
 
 # Ensure columns have consistent names
+<<<<<<< HEAD
 colnames(Supplier_data)[1] <- "supplier_id"
 colnames(Order_details_data)[1] <- "order_details_id"
 colnames(Product_data)[1] <- "product_id"
@@ -174,16 +258,36 @@ matched_data <- merge(Supplier_data, Product_data, by = "category_id")
 
 # Get unique combinations of supplier_id and product_id from matched_data
 unique_combinations_matched <- unique(matched_data[, c("supplier_id", "product_id")])
+=======
+colnames(Supplier_data)[1] <- "Supplier_id"
+colnames(Order_details_data)[1] <- "Order_details_id"
+colnames(Product_data)[1] <- "Product_id"
+
+# Match Supplier_id with Product_id based on Category_id
+matched_data <- merge(Supplier_data, Product_data, by = "Category_id")
+
+# Get unique combinations of Supplier_id and Product_id from matched_data
+unique_combinations_matched <- unique(matched_data[, c("Supplier_id", "Product_id")])
+>>>>>>> 99dc30ac927fa4dc10e2e0d22582c477397bd302
 
 # Initialize variables
 n <- 1000  # Number of records
 Order_data <- data.frame(
+<<<<<<< HEAD
   product_id = character(n),
   customer_id = character(n),
   supplier_id = character(n),
   order_details_id = character(n),
   order_transaction_date = as.Date(character(n)),  # Initialize as character and convert to Date
   order_quantity = integer(n)
+=======
+  Product_id = character(n),
+  Customer_id = character(n),
+  Supplier_id = character(n),
+  Order_details_id = character(n),
+  Order_transaction_date = as.Date(character(n)),  # Initialize as character and convert to Date
+  Order_quantity = integer(n)
+>>>>>>> 99dc30ac927fa4dc10e2e0d22582c477397bd302
 )
 
 # Generate unique combinations and assign values to Order_data
@@ -192,6 +296,7 @@ i <- 1
 while (i <= n) {
   # Randomly select a unique combination from matched_data
   idx <- sample(nrow(unique_combinations_matched), 1)
+<<<<<<< HEAD
   supplier_id <- unique_combinations_matched$supplier_id[idx]
   product_id <- unique_combinations_matched$product_id[idx]
   
@@ -208,13 +313,35 @@ while (i <= n) {
     # Assign values to other columns
     Order_data[i, "customer_id"] <- Customer_data$customer_id[idx_Customer]
     Order_data[i, "order_details_id"] <- Order_details_data$order_details_id[idx_Order_details]
+=======
+  Supplier_id <- unique_combinations_matched$Supplier_id[idx]
+  Product_id <- unique_combinations_matched$Product_id[idx]
+  
+  # Check if the combination exists in SUPPLY_data
+  if (any(SUPPLY_data$Supplier_id == Supplier_id & SUPPLY_data$Product_id == Product_id)) {
+    # Assign Supplier_id and Product_id
+    Order_data[i, "Supplier_id"] <- Supplier_id
+    Order_data[i, "Product_id"] <- Product_id
+    
+    # Randomly select indices for other attributes
+    idx_Customer <- sample(nrow(Customer_data), 1)
+    idx_Order_details <- sample(nrow(Order_details_data), 1)
+    
+    # Assign values to other columns
+    Order_data[i, "Customer_id"] <- Customer_data$Customer_id[idx_Customer]
+    Order_data[i, "Order_details_id"] <- Order_details_data$Order_details_id[idx_Order_details]
+>>>>>>> 99dc30ac927fa4dc10e2e0d22582c477397bd302
     
     # Generate random transaction date
     transaction_date <- sample(seq(as.Date("2020-01-01"), as.Date("2022-12-31"), by = "day"), 1)
     Order_data[i, "Order_transaction_date"] <- transaction_date
     
     # Generate random Order_quantity value
+<<<<<<< HEAD
     Order_data[i, "order_quantity"] <- sample(1:100, 1)
+=======
+    Order_data[i, "Order_quantity"] <- sample(1:100, 1)
+>>>>>>> 99dc30ac927fa4dc10e2e0d22582c477397bd302
     
     i <- i + 1
   }
@@ -227,3 +354,8 @@ write.csv(Order_data, file = output_file_name, row.names = FALSE)
 cat("Dataset with 1000 records saved to:", output_file_name, "\n")
 ```
 Now, we have all the datasets which we want to import into the tables, which we already create for these datasets.
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 99dc30ac927fa4dc10e2e0d22582c477397bd302

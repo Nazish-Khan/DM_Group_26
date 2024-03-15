@@ -4,7 +4,7 @@ library(stringr)
 
 # Create the Tables
 # Specify the database file name
-db_file <- "database.db"
+db_file <- "database/database.db"
 
 # Create the db connection with SQLite
 my_connection <- RSQLite::dbConnect(RSQLite::SQLite(),dbname = db_file)
@@ -171,7 +171,7 @@ RSQLite::dbDisconnect(my_connection)
 
 
 # Specify the database file name
-db_file <- "database.db"
+db_file <- "database/database.db"
 
 # Establish a connection to the SQLite database
 my_connection <- dbConnect(RSQLite::SQLite(), dbname = db_file)
@@ -193,7 +193,7 @@ dbDisconnect(my_connection)
 # Data Load and Data Integrity Check
 
 #Adding testing comments
-db_file <- "database.db"
+db_file <- "database/database.db"
 my_connection <- RSQLite::dbConnect(RSQLite::SQLite(),dbname = db_file)
 
 print("Reading the data")
@@ -271,7 +271,7 @@ RSQLite::dbWriteTable(my_connection,"SUPPLIERS",supplier_data)
 print("Done")
 RSQLite::dbDisconnect(my_connection)
 
-db_file <- "database.db"
+db_file <- "database/database.db"
 my_connection <- RSQLite::dbConnect(RSQLite::SQLite(),dbname = db_file)
 
 # SQL query to select product_id and supplier_id based on category match

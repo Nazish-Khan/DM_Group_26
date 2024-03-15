@@ -1,0 +1,235 @@
+#Part 2: Data Generation and Management
+
+### Synthetic Data Generation
+
+We randomly synthesise the data for all entities table by using a generative A.I. Website called “mockaroo” as a base dataset. However, we do not include any foreign key in these synthesise dataset as we will link this attribute by using R software. The number of rows in each entity table is as follows.
+-----------------------------	| ------------------------------------	|
+TABLE NAME		|	Number of rows	|
+-----------------------------	| ------------------------------------	|
+SUPPLIERS		|		200		|
+CUSTOMERS		|		500		|
+ ADVERTISEMENTS	|		500		|
+WAREHOUSE	|		50		|
+PRODUCTS		|		500		|
+CATEGORY		|		6		|
+ORDERS_DETAILS	|		500		|
+-----------------------------	| ------------------------------------	|
+
+Then, we randomly transfer a foreign key to any entity, which contains a foreign key by using a package ‘tidyverse’ in R software.
+
+```{r}
+# Create a self-reference key in customer entity around 70% to be "N/A"
+# Read the CSV file into a data frame
+df <- read.csv("Customer_data.csv")
+
+# Function to generate random values from the 'Customer_id' column
+generate_random_related_id <- function(df, column_name) {
+  random_values <- sample(df[[column_name]], replace = TRUE)
+  # Replace some random values with 'N/A'around 70%
+  na_indices <- sample(1:nrow(df), size = round(nrow(df) * 0.7), replace = FALSE)
+  random_values[na_indices] <- 'N/A'
+  return(random_values)
+}
+
+# Generate random values for 'Related_id' and add it as a new column
+df$Related_id <- generate_random_related_id(df, "Customer_id")
+
+# Specify the output file name with absolute path
+output_file_name <- "Customer_data_with_related_id.csv"
+
+# Save the modified data frame to a new CSV file
+write.csv(df, file = output_file_name, row.names = FALSE)
+
+cat("DataFrame with 'Related_id' column saved to:", output_file_name, "\n")
+```
+```{r}
+# Insert foreign keys from Supplier entity and Product entity in Advertisement entity
+# Read the CSV files
+Advertisements_data <- read.csv("Advertisements_data.csv")
+Supplier_data <- read.csv("Supplier_data (200).csv")
+Product_data <- read.csv("Product_data.csv")
+
+# Ensure columns Supplier_id and Product_id have the same name
+colnames(Supplier_data)[1] <- "Supplier_id"
+colnames(Product_data)[1] <- "Product_id"
+
+# Match Supplier_id with Product_id based on Category_id
+matched_data <- merge(Supplier_data, Product_data, by = "Category_id")
+
+# Specify the replacement probability (adjust as needed)
+replacement_probability <- 0.2
+
+# Calculate the number of replacements based on the replacement probability
+num_replacements <- round(nrow(Advertisements_data) * replacement_probability)
+
+# Randomly select Supplier_id and Product_id from the matched data
+random_indices <- sample(nrow(matched_data), nrow(Advertisements_data), replace = num_replacements > 0)
+
+# Add Supplier_id and Product_id columns to Advertisements_data
+Advertisements_data$Supplier_id <- matched_data$Supplier_id[random_indices]
+Advertisements_data$Product_id <- matched_data$Product_id[random_indices]
+
+# Save the modified DataFrame to a new CSV file
+output_file_name <- "Advertisements_data_with_ids.csv"
+write.csv(Advertisements_data, file = output_file_name, row.names = FALSE)
+
+cat("DataFrame with 'Supplier_id' and 'Product_id' columns saved to:", output_file_name, "\n")
+```
+
+ 
+For the relationship table, we also use R software randomly creating these tables to ensure that all composite keys in these table are reference from the primary keys in the entitiy tables as these many to many relationships table primary keys are composite keys from their related entities and we must ensure that the composite key in each table is unique as they are primary keys of these table.
+
+```{r}
+# Create relationship table of Supply 
+# Ensure columns Supplier_id and Product_id have the same name
+colnames(Supplier_data)[1] <- "Supplier_id"
+colnames(Product_data)[1] <- "Product_id"
+
+# Match Supplier_id with Product_id based on Category_id
+matched_data <- merge(Supplier_data, Product_data, by = "Category_id")
+
+# Randomly select 1500 unique combinations of Supplier_id and Product_id
+unique_combinations <- unique(matched_data[, c("Supplier_id", "Product_id")])
+if (nrow(unique_combinations) < 1500) {
+  stop("Insufficient unique combinations of Supplier_id and Product_id.")
+}
+random_indices <- sample(nrow(unique_combinations), 1500, replace = FALSE)
+selected_combinations <- unique_combinations[random_indices, ]
+
+# Generate random Product_cost values lower than Product_price by 5% - 30%
+set.seed(123)  # Set seed for reproducibility
+Product_cost <- matched_data$Product_price[random_indices] * runif(1500, 0.70, 0.95)
+
+# Generate random Quantity values
+Quantity <- sample(10:100, 1500, replace = TRUE)
+
+# Combine Supplier_id, Product_id, Product_cost, and Quantity into a data frame
+SUPPLY_data <- data.frame(
+  Product_id = selected_combinations$Product_id,
+  Supplier_id = selected_combinations$Supplier_id,
+  Product_cost = Product_cost,
+  Quantity = Quantity
+)
+
+# Save the generated data to a new CSV file
+output_file_name <- "SUPPLY_data.csv"
+write.csv(SUPPLY_data, file = output_file_name, row.names = FALSE)
+
+cat("Dataset with 1500 records saved to:", output_file_name, "\n")
+```
+
+
+
+
+```{r}
+# Create relationship table of Storage (Where Product_data must exist in supply table)
+# Read the CSV files
+Warehouse_data <- read.csv("Warehouse_data.csv")
+
+# Ensure columns Warehouse_id and Product_id have the same name
+colnames(Warehouse_data)[1] <- "Warehouse_id"
+colnames(Product_data)[1] <- "Product_id"
+
+# Randomly select 1500 unique combinations of Product_id from SUPPLY df and Warehouse_id
+unique_combinations <- expand.grid(Product_id = unique(SUPPLY_data$Product_id),
+                                   Warehouse_id = unique(Warehouse_data$Warehouse_id))
+random_indices <- sample(nrow(unique_combinations), 1500, replace = FALSE)
+selected_combinations <- unique_combinations[random_indices, ]
+
+# Generate random Store_date values (assuming date range from 2020-01-01 to 2022-12-31)
+set.seed(123)  # Set seed for reproducibility
+Store_date <- sample(seq(as.Date("2020-01-01"), as.Date("2022-12-31"), by = "day"), 1500, replace = TRUE)
+
+# Generate random Store_quantity values
+Store_quantity <- sample(1:100, 1500, replace = TRUE)
+
+# Combine Product_id, Warehouse_id, Store_date, and Store_quantity into a data frame
+Store_data <- data.frame(
+  Product_id = selected_combinations$Product_id,
+  Warehouse_id = selected_combinations$Warehouse_id,
+  Store_date = Store_date,
+  Store_quantity = Store_quantity
+)
+
+# Save the generated data to a new CSV file
+output_file_name <- "Store_data.csv"
+write.csv(Store_data, file = output_file_name, row.names = FALSE)
+
+cat("Dataset with 1500 records saved to:", output_file_name, "\n")
+```
+
+ 
+```{r}
+Create an order relationship table (Where Supplier_id and Product_id should exist in SUPPLY)
+# Read the CSV files
+Customer_data <- read.csv("Customer_data.csv")
+Supplier_data <- read.csv("Supplier_data (200).csv")
+Order_details_data <- read.csv("Order_details.csv")
+Product_data <- read.csv("Product_data.csv")
+SUPPLY_data <- read.csv("SUPPLY_data.csv")
+
+# Ensure columns have consistent names
+colnames(Supplier_data)[1] <- "Supplier_id"
+colnames(Order_details_data)[1] <- "Order_details_id"
+colnames(Product_data)[1] <- "Product_id"
+
+# Match Supplier_id with Product_id based on Category_id
+matched_data <- merge(Supplier_data, Product_data, by = "Category_id")
+
+# Get unique combinations of Supplier_id and Product_id from matched_data
+unique_combinations_matched <- unique(matched_data[, c("Supplier_id", "Product_id")])
+
+# Initialize variables
+n <- 1000  # Number of records
+Order_data <- data.frame(
+  Product_id = character(n),
+  Customer_id = character(n),
+  Supplier_id = character(n),
+  Order_details_id = character(n),
+  Order_transaction_date = as.Date(character(n)),  # Initialize as character and convert to Date
+  Order_quantity = integer(n)
+)
+
+# Generate unique combinations and assign values to Order_data
+set.seed(123)  # Set seed for reproducibility
+i <- 1
+while (i <= n) {
+  # Randomly select a unique combination from matched_data
+  idx <- sample(nrow(unique_combinations_matched), 1)
+  Supplier_id <- unique_combinations_matched$Supplier_id[idx]
+  Product_id <- unique_combinations_matched$Product_id[idx]
+  
+  # Check if the combination exists in SUPPLY_data
+  if (any(SUPPLY_data$Supplier_id == Supplier_id & SUPPLY_data$Product_id == Product_id)) {
+    # Assign Supplier_id and Product_id
+    Order_data[i, "Supplier_id"] <- Supplier_id
+    Order_data[i, "Product_id"] <- Product_id
+    
+    # Randomly select indices for other attributes
+    idx_Customer <- sample(nrow(Customer_data), 1)
+    idx_Order_details <- sample(nrow(Order_details_data), 1)
+    
+    # Assign values to other columns
+    Order_data[i, "Customer_id"] <- Customer_data$Customer_id[idx_Customer]
+    Order_data[i, "Order_details_id"] <- Order_details_data$Order_details_id[idx_Order_details]
+    
+    # Generate random transaction date
+    transaction_date <- sample(seq(as.Date("2020-01-01"), as.Date("2022-12-31"), by = "day"), 1)
+    Order_data[i, "Order_transaction_date"] <- transaction_date
+    
+    # Generate random Order_quantity value
+    Order_data[i, "Order_quantity"] <- sample(1:100, 1)
+    
+    i <- i + 1
+  }
+}
+
+# Save the generated data to a new CSV file
+output_file_name <- "Order_data.csv"
+write.csv(Order_data, file = output_file_name, row.names = FALSE)
+
+cat("Dataset with 1000 records saved to:", output_file_name, "\n")
+```
+Now, we have all the datasets which we want to import into the tables, which we already create for these datasets.
+
+

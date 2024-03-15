@@ -1,8 +1,8 @@
 name: ETL
 
 on:
-#  schedule:
-#    - cron: '0 */3 * * *' # Run every 3 hours
+  schedule:
+    - cron: '0 23 * * *' # Run daily at 11 pm
   push:
     branches: [ main ]
     

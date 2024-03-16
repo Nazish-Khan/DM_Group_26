@@ -1,6 +1,6 @@
-Warehouse_id,Warehouse_address_street,Warehouse_address_city,Warehouse_address_country,Warehouse_address_postcode,warehouse_contact
+﻿warehouse_id,warehouse_street,warehouse_city,warehouse_country,Warehouse_postcode,warehouse_contact
 W636293326,935 Granby Point,Tournai,Belgium,7536,194-568-3402
-W434060006,70771 Melby Parkway,Péruwelz,Belgium,7604,416-746-7889
+W434060006,70771 Melby Parkway,P¨¦ruwelz,Belgium,7604,416-746-7889
 W679380827,042 Victoria Lane,Abbeville,France,80104 CEDEX,990-952-9105
 W13537308,99519 7th Pass,Avignon,France,84042 CEDEX 9,242-664-3993
 W03786231,4 Dovetail Court,Auxerre,France,89010 CEDEX,858-690-5489

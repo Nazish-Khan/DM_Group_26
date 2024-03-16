@@ -1,0 +1,101 @@
+﻿supplier_id,supplier_name,supplier_street,supplier_city,supplier_country,supplier_postcode,supplier_contact,supplier_email,category_id
+SUP714146417,Proctor Ltd,6880 Harrison Road,West Kathleen,Sudan,50356,146-514-0656,sarahgraham@example.org,CAT5960069590
+SUP218950278,"Kramer, Sutton and Grimes",04416 Carrie Inlet Suite 076,Martinborough,United States Minor Outlying Islands,48052,295-446-9378,xburns@example.com,CAT7621512073
+SUP132315598,Erickson and Sons,22115 Joy Via,West Leeberg,Sweden,16720,280-636-7851,joshua78@example.net,CAT0254545300
+SUP334406849,Fowler-Rose,3675 Powell Drives Apt. 464,East Ericport,Zimbabwe,13328,584-899-6152,diane89@example.org,CAT5703098011
+SUP324870003,Lin-Sutton,63862 Sherri Track Apt. 874,Figueroaview,Kenya,35161,130-495-7439,davidperez@example.org,CAT7621512073
+SUP176933531,Baker Inc,430 Carter Shore Apt. 766,Longburgh,Turks and Caicos Islands,4362,192-118-1080,nicholsnathan@example.com,CAT7530357816
+SUP198955567,"Watson, Stephens and Ruiz",10905 Robertson Camp Apt. 125,Alexanderchester,Bahamas,87201,650-973-0521,melissarichardson@example.com,CAT5960069590
+SUP241830593,Hogan PLC,944 Dakota Valley,North Emilyton,Jordan,47157,920-410-4559,amandaanderson@example.com,CAT7621512073
+SUP164456819,"Barnes, Cox and Harper",948 Eric Terrace Suite 521,Kimberlyborough,American Samoa,27083,599-368-1376,ronaldwilliams@example.com,CAT7621512073
+SUP203120380,Woods and Sons,0322 Dawn Haven Suite 266,South Tammyview,Nepal,86353,327-898-5151,meyermary@example.com,CAT5960069590
+SUP191089540,"Martinez, Owens and Edwards",80306 Christopher Hill,Gabrielstad,Anguilla,2655,225-836-5717,wmorgan@example.org,CAT5703098011
+SUP229604884,Beasley Group,42825 Harris Keys Suite 540,Lake Darleneshire,Bulgaria,12996,105-128-2987,wgrimes@example.net,CAT7530357816
+SUP840587209,Reilly-Wolfe,587 Eric Shoal,West Jacob,Suriname,66826,399-641-5282,davidsolis@example.com,CAT0254545300
+SUP216261676,Holder-Adams,64413 Anne Tunnel Apt. 268,New Jamesbury,Lesotho,60479,872-742-0605,elizabethsutton@example.org,CAT5703098011
+SUP206423067,Knox and Sons,6444 Ayala Flat,Rebeccabury,Martinique,33201,345-727-2091,bkelly@example.org,CAT0254545300
+SUP166618280,Peterson LLC,2612 Finley Brook,Lake Jackton,Kazakhstan,3583,191-327-3076,davisnorma@example.net,CAT7530357816
+SUP985993581,Cruz-Wyatt,60305 Jennifer Underpass,Clarkmouth,Saint Vincent and the Grenadines,50318,162-449-7374,john18@example.net,CAT5703098011
+SUP338902121,Aguilar-Peterson,44224 Clark Run,East Johnview,Palau,85032,304-187-2565,kfritz@example.net,CAT7621512073
+SUP142524398,Thomas Inc,922 Harrison Drive Apt. 644,East James,Albania,4095,985-346-3322,maria28@example.net,CAT5703098011
+SUP173547559,Bailey-West,51217 Bradford Inlet,East Brandihaven,Paraguay,19212,648-396-9843,larry84@example.com,CAT0254545300
+SUP274260887,Acosta-Mejia,8434 Ortiz Ways Suite 845,North Bryan,Tunisia,49030,401-694-0611,sarahmorales@example.org,CAT7621512073
+SUP313562672,Proctor-Hines,604 Johnson Way,Port Melissa,Congo,60392,928-185-1003,tbailey@example.org,CAT5960069590
+SUP188795951,Wall Group,784 Jackson Locks,Seanmouth,Senegal,729,804-938-0186,amarshall@example.org,CAT5703098011
+SUP224448032,"Moody, Maxwell and Palmer",57181 David Spur Suite 526,Lambland,Lebanon,54738,811-522-0236,caleb06@example.com,CAT5703098011
+SUP584400435,Gonzalez PLC,243 Meyer Junctions Apt. 059,New Markshire,Tajikistan,67580,776-131-0318,stephensmisty@example.com,CAT7621512073
+SUP132825464,"Ramsey, Rogers and Walker",158 Stephens Terrace,New Ashley,Nigeria,5511,785-306-9802,richardcoleman@example.net,CAT5703098011
+SUP121271196,Fernandez-Brewer,51485 Hannah Underpass Apt. 042,South Steventon,United States Virgin Islands,34035,463-933-8530,robertrichardson@example.org,CAT7621512073
+SUP159126633,"Smith, Brown and White",00759 Stacie Pass Suite 587,Danielside,Bhutan,85069,314-587-4705,christine46@example.com,CAT5960069590
+SUP391286527,Lewis-Miller,571 Megan Groves Apt. 698,Leemouth,Guyana,46261,421-418-1986,loganchandler@example.com,CAT5703098011
+SUP609867193,Daniels-Johnson,803 Miller Drive Apt. 393,North Laura,United Arab Emirates,32572,161-310-3098,kerrandrew@example.net,CAT0254545300
+SUP273189001,Benson PLC,866 Price Gardens,North Nancyland,Liechtenstein,46454,877-521-6279,rossjoshua@example.org,CAT5703098011
+SUP222889906,Cantu-Schmidt,6383 Torres Radial Suite 420,Lake Whitney,Lao People's Democratic Republic,1489,228-768-1414,rebeccamatthews@example.org,CAT7621512073
+SUP122284583,"Myers, Smith and Gamble",5550 Kevin Glens Apt. 634,Jodystad,Moldova,9326,142-911-3592,todd86@example.org,CAT7621512073
+SUP129209784,Molina-Reed,850 Hayes Brooks,East Meganstad,Liechtenstein,48992,928-873-7383,vhernandez@example.org,CAT0254545300
+SUP201639405,Durham-Dominguez,5963 Berger Row Apt. 012,North Rachelmouth,Uruguay,15083,165-251-7970,paynechad@example.org,CAT0254545300
+SUP133404992,Lawson LLC,4136 Hebert Shoal,Mooreburgh,Turks and Caicos Islands,50551,195-681-3291,brewerjason@example.com,CAT7621512073
+SUP668506718,Miller-Mills,2688 Kelley Ford Suite 876,Lake Amandaborough,Micronesia,66890,254-692-2605,steven47@example.org,CAT7621512073
+SUP133235870,Castillo PLC,292 Steven Camp Suite 693,Greenfurt,Dominican Republic,29619,926-501-5327,wilsonkevin@example.com,CAT5703098011
+SUP169767088,Brown-Oliver,7693 Peterson Island,Jamesborough,Dominican Republic,53519,545-256-7388,melissathomas@example.com,CAT7621512073
+SUP476888678,Newman Group,5915 Lawrence Green,Hernandezmouth,Montenegro,76357,313-974-1627,davidcarson@example.org,CAT0254545300
+SUP259205684,"Reed, Chen and Murphy",387 John Path,Howardport,Morocco,53195,896-905-3116,umorse@example.org,CAT5703098011
+SUP273951622,Bullock and Sons,746 Roger Crest,Christopherville,Finland,59926,418-627-8288,rshaw@example.com,CAT7621512073
+SUP286527883,Jackson Ltd,46891 Allen Mountain,Alexanderfurt,Oman,94731,919-996-2278,joseph10@example.net,CAT5960069590
+SUP218582517,Taylor-Clark,65154 Oconnor Pine Suite 092,North Annette,Niue,56058,323-451-6853,reederic@example.com,CAT0254545300
+SUP129224270,"Robinson, Allen and Abbott",652 Stephens Knoll,Mckeechester,Tuvalu,87226,622-888-4383,joannbrewer@example.net,CAT5960069590
+SUP178309329,Allison Group,5685 Lawrence Canyon Suite 734,Williamsview,Syrian Arab Republic,64861,708-579-5667,daniel53@example.com,CAT5703098011
+SUP151805265,Barron Inc,9787 Robert Ramp Suite 332,New Kimberlyborough,Estonia,83429,379-724-6581,ramseyjoanne@example.com,CAT0254545300
+SUP243659080,"Gonzalez, Ferguson and Patrick",1967 Clark Street Suite 522,Jenniferview,North Macedonia,6989,558-873-5321,evansjohn@example.com,CAT5703098011
+SUP178275560,"Barrera, Smith and Garcia",756 Daniel Fort Apt. 815,Port Zacharyside,Nauru,51760,493-482-2080,meghanbeasley@example.com,CAT7530357816
+SUP334920424,Bradley-Neal,8677 Brett Prairie Suite 858,Ashleyfurt,Bolivia,27079,821-999-9558,adampatterson@example.com,CAT0254545300
+SUP335813809,Gutierrez and Sons,791 Robert Inlet Suite 432,Port Kimberlychester,Italy,5243,963-533-1971,harrisonstephanie@example.org,CAT5703098011
+SUP689350546,Gates-Butler,65287 Ruben Court Apt. 507,South Ruthshire,Singapore,4236,373-848-2112,cford@example.net,CAT5960069590
+SUP142663161,"Jones, Byrd and Smith",113 Anna Springs,South Jesseburgh,Palestinian Territory,96443,423-322-9641,fwilson@example.net,CAT5703098011
+SUP265269126,Wilson and Sons,541 Le Trail Apt. 289,East Philip,Sri Lanka,15822,590-752-1927,nathanwilliams@example.com,CAT7621512073
+SUP227734170,Green-Jones,21183 Samuel Loop,Rebekahside,Myanmar,33987,941-531-2388,lloydsheila@example.com,CAT7621512073
+SUP337535546,Perez-Kelly,91022 Larson Wall,Jameston,Korea,40780,252-260-5389,cochrankelly@example.com,CAT5960069590
+SUP134982297,Flores LLC,982 Anna Lodge Suite 631,South Jasmine,Western Sahara,22018,321-307-7186,jonathangarrett@example.com,CAT5703098011
+SUP945668282,Miller-Weaver,0017 Angela Shoals Apt. 695,Ericburgh,Bangladesh,78738,127-407-9115,adam17@example.com,CAT0254545300
+SUP840378313,"Barnett, Kelly and Thomas",99245 Isaac Court,Millerfurt,Solomon Islands,76899,781-306-2215,whitetonya@example.com,CAT5960069590
+SUP260762356,Griffin-Brown,4166 Nguyen Port Suite 367,Biancabury,Ghana,26463,958-585-3036,heathermurphy@example.com,CAT5703098011
+SUP151690213,Allen-Cohen,88836 David Unions Suite 189,East William,Belize,81610,664-266-7185,ebautista@example.net,CAT7530357816
+SUP295630905,"Smith, Patterson and Guzman",597 Blackwell Locks Apt. 910,Mitchellfort,Zimbabwe,90735,512-769-2195,glennanna@example.com,CAT7621512073
+SUP114427716,"Baker, Johnson and Mejia",193 Jones Path Apt. 311,Jodiview,Bolivia,20387,826-408-6495,xjohnson@example.net,CAT5960069590
+SUP423480280,Martin PLC,2771 Susan Land Apt. 710,Lake Cynthiaburgh,New Caledonia,59361,316-906-9545,youngjeffery@example.com,CAT5703098011
+SUP760221969,"Lopez, Lopez and Harris",265 Jacobson Squares,Patrickshire,Uganda,14104,610-908-6549,brownrhonda@example.com,CAT7530357816
+SUP146303725,Bird-Smith,374 Donovan Brooks,Lake Erichaven,Cyprus,83831,628-305-3933,robert68@example.org,CAT7621512073
+SUP297518437,Martinez and Sons,9552 Leon Field,Cooleyview,Cook Islands,19180,489-286-2682,jasminemiller@example.net,CAT7530357816
+SUP246730485,Guzman-Cook,691 Duke Field Suite 837,West Tammy,Ukraine,24461,789-726-7356,osaunders@example.net,CAT5960069590
+SUP293926685,"Scott, Clark and Harris",26745 Parker Shore Apt. 009,Mosesborough,Poland,10341,759-814-7025,scott24@example.net,CAT5703098011
+SUP102667751,"Scott, Long and Villa",1043 Collins Squares Suite 186,New Melaniefort,Bouvet Island (Bouvetoya),29614,531-828-6733,elizabethlindsey@example.org,CAT7530357816
+SUP938696893,Morton-Warner,89700 Robbins Mall,Allisonbury,Saint Pierre and Miquelon,75606,128-939-1636,ryan27@example.net,CAT7530357816
+SUP292038086,Jackson LLC,5985 Marie Gateway Suite 027,Brightview,Taiwan,84945,221-697-6045,munozjason@example.org,CAT7530357816
+SUP303200139,"Dunn, Green and Clark",28909 Tracy Brooks,East Christinaberg,Israel,98073,989-521-2856,schwartzmichelle@example.com,CAT0254545300
+SUP695839034,Jenkins-Drake,1639 Sherry Shoals,East Ginamouth,Benin,51429,502-682-1976,gary79@example.org,CAT7530357816
+SUP172597346,"Collins, Hansen and Hall",22184 Anthony Prairie Apt. 566,North Sarahfurt,Suriname,60341,804-525-2689,johnsonstephanie@example.net,CAT5703098011
+SUP795028826,Gonzalez and Sons,16727 Melissa Ranch Suite 863,Katherinestad,Gibraltar,17533,298-635-7351,johnstark@example.com,CAT5703098011
+SUP398474325,"Cain, Richards and Smith",3062 Kimberly Walk Suite 232,North Chad,Equatorial Guinea,18481,300-993-3010,jessica63@example.org,CAT5703098011
+SUP158785898,Medina Ltd,448 Gordon Fields Apt. 656,Elizabethburgh,Antarctica (the territory South of 60 deg S),15363,745-808-9909,jeffersontravis@example.org,CAT7621512073
+SUP487469056,Nicholson-Smith,810 Hinton Avenue Apt. 259,Lake Cameronborough,Georgia,51217,256-781-9237,aadkins@example.net,CAT7530357816
+SUP424904370,Cherry Ltd,022 Jessica Plaza Suite 396,Port Brian,Slovenia,31599,243-258-9418,james97@example.org,CAT5960069590
+SUP288993955,Burton-Smith,240 Wells Lights,Michaelview,Eritrea,80790,821-351-0160,jcruz@example.com,CAT7621512073
+SUP157544725,Perry-Morse,82482 Mejia River,New Kristenport,Norway,59481,268-105-3670,ronaldmartinez@example.org,CAT0254545300
+SUP130095879,Paul-Owens,31250 Robertson Branch Apt. 641,Taylorborough,Korea,15481,588-821-5233,ortizjay@example.org,CAT5703098011
+SUP100395220,Blackwell-Thompson,0366 Jeffrey Pine,Montgomerychester,United Arab Emirates,3208,216-617-7781,jenniferho@example.com,CAT0254545300
+SUP272769681,"Jones, Hammond and Moss",0028 Elizabeth Ways Suite 260,West Elizabeth,Samoa,86522,149-266-9742,william31@example.net,CAT7621512073
+SUP853255224,Armstrong and Sons,568 Richard Village,Port Sarahshire,Korea,81026,361-507-0750,bryananderson@example.com,CAT0254545300
+SUP311982157,Lopez and Sons,4052 Tina Isle,Brandonchester,China,44954,819-644-8771,zcooper@example.com,CAT7621512073
+SUP259593110,Delgado Group,902 Morris Causeway,New Meghan,Niger,74929,476-656-7742,eroberts@example.net,CAT0254545300
+SUP290451107,"Klein, Oconnell and Roman",688 Mosley Bridge Suite 355,East Stevenchester,Egypt,28706,539-507-8297,melissaparker@example.net,CAT5703098011
+SUP203374023,"Drake, Powell and Shea",87718 Calhoun Trail,Shaneport,Cote d'Ivoire,61027,625-406-3411,beth82@example.com,CAT7530357816
+SUP339148131,Peters-Greene,45151 Vincent Neck Suite 211,Lake Patrickhaven,Sudan,55038,323-334-1439,jennifer50@example.com,CAT5703098011
+SUP280438548,Carroll-Nelson,88549 Mason Avenue Apt. 455,Port Anthonyburgh,Korea,48048,763-470-8523,pholt@example.org,CAT5703098011
+SUP106937126,Hicks-Gonzales,0381 Monica Plaza,East Lawrence,Russian Federation,91779,236-323-0403,bakerdavid@example.org,CAT5703098011
+SUP284017038,"Sanchez, Pena and Walters",369 Kimberly Viaduct Suite 612,Gabriellehaven,China,96487,524-617-3024,kristinabest@example.org,CAT7530357816
+SUP261123843,Reed-Smith,2342 Zavala Corners,East Terriport,Ghana,34906,739-809-0485,johnsonjenny@example.com,CAT5703098011
+SUP136871057,"Hernandez, Gates and Owens",9960 Douglas Fields Suite 071,Lake Seanshire,Nepal,85393,883-701-8093,lperkins@example.com,CAT7621512073
+SUP186921538,Mack-Carroll,080 Henry Stravenue,Williamville,Luxembourg,31089,576-151-4235,brandy94@example.org,CAT0254545300
+SUP202756351,"Larsen, Johnson and Smith",6376 Wilkinson Flat,West Caitlyn,Seychelles,90062,374-822-9862,jjones@example.org,CAT7530357816
+SUP278639247,"Murray, Griffin and Freeman",252 Flores Land,Jamesburgh,Cape Verde,33884,450-640-8050,edwardwalker@example.com,CAT5960069590
+SUP195184466,"Gonzalez, Edwards and Moore",65678 Fowler Cove,Mirandaberg,Ireland,11854,199-354-8772,jcurtis@example.com,CAT7621512073

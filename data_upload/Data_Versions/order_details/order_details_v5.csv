@@ -1,0 +1,101 @@
+﻿order_id,order_status,check_out_date,payment_method,payment_status,payment_date
+ORD3007272733,Shipped,2021.5.23,Bank Transfer,Payment Successful,2021.5.28
+ORD1793324990,Shipped,2022.12.29,Debit Card,Payment Successful,2022.12.31
+ORD9359591862,Pending,2022.7.6,Google Pay,Pending Payment,2022.7.9
+ORD9937715835,Confirmed,2021.6.23,Google Pay,Payment Successful,2021.6.24
+ORD0158153054,Shipped,2023.1.17,PayPal,Payment Successful,2023.1.17
+ORD5630371228,Refunding,2020.6.10,Apple Pay,Refund Processing,2020.6.10
+ORD7545052516,Pending,2022.3.7,PayPal,Pending Payment,2022.3.9
+ORD4678009002,Problem,2023.9.2,Google Pay,Refund Failed,2023.9.5
+ORD4049752310,Pending,2020.6.10,Google Pay,Pending Payment,2020.6.16
+ORD3566381873,Completed,2019.6.23,PayPal,Payment Successful,2019.6.24
+ORD8104601740,Completed,2020.12.27,Bank Transfer,Payment Successful,2020.12.30
+ORD1601988270,Pending,2023.12.25,Credit Card,Pending Payment,2023.12.28
+ORD6282751097,Problem,2019.4.8,Bank Transfer,Refund Failed,2019.4.9
+ORD8682059844,Refunded,2021.1.14,PayPal,Refund Successful,2021.1.16
+ORD0341392452,Processing,2021.10.30,Debit Card,Payment Successful,2021.11.2
+ORD8855077731,Confirmed,2020.5.25,Debit Card,Partial Payment,2020.5.31
+ORD0312814703,Refunding,2022.4.9,Apple Pay,Refund Processing,2022.4.16
+ORD7909548832,Refunded,2023.9.14,Debit Card,Refund Successful,2023.9.18
+ORD9242038992,Refunded,2024.2.5,PayPal,Refund Successful,2024.2.8
+ORD1617022582,Cancelled,2023.5.2,Apple Pay,Payment Cancelled,2023.5.9
+ORD5590930529,Refunding,2019.12.19,PayPal,Refund Processing,2019.12.21
+ORD1441771887,Confirmed,2023.6.12,Credit Card,Payment Successful,2023.6.15
+ORD2262735288,Cancelled,2020.3.6,Credit Card,Payment Cancelled,2020.3.9
+ORD7791866913,Completed,2022.8.12,Google Pay,Payment Successful,2022.8.19
+ORD1883694980,Pending,2021.7.6,Google Pay,Pending Payment,2021.7.8
+ORD4164026020,Problem,2022.4.8,Credit Card,Refund Failed,2022.4.12
+ORD2096595042,Cancelled,2019.8.4,PayPal,Payment Cancelled,2019.8.11
+ORD5427894157,Problem,2021.10.26,Debit Card,Payment Failed,2021.10.29
+ORD9664865588,Pending,2021.1.22,Credit Card,Pending Payment,2021.1.22
+ORD7877046943,Shipped,2022.6.19,PayPal,Payment Successful,2022.6.23
+ORD4609905144,Completed,2019.4.18,Debit Card,Payment Successful,2019.4.24
+ORD1614388374,Confirmed,2021.5.27,Google Pay,Payment Successful,2021.5.30
+ORD0812856671,Confirmed,2021.7.7,Credit Card,Partial Payment,2021.7.10
+ORD9807669296,Completed,2020.2.23,Credit Card,Payment Successful,2020.2.28
+ORD0830923572,Shipped,2023.9.11,Bank Transfer,Payment Successful,2023.9.12
+ORD2658400852,Completed,2020.11.11,Google Pay,Payment Successful,2020.11.18
+ORD8784734140,Shipped,2023.9.30,Apple Pay,Payment Successful,2023.10.5
+ORD5213488605,Processing,2020.7.14,Apple Pay,Payment Successful,2020.7.14
+ORD4464184022,Completed,2024.1.24,Debit Card,Payment Successful,2024.1.30
+ORD2903522818,Pending,2019.8.3,Google Pay,Pending Payment,2019.8.8
+ORD6661863278,Cancelled,2019.7.11,Debit Card,Payment Cancelled,2019.7.18
+ORD7724999060,Shipped,2023.9.23,PayPal,Payment Successful,2023.9.29
+ORD8579025934,Pending,2020.9.29,Bank Transfer,Pending Payment,2020.10.5
+ORD8145810455,Processing,2022.5.18,Apple Pay,Payment Processing,2022.5.19
+ORD2769495107,Cancelled,2021.4.16,Bank Transfer,Payment Cancelled,2021.4.18
+ORD7774668035,Cancelled,2020.4.1,PayPal,Payment Cancelled,2020.4.1
+ORD0718737178,Refunded,2019.10.14,Google Pay,Refund Successful,2019.10.18
+ORD7478626274,Cancelled,2019.10.28,Debit Card,Payment Cancelled,2019.10.31
+ORD2425496179,Confirmed,2019.5.3,PayPal,Partial Payment,2019.5.10
+ORD8784010842,Refunding,2020.6.10,PayPal,Refund Processing,2020.6.10
+ORD6444320295,Problem,2020.1.13,Credit Card,Refund Failed,2020.1.19
+ORD4415868238,Completed,2021.2.18,Debit Card,Payment Successful,2021.2.25
+ORD3636545997,Shipped,2020.3.7,Apple Pay,Payment Successful,2020.3.10
+ORD2589843653,Cancelled,2019.3.29,Credit Card,Payment Cancelled,2019.4.3
+ORD7452781647,Refunded,2021.10.8,Credit Card,Refund Successful,2021.10.11
+ORD6972436747,Completed,2023.1.11,Credit Card,Payment Successful,2023.1.15
+ORD5345633387,Confirmed,2021.11.24,Bank Transfer,Payment Successful,2021.11.25
+ORD8494626564,Confirmed,2019.10.15,Credit Card,Partial Payment,2019.10.21
+ORD7244642773,Completed,2019.5.14,PayPal,Payment Successful,2019.5.16
+ORD8641638253,Problem,2021.4.29,Credit Card,Payment Failed,2021.5.5
+ORD0181119208,Shipped,2021.7.18,Debit Card,Payment Successful,2021.7.19
+ORD5117450881,Problem,2021.5.28,Credit Card,Payment Failed,2021.5.29
+ORD4655350888,Shipped,2020.2.26,Apple Pay,Payment Successful,2020.3.3
+ORD6636879271,Pending,2022.3.19,PayPal,Pending Payment,2022.3.26
+ORD5076358315,Refunding,2020.10.28,Google Pay,Refund Processing,2020.10.31
+ORD3745448398,Pending,2024.1.27,Debit Card,Pending Payment,2024.1.30
+ORD9792466572,Pending,2019.2.2,Bank Transfer,Pending Payment,2019.2.3
+ORD9860844942,Refunded,2019.12.13,Bank Transfer,Refund Successful,2019.12.19
+ORD7842440824,Confirmed,2023.1.3,Google Pay,Payment Successful,2023.1.9
+ORD3537126090,Shipped,2023.12.7,PayPal,Payment Successful,2023.12.9
+ORD6667949041,Cancelled,2024.2.25,PayPal,Payment Cancelled,2024.3.1
+ORD2361705305,Refunding,2022.11.22,Credit Card,Refund Processing,2022.11.29
+ORD2226155832,Processing,2019.4.26,Bank Transfer,Payment Successful,2019.4.29
+ORD5624596256,Pending,2020.4.4,PayPal,Pending Payment,2020.4.7
+ORD7266997350,Completed,2020.6.19,Google Pay,Payment Successful,2020.6.25
+ORD5623609938,Shipped,2019.4.8,Debit Card,Payment Successful,2019.4.15
+ORD3603194246,Completed,2022.1.27,Credit Card,Payment Successful,2022.2.2
+ORD2196644765,Cancelled,2019.8.29,Credit Card,Payment Cancelled,2019.9.5
+ORD2157822793,Refunding,2024.2.3,Bank Transfer,Refund Processing,2024.2.9
+ORD5638863507,Processing,2020.10.21,Bank Transfer,Partial Payment,2020.10.22
+ORD8250944178,Problem,2022.8.7,Google Pay,Payment Failed,2022.8.14
+ORD9703051595,Cancelled,2020.5.31,PayPal,Payment Cancelled,2020.6.3
+ORD6551829431,Refunded,2022.1.26,Bank Transfer,Refund Successful,2022.1.27
+ORD3217386552,Processing,2024.2.16,Apple Pay,Payment Processing,2024.2.21
+ORD7691664086,Confirmed,2022.6.30,PayPal,Payment Successful,2022.7.4
+ORD0583594422,Refunding,2019.1.18,Google Pay,Refund Processing,2019.1.18
+ORD7206770213,Pending,2019.6.2,Credit Card,Pending Payment,2019.6.3
+ORD0312390301,Cancelled,2020.3.15,Credit Card,Payment Cancelled,2020.3.16
+ORD7045152928,Processing,2019.6.26,Apple Pay,Partial Payment,2019.6.28
+ORD5038823034,Cancelled,2023.11.30,Apple Pay,Payment Cancelled,2023.12.6
+ORD0514814168,Processing,2022.11.2,Debit Card,Payment Successful,2022.11.9
+ORD5068822823,Refunding,2019.2.27,Google Pay,Refund Processing,2019.2.28
+ORD7347351480,Pending,2021.11.3,Debit Card,Pending Payment,2021.11.4
+ORD6402388493,Shipped,2019.6.4,Credit Card,Payment Successful,2019.6.5
+ORD4282378901,Confirmed,2019.6.13,Bank Transfer,Partial Payment,2019.6.20
+ORD3162249727,Shipped,2024.2.4,Credit Card,Payment Successful,2024.2.6
+ORD9612448228,Refunding,2023.3.9,Bank Transfer,Refund Processing,2023.3.11
+ORD8329662629,Cancelled,2020.11.19,Apple Pay,Payment Cancelled,2020.11.20
+ORD0376767373,Cancelled,2020.2.23,Google Pay,Payment Cancelled,2020.2.24
+ORD5803622239,Refunded,2020.5.31,Debit Card,Refund Successful,2020.6.2

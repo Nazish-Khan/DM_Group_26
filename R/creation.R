@@ -10,19 +10,24 @@ db_file <- "database.db"
 my_connection <- RSQLite::dbConnect(RSQLite::SQLite(),dbname = db_file)
 print(my_connection)
 
+# Delete if tables already exist
+#drop_tables <- "DROP TABLE IF EXISTS SUPPLIERS, CUSTOMERS, PRODUCTS, ADS, WAREHOUSE, CATEGORY, ORDER_DETAILS, ORDERS_PAYMENT, SUPPLY, STORE, ORDERS;"
+
 # Entity Table Creation
 
 # Create table for SUPPLIERS entity
 sql_suppliers <- "
-DROP TABLE IF EXISTS SUPPLIERS;
 CREATE TABLE IF NOT EXISTS SUPPLIERS (
     Supplier_id INT PRIMARY KEY,
     supplier_name VARCHAR(255),
-    supplier_address VARCHAR(255),
+    supplier_street VARCHAR(255),
+    supplier_city VARCHAR(255),
+    supplier_country VARCHAR(255),
+    supplier_postcode VARCHAR(255),
     supplier_phoneno INT,
-    Supplier_ContactPerson VARCHAR(255),
     supplier_email VARCHAR(255),
-    supplier_status VARCHAR(20)
+    category_id VARCHAR(255),
+    FOREIGN KEY (category_id) REFERENCES CATEGORY(category_id)
 );"
 
 # Create table for Customer entity

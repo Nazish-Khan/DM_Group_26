@@ -89,18 +89,21 @@ sql_order_details <- "
 CREATE TABLE IF NOT EXISTS ORDERS_DETAILS (
     Order_ID INT PRIMARY KEY,
     Check_out_date DATE,
-    Order_status VARCHAR(255)
-);"
-
-
-# create table for ORDERS_PAYMENT entity
-sql_orders_payment <- "
-CREATE TABLE IF NOT EXISTS ORDERS_PAYMENT (
-    Order_ID INT PRIMARY KEY,
+    Order_status VARCHAR(255),
     Payment_method VARCHAR(255),
     Payment_status VARCHAR(255),
     Payment_date DATE
 );"
+
+
+# create table for ORDERS_PAYMENT entity
+# sql_orders_payment <- "
+# CREATE TABLE IF NOT EXISTS ORDERS_PAYMENT (
+#     Order_ID INT PRIMARY KEY,
+#     Payment_method VARCHAR(255),
+#     Payment_status VARCHAR(255),
+#     Payment_date DATE
+# );"
 
 # Relationship Entities
 
@@ -154,7 +157,7 @@ RSQLite::dbExecute(my_connection, sql_products)
 RSQLite::dbExecute(my_connection, sql_ads)
 RSQLite::dbExecute(my_connection, sql_warehouse)
 RSQLite::dbExecute(my_connection, sql_order_details)
-RSQLite::dbExecute(my_connection, sql_orders_payment)
+#RSQLite::dbExecute(my_connection, sql_orders_payment)
 RSQLite::dbExecute(my_connection, sql_supply)
 RSQLite::dbExecute(my_connection, sql_store)
 RSQLite::dbExecute(my_connection, sql_orders)
@@ -202,7 +205,15 @@ print("Reading the data")
 # Reading the csv file
 customer_data <- readr::read_csv("data_upload/Customer_data_with_related_id.csv",show_col_types = FALSE)
 supplier_data <- readr::read_csv("data_upload/supplier_data.csv",show_col_types = FALSE)
-
+advertisement_data <- readr::read_csv("data_upload/Advertisements_data.csv",show_col_types = FALSE)
+category_data <- readr::read_csv("data_upload/Category_data.csv",show_col_types = FALSE)
+order_data <- readr::read_csv("data_upload/Order_data.csv",show_col_types = FALSE)
+order_details_data <- readr::read_csv("data_upload/Order_details_data.csv",show_col_types = FALSE)
+#order_payment_data <- readr::read_csv("data_upload/Order_payment_data.csv",show_col_types = FALSE)
+product_data <- readr::read_csv("data_upload/Product_data.csv",show_col_types = FALSE)
+store_data <- readr::read_csv("data_upload/Store_data.csv",show_col_types = FALSE)
+supply_data <- readr::read_csv("data_upload/Supply_data.csv",show_col_types = FALSE)
+warehouse_data <- readr::read_csv("data_upload/Warehouse_data.csv",show_col_types = FALSE)
 
 # Function to check email format
 validate_email <- function(email) {
@@ -210,16 +221,39 @@ validate_email <- function(email) {
 }
 
 # Function to perform data integrity, email format, and duplicate checks
-process_data <- function(product_df, supplier_data) {
+process_data <- function(customer_data, supplier_data, advertisement_data,category_data,order_payment_data,order_details_data,order_data,product_data,store_data,supply_data,warehouse_data) {
   errors <- list()
   
-  # Check data integrity
+  # Check data integrity for primary key being null
   if (anyNA(customer_data$Customer_id)) {
     errors$Customer_id <- "Customer ID cannot be NULL."
   }
   if (anyNA(supplier_data$Supplier_id)) {
     errors$Supplier_id <- "Supplier ID cannot be NULL."
   }
+  if (anyNA(advertisement_data$Ads_id)) {
+    errors$Ads_id <- "Ads ID cannot be NULL."
+  }
+  if (anyNA(category_data$Category_id)) {
+    errors$Category_id <- "Category ID cannot be NULL."
+  }
+  if (anyNA(order_details_data$Order_id)) {
+    errors$Order_id <- "Order ID cannot be NULL."
+  }
+  if (anyNA(warehouse_data$Warehouse_id)) {
+    errors$Warehouse_id <- "Warehouse ID cannot be NULL."
+  }
+  if (anyNA(advertisement_data$Ads_id)) {
+    errors$Ads_id <- "Ads ID cannot be NULL."
+  }
+  if (anyNA(category_data$Category_id)) {
+    errors$Category_id <- "Category ID cannot be NULL."
+  }
+  if (anyNA(product_data$Product_id)) {
+    errors$Product_id <- "Product ID cannot be NULL."
+  }
+  
+  # Ask for referential integrity question
   
   # Validate email format
   invalid_customer_emails <- which(!validate_email(customer_data$customer_email))
@@ -231,9 +265,16 @@ process_data <- function(product_df, supplier_data) {
     errors$supplier_email <- paste("Invalid email format detected for suppliers:", toString(invalid_supplier_emails))
   }
   
+  # I will create function for this
   # Check for duplicate records
   duplicated_customers <- duplicated(customer_data$Customer_id)
   duplicated_suppliers <- duplicated(supplier_data$Supplier_id)
+  duplicated_advertisements <- duplicated(advertisement_data$Ads_id)
+  duplicated_category<- duplicated(category_data$Category_id)
+  duplicated_order_details<- duplicated(order_details_data$Order_id)
+  duplicated_warehouse<- duplicated(warehouse_data$Warehouse_id)
+  duplicated_product<- duplicated(product_data$Product_id)
+  
   #print(duplicated_suppliers)
   if (any(duplicated_customers)) {
     errors$Customer_id <- paste("Duplicate customer IDs detected at record - :", toString(which(duplicated_customers)))
@@ -254,19 +295,24 @@ process_data <- function(product_df, supplier_data) {
 processed_data <- process_data(customer_data, supplier_data)
 #
 
-#Add if condition for the check and don't run if there is any error
-# # Save the processed data to the database
-# dbWriteTable(con, "processed_data", processed_data, overwrite=TRUE)
+# Add if condition for the check and don't run if there is any error
 
-# Close the database connection
-#dbDisconnect(con)
+
 # Writing the data to the database
 print("Writing to the database")
-RSQLite::dbRemoveTable(my_connection,"CUSTOMERS")
-RSQLite::dbWriteTable(my_connection,"CUSTOMERS",customer_data)
+#RSQLite::dbRemoveTable(my_connection,"CUSTOMERS")
+RSQLite::dbWriteTable(my_connection,"CUSTOMERS",customer_data, append = TRUE)
+# Retrieve existing records from the database table
+existing_records <- RSQLite::dbReadTable(my_connection, "SUPPLIERS")
 
-RSQLite::dbRemoveTable(my_connection,"SUPPLIERS")
-RSQLite::dbWriteTable(my_connection,"SUPPLIERS",supplier_data)
+# Identify new records that don't already exist in the database
+new_records <- supplier_data[!duplicated(supplier_data$Supplier_id) & !supplier_data$Supplier_id %in% existing_records$Supplier_id, ]
+
+# Append only new records to the existing table
+RSQLite::dbWriteTable(my_connection, "SUPPLIERS", new_records, append = TRUE)
+
+#RSQLite::dbRemoveTable(my_connection,"SUPPLIERS")
+#RSQLite::dbWriteTable(my_connection,"SUPPLIERS",supplier_data, append = TRUE)
 
 print("Done")
 RSQLite::dbDisconnect(my_connection)

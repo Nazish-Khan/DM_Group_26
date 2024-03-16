@@ -34,10 +34,11 @@ jobs:
         run: |
           Rscript R/transformation.R
 
-      - name: Commit and push changes to database
-        uses: stefanzweifel/git-auto-commit-action@v4
+      - name: Commit files
+        run: |
+          git commit -m "Add regression plot figure"
+      - name: Push changes
+        uses: ad-m/github-push-action@v0.6.0
         with:
-          commit_message: Update database with processed data
-          commit_user_name: GitHub Actions
-          commit_user_email: actions@github.com
-          branch: main
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            branch: main

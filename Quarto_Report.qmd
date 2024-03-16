@@ -16,11 +16,14 @@ CATEGORIES		   |		6		          |
 ORDERS_DETAILS	 |		500		        |
 ---------------- | ----------------	|
 
-Then, we randomly transfer a foreign key to any entity, which contains a foreign key by using a package 'Tidyverse’ in R software.
+Then, we randomly transfer a foreign key to any entity, which contains a foreign key by using a package 'Tidyverse’ and 'Stringr' in R software.
 
 ```{r}
-install.packages("tidyverse")
-library(tidyverse)
+install.package("stringr")
+library(stringr)
+```
+
+```{r}
 # Create a self-reference key in customer entity around 70% to be "N/A"
 # Read the CSV file into a data frame
 df <- read.csv("Customer_data.csv")
@@ -45,6 +48,7 @@ write.csv(df, file = output_file_name, row.names = FALSE)
 
 cat("DataFrame with 'related_id' column saved to:", output_file_name, "\n")
 ```
+
 ```{r}
 # Insert foreign keys from Supplier entity and Product entity in Advertisement entity
 # Read the CSV files
@@ -230,5 +234,3 @@ write.csv(Order_data, file = output_file_name, row.names = FALSE)
 cat("Dataset with 1000 records saved to:", output_file_name, "\n")
 ```
 Now, we have all the datasets which we want to import into the tables, which we already create for these datasets.
-<<<<<<< HEAD
-

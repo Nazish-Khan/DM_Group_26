@@ -19,7 +19,7 @@ ORDERS_DETAILS	 |		500		        |
 Then, we randomly transfer a foreign key to any entity, which contains a foreign key by using a package 'Tidyverse’ in R software.
 
 ```{r}
-install.packages("stringr")
+install.packages("tidyverse")
 # Create a self-reference key in customer entity around 70% to be "N/A"
 # Read the CSV file into a data frame
 df <- read.csv("Customer_data.csv")

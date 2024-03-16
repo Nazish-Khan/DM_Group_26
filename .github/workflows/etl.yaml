@@ -1,13 +1,13 @@
-name: ETL
+name: Update Repo with result
 
 on:
-  schedule:
-    - cron: '0 23 * * *' # Run daily at 11 pm
+#  schedule:
+#    - cron: '0 */3 * * *' # Run every 3 hours
   push:
     branches: [ main ]
     paths:
       - 'data_upload/**' # Trigger only when changes occur in the data_upload folder or its subfolders
-
+  
     
 jobs:
   build:

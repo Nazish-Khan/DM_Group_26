@@ -20,6 +20,7 @@ Then, we randomly transfer a foreign key to any entity, which contains a foreign
 
 ```{r}
 install.packages("tidyverse")
+library(tidyverse)
 # Create a self-reference key in customer entity around 70% to be "N/A"
 # Read the CSV file into a data frame
 df <- read.csv("Customer_data.csv")

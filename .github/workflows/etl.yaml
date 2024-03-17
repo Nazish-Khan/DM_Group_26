@@ -30,17 +30,24 @@ jobs:
       - name: Install packages
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
-          Rscript -e 'install.packages(c("readr","RSQLite","stringr"))'
+          Rscript -e 'install.packages(c("readr","RSQLite","stringr","dplyr","fs","ggplot"))'
       - name: Execute R script
         run: |
           Rscript R/transformation.R
-
-
+      - name: Add files
+        run: |
+          git config --local --unset-all "http.https://github.com/.extraheader"
+          git config --global user.email "knazish1122@gmail.com"
+          git config --global user.name "Nazish-Khan"
+          git add --all figures/
       - name: Commit files
         run: |
-          git commit -m "Add regression plot figure"
+          git commit -m "Add figures"
+      - name: Pull changes
+        run: |
+          git pull --no-rebase origin master
       - name: Push changes
         uses: ad-m/github-push-action@v0.6.0
         with:
-            github_token: ${{ secrets.GITHUB_TOKEN }}
-            branch: main
+            github_token: ${{ secrets.MY_TOKEN }}
+            branch: master

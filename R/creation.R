@@ -3,7 +3,7 @@ library(RSQLite)
 library(readr)
 
 # Specify the database file name
-db_file <- "database/database.db"
+db_file <- "database.db"
 
 # Create the db connection with SQLite
 my_connection <- RSQLite::dbConnect(RSQLite::SQLite(),dbname = db_file)
@@ -24,8 +24,7 @@ CREATE TABLE IF NOT EXISTS SUPPLIERS (
     supplier_country VARCHAR(255),
     supplier_postcode VARCHAR(255),
     supplier_contact INT,
-    supplier_email VARCHAR(255),
-    category_id VARCHAR(255)
+    supplier_email VARCHAR(255)
 );"
 
 # Create table for Customer entity
@@ -47,9 +46,9 @@ CREATE TABLE IF NOT EXISTS CUSTOMERS (
 sql_ads <- "
 CREATE TABLE IF NOT EXISTS ADVERTISEMENTS (
     ads_id VARCHAR(15) PRIMARY KEY,
-    ads_price INT,
     ads_startdate DATE,
     ads_enddate DATE,
+    ads_price INT,
     supplier_id VARCHAR(15),
     product_id VARCHAR(15),
     FOREIGN KEY (supplier_id) REFERENCES SUPPLIERS(supplier_id),
@@ -91,9 +90,9 @@ CREATE TABLE IF NOT EXISTS CATEGORY (
 # create table for ORDERS_DETAILS entity
 sql_order_details <- "
 CREATE TABLE IF NOT EXISTS ORDERS_DETAILS (
-    Order_ID VARCHAR(15) PRIMARY KEY,
-    check_out_date DATE,
+    order_id VARCHAR(15) PRIMARY KEY,
     order_status VARCHAR(255),
+    check_out_date DATE,
     payment_method VARCHAR(255),
     payment_status VARCHAR(255),
     payment_date DATE
@@ -128,14 +127,17 @@ CREATE TABLE IF NOT EXISTS STORE (
 # create table for ORDERS relationship
 sql_orders <- "
 CREATE TABLE IF NOT EXISTS ORDERS (
-    order_details_id VARCHAR(15) PRIMARY KEY,
-    customer_id VARCHAR(15),
     product_id VARCHAR(15),
+    customer_id VARCHAR(15),
+    supplier_id VARCHAR(15),
+    order_id VARCHAR(15),
     order_transaction_date DATE,
     order_quantity INT,
-    FOREIGN KEY (order_details_id) REFERENCES ORDERS_DETAILS(order_details_id),
+    PRIMARY KEY (product_id, customer_id, supplier_id,  order_id),
+    FOREIGN KEY (product_id) REFERENCES PRODUCTS(product_id),
     FOREIGN KEY (customer_id) REFERENCES CUSTOMERS(customer_id),
-    FOREIGN KEY (product_id) REFERENCES PRODUCTS(product_id)
+    FOREIGN KEY (supplier_id) REFERENCES SUPPLIERS(supplier_id),
+    FOREIGN KEY (order_id) REFERENCES ORDERS_DETAILS(order_id)
 );"
 
 
@@ -161,7 +163,7 @@ RSQLite::dbDisconnect(my_connection)
 
 # Check the Schema of the database after creating the tables
 # Specify the database file name
-db_file <- "database/database.db"
+db_file <- "database.db"
 
 # Establish a connection to the SQLite database
 my_connection <- dbConnect(RSQLite::SQLite(), dbname = db_file)

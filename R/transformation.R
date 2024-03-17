@@ -2,6 +2,7 @@ library(RSQLite)
 library(readr)
 library(stringr)
 library(fs)
+library(dplyr)
 
 
 # Function to find the latest version of a file in a folder
@@ -53,7 +54,6 @@ advertisement_data <- readr::read_csv(advertisement_file,show_col_types = FALSE)
 category_data <- readr::read_csv(category_file,show_col_types = FALSE)
 order_data <- readr::read_csv(order_file,show_col_types = FALSE)
 order_details_data <- readr::read_csv(order_details_file,show_col_types = FALSE)
-#order_payment_data <- readr::read_csv("data_upload/Order_payment_data.csv",show_col_types = FALSE)
 product_data <- readr::read_csv(product_file,show_col_types = FALSE)
 store_data <- readr::read_csv(store_file,show_col_types = FALSE)
 supply_data <- readr::read_csv(supply_file,show_col_types = FALSE)
@@ -72,7 +72,7 @@ null_keys <- c(
   "warehouse_data" = "warehouse_id",
   "product_data" = "product_id",
   "category_data" = "category_id",
-  "order_details_data" = "order_details_id"
+  "order_details_data" = "order_id"
 )
 # 
 # Check for null primary keys
@@ -86,7 +86,7 @@ for (table_name in names(null_keys)) {
 composite_keys <- list(
   "supply_data" = c("product_id", "supplier_id"),
   "store_data" = c("product_id", "warehouse_id"),
-  "order_data" = c("order_details_id", "customer_id", "product_id", "supplier_id")
+  "order_data" = c("order_id", "customer_id", "product_id", "supplier_id")
 )
 
 for (table_name1 in names(composite_keys)) {
@@ -119,6 +119,56 @@ if (length(invalid_supplier_emails) > 0) {
   errors$supplier_email <- paste("Invalid email format detected for suppliers:", toString(invalid_supplier_emails))
 }
 
+# Validate Primary Key Format
+# Check supplier_id format for all records
+supplier_id_pattern <- "^SUP\\d{9,}$"     # Define regex pattern for supplier_id
+invalid_supplier_ids <- which(!grepl(supplier_id_pattern, supplier_data$supplier_id))
+if (length(invalid_supplier_ids) > 0) {
+  errors$supplier_id <- paste("Invalid supplier IDs detected at index:", toString(invalid_supplier_ids))
+}
+
+# Advertisement ID Format
+ads_id_pattern <- "^AD\\d{9,}$"                # Define regex pattern for ads_id
+invalid_ads_ids <- which(!grepl(ads_id_pattern, advertisement_data$ads_id))
+if (length(invalid_ads_ids) > 0) {
+  errors$ads_id <- paste("Invalid Ads IDs detected at index:", toString(invalid_ads_ids))
+}
+
+# Customer ID Format
+cust_id_pattern <- "^CUS\\d{9,}$"                # Define regex pattern for customer_id
+invalid_cust_ids <- which(!grepl(cust_id_pattern, customer_data$customer_id))
+if (length(invalid_cust_ids) > 0) {
+  errors$customer_id <- paste("Invalid Customer IDs detected at index:", toString(invalid_cust_ids))
+}
+
+# Product ID Format
+product_id_pattern <- "^P\\d{8}$"                # Define regex pattern for product_id
+invalid_product_ids <- which(!grepl(product_id_pattern, product_data$product_id))
+if (length(invalid_product_ids) > 0) {
+  errors$product_id <- paste("Invalid Product IDs detected at index:", toString(invalid_product_ids))
+}
+
+# Category ID Format
+category_id_pattern <- "^CAT\\d{10}$"                # Define regex pattern for product_id
+invalid_cat_ids <- which(!grepl(category_id_pattern, category_data$category_id))
+if (length(invalid_cat_ids) > 0) {
+  errors$category_id <- paste("Invalid Category IDs detected at index:", toString(invalid_cat_ids))
+}
+
+# Order ID Format
+ord_id_pattern <- "^ORD\\d{10}$"                # Define regex pattern for order_id
+invalid_ord_ids <- which(!grepl(ord_id_pattern, order_details_data$order_id))
+if (length(invalid_ord_ids) > 0) {
+  errors$order_id <- paste("Invalid Order IDs detected at index:", toString(invalid_ord_ids))
+}
+
+# Warehouse ID Format
+ware_id_pattern <- "^W\\d{8,}$"                # Define regex pattern for Warehouse ID
+invalid_ware_ids <- which(!grepl(ware_id_pattern, warehouse_data$warehouse_id))
+if (length(invalid_ware_ids) > 0) {
+  errors$warehouse_id <- paste("Invalid Warehouse IDs detected at index:", toString(invalid_ware_ids))
+}
+
 # Check for duplicate records in single primary key entities
 
 for (table_name in names(null_keys)) {
@@ -144,55 +194,34 @@ if (length(errors) > 0) {
   
 # Writing the data to the database
   print("Writing to the database")
-#RSQLite::dbRemoveTable(my_connection,"CUSTOMERS")
-  #RSQLite::dbWriteTable(my_connection,"CUSTOMERS",customer_data, append = TRUE)
-# Retrieve existing records from the database table
-  existing_records <- RSQLite::dbReadTable(my_connection, "SUPPLIERS")
 
+
+#  existing_records <- RSQLite::dbReadTable(my_connection, "SUPPLIERS")
 # Identify new records that don't already exist in the database
-  new_records <- supplier_data[!duplicated(supplier_data$supplier_id) & !supplier_data$supplier_id %in% existing_records$supplier_id, ]
-
+# new_records <- supplier_data[!duplicated(supplier_data$supplier_id) & !supplier_data$supplier_id %in% existing_records$supplier_id, ]
 # Append only new records to the existing table
-  RSQLite::dbWriteTable(my_connection, "SUPPLIERS", new_records, append = TRUE)
-
-#RSQLite::dbRemoveTable(my_connection,"SUPPLIERS")
-#RSQLite::dbWriteTable(my_connection,"SUPPLIERS",supplier_data, append = TRUE)
+  print("Adding Supplier Data")
+  RSQLite::dbWriteTable(my_connection, "SUPPLIERS", supplier_data, append = TRUE)
+  print("Adding Category Data")
+  RSQLite::dbWriteTable(my_connection, "CATEGORY", category_data, append = TRUE)
+  print("Adding Customer Data")
+  RSQLite::dbWriteTable(my_connection, "CUSTOMERS", customer_data, append = TRUE)
+  print("Adding Orders Data")
+  RSQLite::dbWriteTable(my_connection, "ORDERS", order_data, append = TRUE)
+  print("Adding Orders Details Data")
+  RSQLite::dbWriteTable(my_connection, "ORDERS_DETAILS", order_details_file, append = TRUE)
+  print("Adding Products Data")
+  RSQLite::dbWriteTable(my_connection, "PRODUCTS", product_data, append = TRUE)
+  print("Adding Store Data")
+  RSQLite::dbWriteTable(my_connection, "STORE", store_data, append = TRUE)
+  print("Adding Supply Data")
+  RSQLite::dbWriteTable(my_connection, "SUPPLY", supply_data, append = TRUE)
+  print("Adding Warehouse Data")
+  RSQLite::dbWriteTable(my_connection, "WAREHOUSES", warehouse_data, append = TRUE)
+  print("Adding Ads Data")
+  RSQLite::dbWriteTable(my_connection, "ADVERTISEMENTS", advertisement_data, append = TRUE)
 
   print("Done")
   RSQLite::dbDisconnect(my_connection)
-
-  db_file <- "database/database.db"
-  my_connection <- RSQLite::dbConnect(RSQLite::SQLite(),dbname = db_file)
-
-# SQL query to select product_id and supplier_id based on category match
-  sql_query1 <- "
-            SELECT *
-            FROM CUSTOMERS LIMIT 10;
-            "
-  sql_query2 <- "
-            SELECT *
-            FROM SUPPLIERS LIMIT 10;
-            "
-  sql_query3 <- "
-            SELECT *
-            FROM STORE LIMIT 10;
-            "
-  sql_query4 <- "
-            SELECT *
-            FROM ADVERTISEMENTS LIMIT 10;
-            "
-# Execute the SQL query and fetch the result
-  result <- RSQLite::dbGetQuery(my_connection, sql_query1)
-  result2 <- RSQLite::dbGetQuery(my_connection, sql_query2)
-  result3 <- RSQLite::dbGetQuery(my_connection, sql_query3)
-  result4 <- RSQLite::dbGetQuery(my_connection, sql_query4)
-
-# Close the database connection
-  RSQLite::dbDisconnect(my_connection)
-
-# Display the result
-  print(result)
-  print(result2)
-
 }
 

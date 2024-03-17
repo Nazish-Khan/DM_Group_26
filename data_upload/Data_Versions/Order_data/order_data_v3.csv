@@ -1,4 +1,4 @@
-﻿product_id,customer_id,supplier_id,order_details_id,order_transaction_date,order_quantity
+product_id,customer_id,supplier_id,order_id,order_transaction_date,order_quantity
 P20154366,CUS0349373345,SUP251725474,ORD2246327040,24/03/22,44
 P81554792,CUS7727144401,SUP272155500,ORD7774668035,27/02/20,85
 P41914107,CUS1237854598,SUP284008125,ORD0851817634,15/05/20,39

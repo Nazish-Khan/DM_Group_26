@@ -1,4 +1,4 @@
-﻿product_id,supplier_id,product_cost,quantity
+product_id,supplier_id,product_cost,supply_quantity
 P14994695,SUP142524398,221.09,44
 P82479977,SUP512101375,75.3,91
 P66288623,SUP334406849,278.69,19

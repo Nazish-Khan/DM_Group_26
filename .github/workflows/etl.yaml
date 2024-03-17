@@ -6,8 +6,8 @@ on:
 #    - cron: '0 */3 * * *' # Run every 3 hours
   push:
     branches: [ main ]
-    paths:
-      - 'data_upload/**' # Trigger only when changes occur in the data_upload folder or its subfolders
+    #paths:
+    # - 'data_upload/**' # Trigger only when changes occur in the data_upload folder or its subfolders
   
     
 jobs:

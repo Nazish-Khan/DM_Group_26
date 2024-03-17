@@ -3,7 +3,7 @@ library(RSQLite)
 library(readr)
 
 # Specify the database file name
-db_file <- "database.db"
+db_file <- "database/database.db"
 
 # Create the db connection with SQLite
 my_connection <- RSQLite::dbConnect(RSQLite::SQLite(),dbname = db_file)
@@ -46,9 +46,9 @@ CREATE TABLE IF NOT EXISTS CUSTOMERS (
 sql_ads <- "
 CREATE TABLE IF NOT EXISTS ADVERTISEMENTS (
     ads_id VARCHAR(15) PRIMARY KEY,
+    ads_price INT,
     ads_startdate DATE,
     ads_enddate DATE,
-    ads_price INT,
     supplier_id VARCHAR(15),
     product_id VARCHAR(15),
     FOREIGN KEY (supplier_id) REFERENCES SUPPLIERS(supplier_id),
@@ -90,9 +90,9 @@ CREATE TABLE IF NOT EXISTS CATEGORY (
 # create table for ORDERS_DETAILS entity
 sql_order_details <- "
 CREATE TABLE IF NOT EXISTS ORDERS_DETAILS (
-    order_id VARCHAR(15) PRIMARY KEY,
-    order_status VARCHAR(255),
+    Order_ID VARCHAR(15) PRIMARY KEY,
     check_out_date DATE,
+    order_status VARCHAR(255),
     payment_method VARCHAR(255),
     payment_status VARCHAR(255),
     payment_date DATE
@@ -127,17 +127,17 @@ CREATE TABLE IF NOT EXISTS STORE (
 # create table for ORDERS relationship
 sql_orders <- "
 CREATE TABLE IF NOT EXISTS ORDERS (
-    product_id VARCHAR(15),
-    customer_id VARCHAR(15),
-    supplier_id VARCHAR(15),
     order_id VARCHAR(15),
+    customer_id VARCHAR(15),
+    product_id VARCHAR(15),
+    supplier_id VARCHAR(15),
     order_transaction_date DATE,
     order_quantity INT,
-    PRIMARY KEY (product_id, customer_id, supplier_id,  order_id),
-    FOREIGN KEY (product_id) REFERENCES PRODUCTS(product_id),
+    FOREIGN KEY (order_id) REFERENCES ORDERS_DETAILS(order_id),
     FOREIGN KEY (customer_id) REFERENCES CUSTOMERS(customer_id),
-    FOREIGN KEY (supplier_id) REFERENCES SUPPLIERS(supplier_id),
-    FOREIGN KEY (order_id) REFERENCES ORDERS_DETAILS(order_id)
+    FOREIGN KEY (product_id) REFERENCES PRODUCTS(product_id),
+    FOREIGN KEY (supplier_id) REFERENCES PRODUCTS(product_id),
+    PRIMARY KEY (order_id, customer_id, product_id, supplier_id)
 );"
 
 
@@ -154,30 +154,9 @@ RSQLite::dbExecute(my_connection, sql_supply)
 RSQLite::dbExecute(my_connection, sql_store)
 RSQLite::dbExecute(my_connection, sql_orders)
 
-# Close the database connection
-#dbDisconnect(my_connection)
 
 RSQLite::dbListTables(my_connection)
-RSQLite::dbDisconnect(my_connection)
-
-
-# Check the Schema of the database after creating the tables
-# Specify the database file name
-db_file <- "database.db"
-
-# Establish a connection to the SQLite database
-my_connection <- dbConnect(RSQLite::SQLite(), dbname = db_file)
-
-# List all tables in the database
-tables <- dbListTables(my_connection)
-
-# Iterate over tables and print the schema
-for (table in tables) {
-  cat("Table:", table, "\n")
-  fields <- dbListFields(my_connection, table)
-  print(fields)
-  cat("\n")
-}
 
 # Close the database connection
-dbDisconnect(my_connection)
+RSQLite::dbDisconnect(my_connection)
+

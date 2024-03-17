@@ -34,14 +34,3 @@ jobs:
       - name: Execute R script
         run: |
           Rscript R/transformation.R
-      - name: Commit files
-        run: |
-          git commit -m "Add figures"
-      - name: Pull changes
-        run: |
-          git pull --no-rebase origin master
-      - name: Push changes
-        uses: ad-m/github-push-action@v0.6.0
-        with:
-            github_token: ${{ secrets.MY_TOKEN }}
-            branch: master

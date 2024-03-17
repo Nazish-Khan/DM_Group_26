@@ -1,10 +1,14 @@
-name: ETL
+name: Update Repo with result
+
 
 on:
-  schedule:
-    - cron: '0 23 * * *' # Run daily at 11 pm
+#  schedule:
+#    - cron: '0 */3 * * *' # Run every 3 hours
   push:
     branches: [ main ]
+    paths:
+      - 'data_upload/**' # Trigger only when changes occur in the data_upload folder or its subfolders
+  
     
 jobs:
   build:
@@ -26,15 +30,17 @@ jobs:
       - name: Install packages
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
-          Rscript -e 'install.packages(c("readr","RSQLite"))'
+          Rscript -e 'install.packages(c("readr","RSQLite","stringr"))'
       - name: Execute R script
         run: |
           Rscript R/transformation.R
 
-      - name: Commit and push changes to database
-        uses: stefanzweifel/git-auto-commit-action@v4
+
+      - name: Commit files
+        run: |
+          git commit -m "Add regression plot figure"
+      - name: Push changes
+        uses: ad-m/github-push-action@v0.6.0
         with:
-          commit_message: Update database with processed data
-          commit_user_name: GitHub Actions
-          commit_user_email: actions@github.com
-          branch: main
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            branch: main

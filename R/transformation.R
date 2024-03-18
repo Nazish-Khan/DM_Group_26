@@ -283,7 +283,7 @@ if (length(errors) > 0) {
 
   # Customer table foreign key
   missing_foreign_keys3 <- c()
-  missing_foreign_keys3 <- c(missing_foreign_keys3, check_referential_integrity2(customer_data, "related_id", customers_db,"customer_id"))
+  missing_foreign_keys3 <- c(missing_foreign_keys3, check_referential_integrity2(customer_data, "related_id", customer_db,"customer_id"))
   if (length(missing_foreign_keys3) > 0) {
     print("Missing foreign keys found:")
     print(unique(unlist(missing_foreign_keys3)))

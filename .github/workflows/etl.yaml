@@ -34,3 +34,20 @@ jobs:
       - name: Execute R script
         run: |
           Rscript R/transformation.R
+      - name: Add files
+        run: |
+          git config --local --unset-all "http.https://github.com/.extraheader"
+          git config --global user.email "knazish1122@gmail.com"
+          git config --global user.name "Nazish-Khan"
+          git add --all figures/
+      - name: Commit files
+        run: |
+          git commit -m "Add Plot figure"
+      - name: Pull changes
+        run: |
+          git pull --no-rebase origin main
+      - name: Push changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+            github_token: ${{ secrets.MY_TOKEN }}
+            branch: main

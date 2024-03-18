@@ -3,6 +3,8 @@ library(readr)
 library(stringr)
 library(fs)
 library(dplyr)
+library(DBI)
+library(ggplot2)
 
 
 # Function to find the latest version of a file in a folder
@@ -142,7 +144,7 @@ if (length(invalid_cust_ids) > 0) {
 }
 
 # Product ID Format
-product_id_pattern <- "^P\\d{8}$"                # Define regex pattern for product_id
+product_id_pattern <- "^P\\d{8,}$"                # Define regex pattern for product_id
 invalid_product_ids <- which(!grepl(product_id_pattern, product_data$product_id))
 if (length(invalid_product_ids) > 0) {
   errors$product_id <- paste("Invalid Product IDs detected at index:", toString(invalid_product_ids))
@@ -204,24 +206,271 @@ if (length(errors) > 0) {
   RSQLite::dbWriteTable(my_connection, "SUPPLIERS", supplier_data, append = TRUE)
   print("Adding Category Data")
   RSQLite::dbWriteTable(my_connection, "CATEGORY", category_data, append = TRUE)
-  print("Adding Customer Data")
-  RSQLite::dbWriteTable(my_connection, "CUSTOMERS", customer_data, append = TRUE)
-  print("Adding Orders Data")
-  RSQLite::dbWriteTable(my_connection, "ORDERS", order_data, append = TRUE)
   print("Adding Orders Details Data")
   RSQLite::dbWriteTable(my_connection, "ORDERS_DETAILS", order_details_file, append = TRUE)
-  print("Adding Products Data")
-  RSQLite::dbWriteTable(my_connection, "PRODUCTS", product_data, append = TRUE)
-  print("Adding Store Data")
-  RSQLite::dbWriteTable(my_connection, "STORE", store_data, append = TRUE)
-  print("Adding Supply Data")
-  RSQLite::dbWriteTable(my_connection, "SUPPLY", supply_data, append = TRUE)
   print("Adding Warehouse Data")
   RSQLite::dbWriteTable(my_connection, "WAREHOUSES", warehouse_data, append = TRUE)
-  print("Adding Ads Data")
-  RSQLite::dbWriteTable(my_connection, "ADVERTISEMENTS", advertisement_data, append = TRUE)
+  
+  # Check referential integrity in each table where foreign keys are available
 
-  print("Done")
+  # Get the primary key from the db
+  # Execute SQL queries to fetch primary keys from each parent table
+  sql_query_suppliers <- "SELECT supplier_id FROM SUPPLIERS"
+  sql_query_customers <- "SELECT customer_id FROM CUSTOMERS"
+  sql_query_products <- "SELECT product_id FROM PRODUCTS"
+  sql_query_order_details <- "SELECT order_id FROM ORDERS_DETAILS"
+  sql_query_category <- "SELECT category_id FROM CATEGORY"
+  sql_query_warehouse <- "SELECT warehouse_id FROM WAREHOUSES"
+  
+  # Execute SQL queries and fetch results
+  suppliers_db <- dbGetQuery(my_connection, sql_query_suppliers)
+  customer_db <- dbGetQuery(my_connection, sql_query_customers)
+  products_db <- dbGetQuery(my_connection, sql_query_products)
+  order_details_db <- dbGetQuery(my_connection, sql_query_order_details)
+  category_db <- dbGetQuery(my_connection, sql_query_category)  
+  warehouse_db <- dbGetQuery(my_connection, sql_query_warehouse) 
+  
+  # Function to check referential integrity for foreign keys
+  check_referential_integrity <- function(child_df, foreign_key_column, parent_df) {
+    foreign_keys <- unique(child_df[[foreign_key_column]])
+    parent_keys <- unique(parent_df[[foreign_key_column]])
+    missing_keys <- setdiff(foreign_keys, parent_keys)
+    if (length(missing_keys) > 0) {
+      return(missing_keys)
+    } else {
+      return(NULL)
+    }
+  }
+ 
+  # Function to check referential integrity for foreign keys which refer to themselves
+  check_referential_integrity2 <- function(child_df, foreign_key_column, parent_df, parent_key) {
+    foreign_keys <- unique(child_df[[foreign_key_column]])
+    parent_keys <- unique(parent_df[[parent_key]])
+    missing_keys <- setdiff(foreign_keys, parent_keys)
+    if (length(missing_keys) > 0) {
+      return(missing_keys)
+    } else {
+      return(NULL)
+    }
+  }
+  
+  
+  # Product table foreign key
+  missing_foreign_keys1 <- c()
+  missing_foreign_keys1 <- c(missing_foreign_keys1, check_referential_integrity(product_data, "category_id", category_db))
+  if (length(missing_foreign_keys1) > 0) {
+    print("Missing foreign keys found:")
+    print(unique(unlist(missing_foreign_keys1)))
+  } else {
+    print("No missing foreign keys found.")
+    print("Adding Products Data")
+    RSQLite::dbWriteTable(my_connection, "PRODUCTS", product_data, append = TRUE)
+  }
+  
+  # Advertisements table foreign key
+  missing_foreign_keys2 <- c()
+  missing_foreign_keys2 <- c(missing_foreign_keys2, check_referential_integrity(advertisement_data, "product_id", products_db))
+  missing_foreign_keys2 <- c(missing_foreign_keys2, check_referential_integrity(advertisement_data, "supplier_id", suppliers_db))
+  if (length(missing_foreign_keys2) > 0) {
+    print("Missing foreign keys found:")
+    print(unique(unlist(missing_foreign_keys2)))
+  } else {
+    print("No missing foreign keys found.")
+    print("Adding Ads Data")
+    RSQLite::dbWriteTable(my_connection, "ADVERTISEMENTS", advertisement_data, append = TRUE)
+  }  
+  
+
+  # Customer table foreign key
+  missing_foreign_keys3 <- c()
+  missing_foreign_keys3 <- c(missing_foreign_keys3, check_referential_integrity2(customer_data, "related_id", customers_db,"customer_id"))
+  if (length(missing_foreign_keys3) > 0) {
+    print("Missing foreign keys found:")
+    print(unique(unlist(missing_foreign_keys3)))
+  } else {
+    print("No missing foreign keys found.")
+    print("Adding Customer Data")
+    RSQLite::dbWriteTable(my_connection, "CUSTOMERS", customer_data, append = TRUE)
+  }  
+  
+  
+  # Supply table foreign keys
+  missing_foreign_keys4 <- c()
+  missing_foreign_keys4 <- c(missing_foreign_keys4, check_referential_integrity(supply_data, "product_id", products_db))
+  missing_foreign_keys4 <- c(missing_foreign_keys4, check_referential_integrity(supply_data, "supplier_id", suppliers_db))
+  if (length(missing_foreign_keys4) > 0) {
+    print("Missing foreign keys found:")
+    print(unique(unlist(missing_foreign_keys4)))
+  } else {
+    print("No missing foreign keys found.")
+    print("Adding Supply Data")
+    RSQLite::dbWriteTable(my_connection, "SUPPLY", supply_data, append = TRUE)
+  }  
+  
+  # Store table foreign keys
+  missing_foreign_keys5 <- c()
+  missing_foreign_keys5 <- c(missing_foreign_keys5, check_referential_integrity(store_data, "product_id", products_db))
+  missing_foreign_keys5 <- c(missing_foreign_keys5, check_referential_integrity(store_data, "warehouse_id", warehouse_db))
+  if (length(missing_foreign_keys5) > 0) {
+    print("Missing foreign keys found:")
+    print(unique(unlist(missing_foreign_keys5)))
+  } else {
+    print("No missing foreign keys found.")
+    print("Adding Store Data")
+    RSQLite::dbWriteTable(my_connection, "STORE", store_data, append = TRUE)
+  } 
+  
+  # Orders table foreign keys
+  missing_foreign_keys6 <- c()
+  missing_foreign_keys6 <- c(missing_foreign_keys6, check_referential_integrity(order_data, "product_id", products_db))
+  missing_foreign_keys6 <- c(missing_foreign_keys6, check_referential_integrity(order_data, "supplier_id", suppliers_db))
+  missing_foreign_keys6 <- c(missing_foreign_keys6, check_referential_integrity(order_data, "order_id", order_details_db))
+  missing_foreign_keys6 <- c(missing_foreign_keys6, check_referential_integrity(order_data, "customer_id", customer_db))
+  if (length(missing_foreign_keys6) > 0) {
+    print("Missing foreign keys found:")
+    print(unique(unlist(missing_foreign_keys6)))
+  } else {
+    print("No missing foreign keys found.")
+    print("Adding Order Data")
+    RSQLite::dbWriteTable(my_connection, "ORDER", order_data, append = TRUE)
+  } 
+
+  
+  # # Foreign key Referential Integrity Check
+  # 
+  # check_missing_foreign_keys <- function(child_df, foreign_key_column, parent_table, primary_key_column) {
+  #   
+  #   # Query the parent table to retrieve all primary key values
+  #   query <- paste("SELECT", primary_key_column, "FROM", parent_table)
+  #   parent_ids <- dbGetQuery(conn, query)[[1]]
+  #   
+  #   # Extract the foreign key column from the child dataframe
+  #   foreign_keys <- unique(child_df[[foreign_key_column]])
+  #   
+  #   # Identify foreign key values not present in the parent table
+  #   missing_foreign_keys <- setdiff(foreign_keys, parent_ids)
+  #   
+  #   # Close the database connection
+  #   dbDisconnect(conn)
+  #   
+  #   # Return missing foreign keys
+  #   return(missing_foreign_keys)
+  # }
+  # 
+  # # Order$product_id check
+  # child1_df <- order_data
+  # child2_df <- supply_data
+  # child3_df <- store_data
+  # fk1_col <- "product_id"
+  # fk2_col <- "supplier_id"
+  # fk3_col <- "customer_id"
+  # fk4_col <- "order_id"
+  # parent1 <- "PRODUCTS"
+  # parent2 <- "SUPPLIERS"
+  # parent3 <- "CUSTOMERS"
+  # parent4 <- "ORDER_DETAILS"
+  # 
+  # 
+  # missing_keys_order1 <- check_missing_foreign_keys(child1_df, fk1_col, parent1, fk1_col)
+  # missing_keys_order2 <- check_missing_foreign_keys(child1_df, fk2_col, parent2, fk2_col)
+  # missing_keys_order3 <- check_missing_foreign_keys(child1_df, fk3_col, parent3, fk3_col)
+  # missing_keys_order4 <- check_missing_foreign_keys(child1_df, fk4_col, parent4, fk4_col)
+  # print(missing_keys)
+  # 
+  # 
+  # if (length(missing_keys_order1) > 0 & length(missing_keys_order2) > 0 & length(missing_keys_order3) > 0 & length(missing_keys_order4) > 0) {
+  #   error_msg <- paste("Missing foreign keys found in", parent_table, "for column", foreign_key_column, ":", missing_keys)
+  #   print("Order foreign key missing error")
+  #   stop(error_msg)
+  # } else{
+  #   print("Adding Orders Data")
+  #   RSQLite::dbWriteTable(my_connection, "ORDERS", order_data, append = TRUE)
+  # }
+
+
+  print("Writing Table is done")
+  
   RSQLite::dbDisconnect(my_connection)
 }
+
+# # Connect to database
+# con <- dbConnect(RSQLite::SQLite(), "database/database.db")
+# 
+# 
+# # Define function to check foreign keys
+# check_foreign_key <- function(table_name, foreign_key, reference_table) {
+#   query <- paste0("SELECT DISTINCT ", foreign_key, " FROM ", table_name, " WHERE ", foreign_key, " NOT IN (SELECT DISTINCT ", foreign_key, " FROM ", reference_table, ")")
+#   result <- dbGetQuery(con, query)
+#   return(result)
+# }
+# 
+# # Check foreign keys for each column
+# product_id_check <- check_foreign_key("ORDERS", "product_id", "PRODUCTS")
+# customer_id_check <- check_foreign_key("ORDERS", "customer_id", "CUSTOMERS")
+# supplier_id_check <- check_foreign_key("ORDERS", "supplier_id", "SUPPLIERS")
+# order_id_check <- check_foreign_key("ORDERS", "order_id", "ORDERS_DETAILS")
+# 
+# # Print or inspect the results
+# print(product_id_check)
+# print(customer_id_check)
+# print(supplier_id_check)
+# print(order_id_check)
+# 
+# # Disconnect from database
+# dbDisconnect(con)
+
+# Data Visualization
+
+conn <- RSQLite::dbConnect(RSQLite::SQLite(),dbname = "database/database.db")
+# Get data from database into a dataframe
+tables_to_read <- c("ADVERTISEMENTS", "WAREHOUSES", "SUPPLY","STORE","PRODUCTS","ORDERS_DETAILS","ORDERS","CUSTOMERS","SUPPLIERS","CATEGORY")
+
+# Initialize an empty list to store data frames
+dfs <- list()
+
+# Loop through each table
+for (table in tables_to_read) {
+  # Read data from the table into a data frame
+  query <- paste("SELECT * FROM", table)
+  dfs[[table]] <- dbGetQuery(conn, query)
+}
+
+product <- dfs$PRODUCTS
+order <- dfs$ORDERS
+category <- dfs$CATEGORY
+RSQLite::dbDisconnect(conn)
+
+
+# 2) Average review scores (total customer value) for different product categories.
+# Assuming 'products' contains 'product_reviewscore' and 'category_id'
+# Calculate average review scores for each category
+category_review_scores <- product %>%
+  group_by(category_id) %>%
+  summarise(average_review_score = mean(product_reviewscore, na.rm = TRUE))
+
+# Join with 'CATEGORY' to get category names
+category_review_scores <- category_review_scores %>%
+  left_join(category, by = "category_id")
+
+# Bar plot of average review scores by category
+plot <- ggplot(category_review_scores, aes(x = reorder(category_name, -average_review_score), y = average_review_score)) +
+  geom_bar(stat = "identity", fill = "gold") +
+  geom_text(aes(label = round(average_review_score, 2)), vjust = -0.5, color = "dimgrey", size = 3.5) + 
+  labs(title = "Average Customer Values by Category",
+       x = "Category testing again again",
+       y = "Average Review Score") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  ylim(0, 5)
+
+plot
+
+# Save plot as a picture file (e.g., PNG)
+plot_filename <- "figures/plot.png"
+png(file = plot_filename, width = 800, height = 600)
+print(plot)
+dev.off()
+
+# # Move the saved picture to the figures folder
+# destination_folder <- "figures"
+# file.rename(plot_filename, file.path(destination_folder, plot_filename))
 

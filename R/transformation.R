@@ -464,11 +464,27 @@ plot <- ggplot(category_review_scores, aes(x = reorder(category_name, -average_r
 
 plot
 
+# Define the directory to save the figures
+figure_directory <- "figures/"
+
+# Create the directory if it doesn't exist
+if (!dir.exists(figure_directory)) {
+  dir.create(figure_directory)
+}
+
+# Save each plot as an image
+this_filename_date <- as.character(Sys.Date())
+this_filename_time <- as.character(format(Sys.time(), format = "%H_%M"))
+
+# Save top_10 plot
+ggsave(filename = paste0(figure_directory, "plot_", this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = plot)
+
+
 # Save plot as a picture file (e.g., PNG)
-plot_filename <- "figures/plot.png"
-png(file = plot_filename, width = 800, height = 600)
-print(plot)
-dev.off()
+# plot_filename <- "figures/plot.png"
+# png(file = plot_filename, width = 800, height = 600)
+# print(plot)
+# dev.off()
 
 # # Move the saved picture to the figures folder
 # destination_folder <- "figures"

@@ -915,7 +915,7 @@ jobs:
 
 # Part 4: Data Analysis and Visualisation
 
-In this final part, we will analyse and visualise our data set and perform a fundamental analysis by manipulating data using RSQLite and visualising them using the package "ggplot2"
+In this final part, we will analyse and visualise our data sets and perform a fundamental analysis by manipulating data using RSQLite and visualising them using the package "ggplot2"
 
 ```{r warning=FALSE}
 # Get the required data from the database
@@ -1054,7 +1054,7 @@ print(combined_plot)
 
 ```
 
-This bar chart displays the top five best-selling products and the bottom five bestselling products. The Reebok Classic Leather is the best-selling product, whereas the Hunger Games Series has the poorest performance.
+This bar charts display the top five best-selling products and the bottom five low-selling products. The Reebok Classic Leather is the best-selling product, whereas the Hunger Games Series has the poorest performance.
 
 **Reviews based Order Status Change Analysis:**
 
@@ -1171,9 +1171,13 @@ supply_product_df <- supply_product_df_origin
 print(margin_plot)
 ```
 
+<<<<<<< HEAD
 As can be seen from the chart, the gray line displays the lowest margin of each product category. We can observe that each product category's lowest margins are aligned, with no significant difference. In comparison, each category's mean and the highest margin figure seem significant. The electronic section exhibited the best performance among all sections, as can be noticed from the purple line that represents the mean of the margin and the blue line that represents the highest margin.
 
 ## 4.3 - Customer Analysis
+=======
+As can be seen from the chart, the profit margin for the product in an electronic category (CAT5960069590) is the highest among all categories. The green line displays the lowest margin of each product category. We can observe that each product category's lowest margins are aligned with no significant difference. In comparison, each category's mean and the highest margin figure seem significant. The electronic section exhibited the best performance among all sections, as can be noticed from the red line that represents the mean of the margin and the black line that represents the highest margin.
+>>>>>>> e00da8c629028b9e55486b9174762a770f5a5eca
 
 **Customer Segmentation:**
 
@@ -1371,6 +1375,7 @@ ggsave(filename = paste0(figure_directory, "ads_supplier_plot_",
 print(combined_suppliers_plot)
 ```
 
+<<<<<<< HEAD
 This bar chart displays the top 5 suppliers who purchase our advertisement at the most expensive rate and the bottom 5 of them. We find the Stewart Group (SUP261309764) is the customer who is the most willing to pay for our advertisement service.
 
 # Conclusion
@@ -1380,3 +1385,6 @@ In conclusion, to create our model of an e-commerce platform, we utilised a 7-en
 Subsequently, by leveraging A.I., we generated datasets for each entity. To ensure synthetic data was realistic and logical quality assurance procedures and data integrity checks (such as Referential Integrity and Entity Integrity Checks)
 
 A GitHub repository and a workflow process was then utilised to manage and version-control our project and automate data management process by establishing validation process for every 2 hours. Efficient project management framework through continuous integration with GitHub Actions. Lastly data Analysis and visualisations were carried out to identify data trends and statistical insights.
+=======
+These bar charts display the top 5 suppliers who purchase our advertisement at the most expensive rate and the bottom 5 of them. We find the Stewart Group (SUP261309764) is the customer who is the most willing to pay for our advertisement service.
+>>>>>>> e00da8c629028b9e55486b9174762a770f5a5eca

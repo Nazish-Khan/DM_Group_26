@@ -5,14 +5,13 @@ library(tidyverse)
 library(RSQLite)
 
 
-# Part 4: Data Analysis and Visualization
-
-
 # Get the required data from the database
 
+library(patchwork)
 conn <- RSQLite::dbConnect(RSQLite::SQLite(),dbname = "database/database.db")
 # Get data from database into a dataframe
-tables_to_read <- c("ADVERTISEMENTS", "WAREHOUSES", "SUPPLY","STORE","PRODUCTS","ORDERS_DETAILS","ORDERS","CUSTOMERS","SUPPLIERS","CATEGORY")
+tables_to_read <- c("ADVERTISEMENTS", "WAREHOUSES", "SUPPLY","STORE","PRODUCTS"
+                    ,"ORDERS_DETAILS","ORDERS","CUSTOMERS","SUPPLIERS","CATEGORY")
 
 # Initialize an empty list to store data frames
 dfs <- list()
@@ -49,15 +48,18 @@ SELECT *
 FROM `SUPPLY` s
 JOIN PRODUCTS p ON s.product_id = p.product_id
 "
+
 # Execute the SQL query and fetch the result into a dataframe
 result_df <- dbGetQuery(conn, sql_query)
 
 supply_product_df <- dbGetQuery(conn, sql_supply_query)
 
+
 RSQLite::dbDisconnect(conn)
 
 # Define the color palette
-color_palette <- c("purple","pink","darkblue","blue","lightblue","black","darkgrey","white")
+color_palette <- c("purple","pink","darkblue","blue",
+                   "lightblue","black","darkgrey","white")
 
 # Check for duplicate column names
 duplicate_columns <- anyDuplicated(names(result_df)) > 0
@@ -79,9 +81,9 @@ if (!dir.exists(figure_directory)) {
 this_filename_date <- as.character(Sys.Date())
 this_filename_time <- as.character(format(Sys.time(), format = "%H_%M"))
 
+# 4.1 - Product Performance Analysis
 
-## Product Performance Analysis
-
+# Top-Bottom Selling Products:
 
 # Best-selling products / low-selling products and their categories.
 
@@ -101,7 +103,8 @@ low_products <- product_sales_grouped %>%
   slice_head(n = 5)
 
 # Bar plot of best-selling products
-top10_product <- ggplot(top_products, aes(x = total_quantity_sold, y = reorder(product_name, total_quantity_sold), fill = category_id)) +
+top10_product <- ggplot(top_products, aes(x = total_quantity_sold, 
+                                          y = reorder(product_name, total_quantity_sold), fill = category_id)) +
   geom_bar(stat = "identity") +
   labs(title = "Top 5 Best-Selling Products",
        x = "Total Quantity Sold",
@@ -113,9 +116,10 @@ top10_product <- ggplot(top_products, aes(x = total_quantity_sold, y = reorder(p
         legend.position = "none")
 
 # Bar plot of low-selling products
-bottom10_product <- ggplot(low_products, aes(x = total_quantity_sold, y = reorder(product_name, desc(total_quantity_sold)), fill = category_id)) +
+bottom10_product <- ggplot(low_products, aes(x = total_quantity_sold, 
+                                             y = reorder(product_name, desc(total_quantity_sold)), fill = category_id)) +
   geom_bar(stat = "identity") +
-  labs(title = "Below 5 Worst-Selling Products",
+  labs(title = "Below 5 Low-Selling Products",
        x = "Total Quantity Sold",
        y = "Product Name") +
   theme_minimal() +
@@ -131,6 +135,8 @@ combined_plot <- top10_product + bottom10_product +
 # Print the combined plot
 print(combined_plot)
 
+#Reviews based Order Status Change Analysis:
+  
 # Density plot
 density_plot <- ggplot(result_df, aes(x = product_reviewscore, fill = order_status)) +
   geom_density(alpha = 0.8) +
@@ -141,22 +147,20 @@ density_plot <- ggplot(result_df, aes(x = product_reviewscore, fill = order_stat
   scale_fill_manual(values = color_palette) +
   theme_minimal()
 
+
+# Save plot figure
+ggsave(filename = paste0(figure_directory, "selling_product_trend_", 
+                         this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = combined_plot)
+ggsave(filename = paste0(figure_directory, "rating_status_plot_", 
+                         this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = density_plot)
+
 # Print the plot
 print(density_plot)
 
+#4.2 - Product-Category Analysis
 
-# Save plot figure
-ggsave(filename = paste0(figure_directory, "selling_product_trend_", this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = combined_plot)
-ggsave(filename = paste0(figure_directory, "rating_status_plot_", this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = density_plot)
-
-
-## Sales Analysis
-
-
-
-
-## Product-Category Analysis
-
+#Reviews based Category Analysis:
+  
 
 # Calculate average review scores for each category
 category_review_scores <- product %>%
@@ -168,9 +172,11 @@ category_review_scores <- category_review_scores %>%
   left_join(category, by = "category_id")
 
 # Bar plot of average review scores by category
-avg_review_plot <- ggplot(category_review_scores, aes(x = reorder(category_name, -average_review_score), y = average_review_score, fill = category_id)) +
+avg_review_plot <- ggplot(category_review_scores, 
+                          aes(x = reorder(category_name, -average_review_score), y = average_review_score, fill = category_id)) +
   geom_bar(stat = "identity") +
-  geom_text(aes(label = round(average_review_score, 2)), vjust = -0.5, color = "black", size = 3.5) + 
+  geom_text(aes(label = round(average_review_score, 2)), vjust = -0.5, 
+            color = "black", size = 3.5) + 
   labs(title = "Average Customer Values by Category",
        x = "Category",
        y = "Average Review Score") +
@@ -188,8 +194,12 @@ avg_review_plot <- ggplot(category_review_scores, aes(x = reorder(category_name,
 
 print(avg_review_plot)
 
+#Profit Margin Analysis:
+  
 # Calculate profit margin
-supply_product_df$profit_margin <- supply_product_df$product_price - supply_product_df$product_cost
+supply_product_df_origin <- supply_product_df # copy for a return data
+supply_product_df$profit_margin <- supply_product_df$product_price - 
+  supply_product_df$product_cost
 
 # Check for duplicate column names
 duplicate_columns1 <- anyDuplicated(names(supply_product_df)) > 0
@@ -199,13 +209,16 @@ if (duplicate_columns1) {
   supply_product_df <- supply_product_df[, !duplicated(names(supply_product_df))]
 }
 
+# Mutate the Category ID to name
+matchindex <- match(supply_product_df$category_id,category_data$category_id)
+supply_product_df$category_id <- category_data$category_name[matchindex]
 
 # Margin Plot for the product wise profit average
 margin_plot <- ggplot(supply_product_df, aes(x = category_id, y = profit_margin)) +
   geom_boxplot() +  # Boxplot to show distribution
-  stat_summary(fun.y = mean, geom = "line", aes(group = 1), color = "red") +  # Average line
-  stat_summary(fun.y = min, geom = "line", aes(group = 1), color = "green") +   # Minimum line
-  stat_summary(fun.y = max, geom = "line", aes(group = 1), color = "black") + # Maximum line
+  stat_summary(fun.y = mean, geom = "line", aes(group = 1), color = "purple") +
+  stat_summary(fun.y = min, geom = "line", aes(group = 1), color = "grey") + 
+  stat_summary(fun.y = max, geom = "line", aes(group = 1), color = "blue") + 
   labs(title = "Profit Margin by Product",
        x = "Product Name",
        y = "Profit Margin") +
@@ -213,17 +226,21 @@ margin_plot <- ggplot(supply_product_df, aes(x = category_id, y = profit_margin)
   scale_fill_manual(values = color_palette) +
   theme_minimal()
 
-print(margin_plot)
 
 # Save plot figure
-ggsave(filename = paste0(figure_directory, "review_category_plot_", this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = avg_review_plot)
-ggsave(filename = paste0(figure_directory, "profit_margin_plot_", this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = margin_plot)
+ggsave(filename = paste0(figure_directory, "review_category_plot_", 
+                         this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = avg_review_plot)
+ggsave(filename = paste0(figure_directory, "profit_margin_plot_", 
+                         this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = margin_plot)
 
+## return the data to its original form again ##
+supply_product_df <- supply_product_df_origin
 
-## Customer Analysis
+print(margin_plot)
 
+# 4.3 - Customer Analysis
 
-# Customer Segmentation
+#Customer Segmentation:
 
 # Segment customers based on country
 customers_country <- customer %>%
@@ -231,7 +248,8 @@ customers_country <- customer %>%
   summarise(total_customers = n())
 
 # Plot for number of customers by country
-cust_segm <- ggplot(customers_country, aes(x = customer_country, y = total_customers, fill = customer_country)) +
+cust_segm <- ggplot(customers_country, aes(x = customer_country, y = total_customers, 
+                                           fill = customer_country)) +
   geom_bar(stat = "identity") +
   labs(title = "Number of Customers by Country",
        x = "Country",
@@ -250,6 +268,57 @@ cust_segm <- ggplot(customers_country, aes(x = customer_country, y = total_custo
         legend.text = element_text(color = "blue"))
 
 print(cust_segm)
+
+
+#Customer Preferences in France: 
+  
+
+# Merge category name to the result_df table
+matchindex <- match(result_df$category_id,category$category_id)
+result_df$category_name <- category$category_name[matchindex]
+
+# Select France customers
+product_fra <- result_df %>%
+  filter(customer_country == "France")
+product_fra_cate <- product_fra %>%
+  group_by(category_name) %>%
+  summarise(quantity=sum(order_quantity))
+
+# Calculate the percentage of product category in France
+category_totals <- aggregate(quantity ~ category_name, data = product_fra_cate, sum)
+total_quantity <- sum(category_totals$quantity)
+category_totals$percentage <- category_totals$quantity / total_quantity * 100
+
+# Plot the pie chart
+cust_france_plot <- ggplot(category_totals, aes(x = "", y = percentage, fill = category_name)) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar("y", start = 0) +
+  geom_text(aes(label = paste(round(percentage, 1), "%")), color = 'white',position = position_stack(vjust = 0.5)) +
+  scale_fill_manual(values = color_palette) +
+  labs(title = "Customer Preferences in France",
+       fill = "Category",
+       x = NULL, y = NULL) +
+  theme_void() +
+  theme(legend.position = "right") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1), 
+        panel.background = element_rect(fill = "white", color = "blue"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.line = element_line(color = "blue"),
+        axis.title = element_text(color = "blue"),
+        axis.text = element_text(color = "blue"),
+        legend.title = element_text(color = "blue"),
+        legend.text = element_text(color = "blue"))
+
+
+# Save plot figure
+ggsave(filename = paste0(figure_directory, "customer_prefrences_plot-", 
+                         this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = cust_france_plot)
+print(cust_france_plot)
+
+
+#Payment Method Trend:
+  
 
 # Create the payment analysis ggplot
 payment_trend_plot <- ggplot(result_df, aes(x = payment_date, fill = payment_method)) +
@@ -271,17 +340,22 @@ payment_trend_plot <- ggplot(result_df, aes(x = payment_date, fill = payment_met
         legend.title = element_text(color = "blue"),
         legend.text = element_text(color = "blue"))
 
+
+
+
+# Save plot figure
+ggsave(filename = paste0(figure_directory, "customer_segment_", 
+                         this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = cust_segm)
+ggsave(filename = paste0(figure_directory, "payment_trend_plot_", 
+                         this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = payment_trend_plot)
+
 # Print the plot
 print(payment_trend_plot)
 
 
-# Save plot figure
-ggsave(filename = paste0(figure_directory, "customer_segment_", this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = cust_segm)
-ggsave(filename = paste0(figure_directory, "payment_trend_plot_", this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = payment_trend_plot)
+#4.4 - Ads vs Supplier Analysis
 
-
-## Ads vs Supplier Analysis
-
+#Top-Bottom Supplier Contribution in Ads Revenue:
 
 # Advertisement Analysis
 
@@ -311,7 +385,8 @@ bottom_suppliers <- ads %>%
 
 
 # Bar plot of top 5 suppliers paying the highest price per day
-top5_suppliers_plot <- ggplot(top_suppliers, aes(x = avg_price_per_day, y = reorder(supplier_id, avg_price_per_day), fill = supplier_id)) +
+top5_suppliers_plot <- ggplot(top_suppliers, aes(x = avg_price_per_day, 
+                                                 y = reorder(supplier_id, avg_price_per_day), fill = supplier_id)) +
   geom_bar(stat = "identity") +
   labs(title = "Top 5 Suppliers with Highest Price per Day",
        x = "Average Price per Day",
@@ -323,7 +398,8 @@ top5_suppliers_plot <- ggplot(top_suppliers, aes(x = avg_price_per_day, y = reor
         legend.position = "none")
 
 # Bar plot of bottom 5 suppliers paying the lowest price per day
-bottom5_suppliers_plot <- ggplot(bottom_suppliers, aes(x = avg_price_per_day, y = reorder(supplier_id, avg_price_per_day), fill = supplier_id)) +
+bottom5_suppliers_plot <- ggplot(bottom_suppliers, aes(x = avg_price_per_day, 
+                                                       y = reorder(supplier_id, avg_price_per_day), fill = supplier_id)) +
   geom_bar(stat = "identity") +
   labs(title = "Bottom 5 Suppliers with Lowest Price per Day",
        x = "Average Price per Day",
@@ -338,9 +414,13 @@ bottom5_suppliers_plot <- ggplot(bottom_suppliers, aes(x = avg_price_per_day, y 
 combined_suppliers_plot <- top5_suppliers_plot + bottom5_suppliers_plot +
   plot_layout(nrow = 2)
 
-# Print the combined plot
-print(combined_suppliers_plot)
 
 # Save plot figure
 
-ggsave(filename = paste0(figure_directory, "ads_supplier_plot_", this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = combined_suppliers_plot)
+ggsave(filename = paste0(figure_directory, "ads_supplier_plot_", 
+                         this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = combined_suppliers_plot)
+
+# Print the combined plot
+print(combined_suppliers_plot)
+
+

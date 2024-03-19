@@ -1,59 +1,66 @@
 ---
-title: "Group 26 E-commerce Database"
-author: "Group_26"
+title: "E-commerce Database Design"
+author: "IB9HP0 Group_26"
 format: pdf 
+code-overflow: wrap
 geometry: 
       - top=30mm
       - left=20mm
       - right=20mm
       - heightrounded
+margin:
+      x: 2.53cm
+      y: 2.53cm
 editor: visual
+fontfamily: libertinus
 toc: true
 ---
 
+{{< pagebreak >}}
+
 ## Introduction
 
-The introduction of E-commerce has revolutionised the way businesses operate. Allowing customers to shop from a global range of products, within the convenience of their homes.
+The introduction of E-commerce has revolutionised the way businesses operate. It allows customers to shop from a global range of products from the convenience of their homes. Most organisations use database structures to manage the functioning of these platforms, as they allow for the control of large amounts of information. A well-designed e-commerce database serves as a foundation for the platform's effective operations.
 
-To manage the functioning of these platforms most organisations use database structures as they allow to control large amounts of information. A well designed e-commerce database serves as a foundation for effective operations of the platform.
-
-In this report, we will delve into the structure of our e-commerce database by providing an overview of the model. Starting with the ER diagram and schema creation after which, we generate the synthetic data and create a Github repository. This is followed with the visualization of our data generated.
+In this report, we will delve into the structure of our e-commerce database by providing an overview of the model. Starting with the ER diagram and schema creation, after which we generate the synthetic data and create a GitHub repository. This is followed by the visualisation of our data generated.
 
 The workflows associated with our database can be found in the GitHub link provided here - <https://github.com/Nazish-Khan/DM_Group_26>
 
+{{< pagebreak >}}
+
 # Part 1: Database Design process
 
-## 1.1.1 Conceptual Schema
+### 1.1.1 Conceptual Schema
 
-Following a process, The ER serves as a visual representation of the structure of our database our system. Its purpose is to provide a clear depiction of the entities within the database and the relationships that exist between them. By examining this diagram, stakeholders gain insights into the organization and interconnections of data within the database.
+Following a process, The ER serves as a visual representation of the structure of our database our system. Its purpose is to provide a clear depiction of the entities within the database and the relationships that exist between them. By examining this diagram, stakeholders gain insights into the organisation and interconnections of data within the database.
 
-#### Entities
+**Entities**
 
-1.  Suppliers - Represents entities that supply products into our system.
+1.  SUPPLIERS - Represent entities that supply products into our system.
 
-2.  Advertisement - Represents promotional advertisements associated with products and the webpage.
+2.  ADVERTISEMENTS - Represent promotional advertisements associated with products and the webpage.
 
-3.  Order Details - Represents the details of multiple orders placed by individual customers.
+3.  ORDER DETAILS - Represent the details of multiple orders placed by individual customers.
 
-4.  Products - Represents individual products available in our system.
+4.  PRODUCTS - Represent individual products available in our system.
 
-5.  Category - Represents categories or types to which products belong.
+5.  CATEGORY - Represents categories or types to which products belong.
 
-6.  Customers - Represents individual customers who place orders.
+6.  CUSTOMERS - Represent individual customers who place orders.
 
-7.  Warehouse - Represents physical locations where products are stored.
+7.  WAREHOUSES - Represents physical locations where products are stored.
 
-Figure 1 below illustrates our Entity-Relationship (E-R) diagram, showcasing 7 entities along with their respective attributes. Within the diagram, we observe several one-to-many relationships and many-to-many relationships existing between entities as well as self-referencing within a customer entity. Through this diagram, we can visualize how different entities interact and relate to each other within the database.
+Figure 1 below illustrates our Entity-Relationship (E-R) diagram, showcasing seven entities along with their respective attributes. Within the diagram, we observe several one-to-many relationships and many-to-many relationships existing between entities as well as self-referencing within a customer entity. Through this diagram, we can visualise how different entities interact and relate to each other within the database.
 
-![Figure 1 - ER Diagram](project_pics/ER-Diagram-x.jpg)
+![Figure 1 - ER Diagram](project_pics/ER_Diagram.png){width="60%"}
+
+{{< pagebreak >}}
 
 ### 1.1.2 Relationship Sets and Cardinality
 
-The diamond-shaped link between 2 entities helps form a relationship and a group of similar associations or links between entities within an Entity-Relationship (ER) model is called a Relationship Set. A relationship set captures the connections and interactions between entities, providing valuable information about the relationships within a database.
-
 From the ER diagram, we have formed our relationship and in the image below we have illustrated 6 different relationship sets with different carnality.
 
-![Figure 2- Relationship Sets](project_pics/Relationship sets.jpg)
+![Figure 2- Relationship Sets](project_pics/relationship_sets.png){width="80%"}
 
 1.  **Advertisement-display-Products**: In this [many-to-one relationship]{.underline} set, we see multiple advertisements being displayed for a single product. This relationship enables advertisers to create different advertisements to promote the same product. Furthermore, target different audiences and highlight different aspects of the product's features and benefits.
 
@@ -63,33 +70,33 @@ From the ER diagram, we have formed our relationship and in the image below we h
 
 4.  **Supplier-supply-Product**: In this [many-to-many relationship]{.underline}, a supplier can provide various products to an e-commerce platform, while each product can be sourced from multiple suppliers. This relationship provides flexibility in managing inventory and sourcing products.
 
-5.  **Products-include-Category**: This [many-to-one relationship]{.underline} allows for efficient organization and classification of products within the e-commerce platform. It enables customers to browse and search for products based on specific categories, making it easier to navigate and find relevant items.
+5.  **Products-include-Category**: This [many-to-one relationship]{.underline} allows for efficient organisation and classification of products within the e-commerce platform. It enables customers to browse and search for products based on specific categories, making it easier to navigate and find relevant items.
 
 6.  **Product-Order details – Supplier- Customer- order**: In an e-commerce platform, the [many-to-many relationship]{.underline} among Products, Orders, Customers, Suppliers, and Order Details streamlines complex interactions. It enables multiple products to be associated with multiple orders, facilitating flexible inventory management and order fulfillment. This relationship structure is crucial for effective inventory, order, and supplier management, ensuring seamless operations in the e-commerce environment.
 
+{{< pagebreak >}}
+
 ### 1.1.3 Assumptions
 
--   Assumed no multi-value variables exist - for example all customers have singular addresses and phone numbers.
+-   Assumed no multi-value variables exist - for example, all customers have singular addresses and phone numbers.
 
--   Each product assumed to be assigned only 1 category - no multi-category products exist.
+-   Each product assumed to be assigned only one category - no multi-category products exist.
 
 -   The eCommerce system is assumed to be a single database representing the structure of a single database system - no interactions from external systems or databases unless they are integral to the design.
 
 -   Security measures such as user authentication, data encryption and compliance with regulatory bodies (GDPR, consumer act and etc) have been met.
 
--   Assumed that the system handles payment processing securely with integration of gateways to facilitating multiple payment methods (such as credit/debit cards, digital wallets, etc)
+-   Assumed that the system handles payment processing securely with the integration of gateways to facilitate multiple payment methods (such as credit/debit cards, digital wallets, etc.)
 
--   Assumed customers can refer other customers with main customer base from western Europe
+-   Assumed customers can refer other customers with a main customer base from Western Europe
 
 -   The store date is included to identify the product quantity kept at each warehouse on the particular day for the purpose of an inventory management.
 
--   Due to geographical considerations and operational efficiency we will not factor discounts and supplier bulk-buying.
+-   Due to geographical considerations and operational efficiency, we will not factor in discounts and supplier bulk-buying.
 
--   All transactions carried using Euro
+-   All transactions carried out using Euro.
 
--   ***Assumed that we have procedures in place for regular backups / recovery to protect against data loss and system failures. - with establish backup schedules, retention policies, and disaster recovery plans to ensure the availability and integrity of the e-commerce database.***
-
-## 1.1.4 Logical Schema
+### 1.1.4 Logical Schema
 
 After transferring the relational schema to logical, we have the following tables (underline denote primary key, double underline denote foreign key) with the addition of each table attributes.
 
@@ -134,7 +141,7 @@ Therefore, we resolved this problem by splitting up the address column of addres
 We determine the type of each attributes as follows;
 
 | Attributes                                   | Type         | Reason                                                                                                                                                                                                                                      |
-|------------------|------------------|------------------------------------|
+|-------------------|-------------------|-----------------------------------|
 | ID                                           | VARCHAR(15)  | We decide to synthesis our ID data by using a combination of uppercase letter(s) with digits. We select this pattern to ensure that the data contain in this format is unique since we will use these item as a primary key in many tables. |
 | Name, Street, City, Country, Postcode, Email | VARCHAR(255) | We select the type VARCHAR for these attributes since these items are information about location or information that can be read and understand by the users who have an access to this database.                                           |
 | Date                                         | DATE         | We select the DATE type in respond to the value we will contain under this attribute.                                                                                                                                                       |
@@ -144,7 +151,7 @@ We determine the type of each attributes as follows;
 
 After considering the circumstances above, physical schema using SQLite was created as follows;
 
-```{r creationTable}
+```{r creationTable .code-overflow-wrap}
 
 # Read the relevant libraries
 library(RSQLite)
@@ -158,7 +165,8 @@ my_connection <- RSQLite::dbConnect(RSQLite::SQLite(),dbname = db_file)
 print(my_connection)
 
 # Delete if tables already exist
-#drop_tables <- "DROP TABLE IF EXISTS SUPPLIERS, CUSTOMERS, PRODUCTS, ADS, WAREHOUSE, CATEGORY, ORDER_DETAILS, ORDERS_PAYMENT, SUPPLY, STORE, ORDERS;"
+#drop_tables <- "DROP TABLE IF EXISTS SUPPLIERS, CUSTOMERS, 
+#PRODUCTS, ADS, WAREHOUSE, CATEGORY,ORDER_DETAILS, ORDERS_PAYMENT, SUPPLY, STORE, ORDERS;"
 
 # Entity Table Creation
 
@@ -324,7 +332,7 @@ RSQLite::dbDisconnect(my_connection)
 
 ```
 
-------------------------------------------------------------------------
+{{< pagebreak >}}
 
 # PART 2: Data Generation and Management
 
@@ -336,24 +344,26 @@ The code associated with foreign key relation can be found in the GitHub link pr
 
 Please see our example of generative data sets below;
 
+Table 1.1: Supplier data set
+
 ```{r, echo=FALSE }
 library(readr) 
 library(kableExtra)
 
 supplier_data <- read_csv("data_upload/Supplier/supplier_data_v1.csv",show_col_types = FALSE) 
-kable(head(supplier_data, 5)) %>% kable_styling(font_size = 10)
+kable(head(supplier_data, 2)) %>% kable_styling(font_size = 6)
 
 ```
 
-Table 1.1: Supplier data set
+Table 1.2: Customer data set
 
 ```{r, echo=FALSE}
 customer_data <- read_csv("data_upload/Customer/customer_data_v1.csv",show_col_types = FALSE) 
 
-kable(head(customer_data, 5)) %>% kable_styling(font_size = 10)
+kable(head(customer_data, 5)) %>% kable_styling(font_size = 6)
 ```
 
-Table 1.2: Customer data set
+Table 1.3: Advertisement data set
 
 ```{r, echo=FALSE}
 advertisement_data <- read_csv("data_upload/Advertisement/advertisement_data_v1.csv",show_col_types = FALSE) 
@@ -361,7 +371,7 @@ advertisement_data <- read_csv("data_upload/Advertisement/advertisement_data_v1.
 kable(head(advertisement_data, 5)) %>% kable_styling(font_size = 10)
 ```
 
-Table 1.3: Advertisement data set
+Table 1.4: Warehouse data set
 
 ```{r, echo=FALSE}
 warehouse_data <- read_csv("data_upload/Warehouse/warehouse_data_v1.csv",show_col_types = FALSE) 
@@ -369,7 +379,7 @@ warehouse_data <- read_csv("data_upload/Warehouse/warehouse_data_v1.csv",show_co
 kable(head(advertisement_data, 5)) %>% kable_styling(font_size = 10)
 ```
 
-Table 1.4: Warehouse data set
+Table 1.5: Product data set
 
 ```{r, echo=FALSE}
 product_data <- read_csv("data_upload/Product/product_data_v1.csv",show_col_types = FALSE) 
@@ -377,7 +387,7 @@ product_data <- read_csv("data_upload/Product/product_data_v1.csv",show_col_type
 kable(head(product_data, 5)) %>% kable_styling(font_size = 10)
 ```
 
-Table 1.5: product data set
+Table 1.6: category data set
 
 ```{r, echo=FALSE}
 category_data <- read_csv("data_upload/Category/category_data_v1.csv",show_col_types = FALSE) 
@@ -385,7 +395,7 @@ category_data <- read_csv("data_upload/Category/category_data_v1.csv",show_col_t
 kable(head(category_data, 5)) %>% kable_styling(font_size = 10)
 ```
 
-Table 1.6: category data set
+Table 1.7: Order Details data set
 
 ```{r, echo=FALSE}
 order_details_data <- read_csv("data_upload/Order_details/order_details_data_v1.csv",show_col_types = FALSE) 
@@ -393,14 +403,14 @@ order_details_data <- read_csv("data_upload/Order_details/order_details_data_v1.
 kable(head(order_details_data, 5)) %>% kable_styling(font_size = 10)
 ```
 
-Table 1.7: order details data set
+Table 1.8: Supply data set
 
 ```{r, echo=FALSE}
 supply_data <- read_csv("data_upload/Supply/supply_data_v1.csv",show_col_types = FALSE) 
 kable(head(supply_data, 5)) %>% kable_styling(font_size = 10)
 ```
 
-Table 1.8: supply data set
+Table 1.9: Store data set
 
 ```{r, echo=FALSE}
 store_data <- read_csv("data_upload/Store/store_data_v1.csv",show_col_types = FALSE) 
@@ -408,7 +418,7 @@ store_data <- read_csv("data_upload/Store/store_data_v1.csv",show_col_types = FA
 kable(head(store_data, 5)) %>% kable_styling(font_size = 10)
 ```
 
-Table 1.9: warehouse data set
+Table 1.10: order data set
 
 ```{r, echo=FALSE}
 order_data <- read_csv("data_upload/Order/order_data_v1.csv",show_col_types = FALSE) 
@@ -416,7 +426,7 @@ order_data <- read_csv("data_upload/Order/order_data_v1.csv",show_col_types = FA
 kable(head(order_data, 5)) %>% kable_styling(font_size = 10)
 ```
 
-Table 1.10: order data set
+{{< pagebreak >}}
 
 ## 2.2 - Data Import and Quality Assurance
 
@@ -444,7 +454,6 @@ library(stringr)
 library(fs)
 library(dplyr)
 library(DBI)
-library(ggplot2)
 
 
 # Function to find the latest version of a file in a folder
@@ -541,7 +550,7 @@ for (table_name1 in names(composite_keys)) {
   # Check for null values in each column of the composite primary key
   for (key_column in key_columns) {
     if (any(is.na(table_data1[[key_column]]))) {
-      errors[[table_name]] <- paste("Null value detected in", key_column, "of", table_name1, "\n")
+      errors[[table_name]] <- paste("Null value detected in", key_column, "of", table_name1,"\n")
       #cat("Null value detected in", key_column, "of", table_name1, "\n")
     }
   }
@@ -554,11 +563,13 @@ validate_email <- function(email) {
 # Validate email format
 invalid_customer_emails <- which(!validate_email(customer_data$customer_email))
 if (length(invalid_customer_emails) > 0) {
-  errors$customer_email <- paste("Invalid email format detected for customers:", toString(invalid_customer_emails))
+  errors$customer_email <- paste("Invalid email format detected for customers:",
+                                 toString(invalid_customer_emails))
 }
 invalid_supplier_emails <- which(!validate_email(supplier_data$supplier_email))
 if (length(invalid_supplier_emails) > 0) {
-  errors$supplier_email <- paste("Invalid email format detected for suppliers:", toString(invalid_supplier_emails))
+  errors$supplier_email <- paste("Invalid email format detected for suppliers:",
+                                 toString(invalid_supplier_emails))
 }
 
 # Validate Primary Key Format
@@ -566,49 +577,56 @@ if (length(invalid_supplier_emails) > 0) {
 supplier_id_pattern <- "^SUP\\d{9,}$"     # Define regex pattern for supplier_id
 invalid_supplier_ids <- which(!grepl(supplier_id_pattern, supplier_data$supplier_id))
 if (length(invalid_supplier_ids) > 0) {
-  errors$supplier_id <- paste("Invalid supplier IDs detected at index:", toString(invalid_supplier_ids))
+  errors$supplier_id <- paste("Invalid supplier IDs detected at index:", 
+                              toString(invalid_supplier_ids))
 }
 
 # Advertisement ID Format
 ads_id_pattern <- "^AD\\d{9,}$"                # Define regex pattern for ads_id
 invalid_ads_ids <- which(!grepl(ads_id_pattern, advertisement_data$ads_id))
 if (length(invalid_ads_ids) > 0) {
-  errors$ads_id <- paste("Invalid Ads IDs detected at index:", toString(invalid_ads_ids))
+  errors$ads_id <- paste("Invalid Ads IDs detected at index:", 
+                         toString(invalid_ads_ids))
 }
 
 # Customer ID Format
 cust_id_pattern <- "^CUS\\d{9,}$"                # Define regex pattern for customer_id
 invalid_cust_ids <- which(!grepl(cust_id_pattern, customer_data$customer_id))
 if (length(invalid_cust_ids) > 0) {
-  errors$customer_id <- paste("Invalid Customer IDs detected at index:", toString(invalid_cust_ids))
+  errors$customer_id <- paste("Invalid Customer IDs detected at index:", 
+                              toString(invalid_cust_ids))
 }
 
 # Product ID Format
 product_id_pattern <- "^P\\d{8,}$"                # Define regex pattern for product_id
 invalid_product_ids <- which(!grepl(product_id_pattern, product_data$product_id))
 if (length(invalid_product_ids) > 0) {
-  errors$product_id <- paste("Invalid Product IDs detected at index:", toString(invalid_product_ids))
+  errors$product_id <- paste("Invalid Product IDs detected at index:", 
+                             toString(invalid_product_ids))
 }
 
 # Category ID Format
 category_id_pattern <- "^CAT\\d{10}$"                # Define regex pattern for product_id
 invalid_cat_ids <- which(!grepl(category_id_pattern, category_data$category_id))
 if (length(invalid_cat_ids) > 0) {
-  errors$category_id <- paste("Invalid Category IDs detected at index:", toString(invalid_cat_ids))
+  errors$category_id <- paste("Invalid Category IDs detected at index:", 
+                              toString(invalid_cat_ids))
 }
 
 # Order ID Format
 ord_id_pattern <- "^ORD\\d{10}$"                # Define regex pattern for order_id
 invalid_ord_ids <- which(!grepl(ord_id_pattern, order_details_data$order_id))
 if (length(invalid_ord_ids) > 0) {
-  errors$order_id <- paste("Invalid Order IDs detected at index:", toString(invalid_ord_ids))
+  errors$order_id <- paste("Invalid Order IDs detected at index:", 
+                           toString(invalid_ord_ids))
 }
 
 # Warehouse ID Format
 ware_id_pattern <- "^W\\d{8,}$"                # Define regex pattern for Warehouse ID
 invalid_ware_ids <- which(!grepl(ware_id_pattern, warehouse_data$warehouse_id))
 if (length(invalid_ware_ids) > 0) {
-  errors$warehouse_id <- paste("Invalid Warehouse IDs detected at index:", toString(invalid_ware_ids))
+  errors$warehouse_id <- paste("Invalid Warehouse IDs detected at index:", 
+                               toString(invalid_ware_ids))
 }
 
 # Check for duplicate records in single primary key entities
@@ -625,7 +643,7 @@ for (table_name in names(composite_keys)) {
   table_data <- eval(parse(text = table_name))
   
   if (anyDuplicated(table_data[key_columns])) {
-    errors[[table_name]] <- paste("Duplicate records detected for composite primary key in", table_name)
+    errors[[table_name]] <- paste("Duplicate records detected for composite primary key in",table_name)
   }
 }
 
@@ -693,10 +711,11 @@ if (length(errors) > 0) {
   
   # Product table foreign key
   missing_foreign_keys1 <- c()
-  missing_foreign_keys1 <- c(missing_foreign_keys1, check_referential_integrity(product_data, "category_id", category_db))
+  missing_foreign_keys1 <- c(missing_foreign_keys1, 
+                             check_referential_integrity(product_data, "category_id", category_db))
   if (length(missing_foreign_keys1) > 0) {
     print("Missing foreign keys found:")
-    print(unique(unlist(missing_foreign_keys1)))
+    #print(unique(unlist(missing_foreign_keys1)))
   } else {
     print("No missing foreign keys found.")
     print("Adding Products Data")
@@ -705,24 +724,28 @@ if (length(errors) > 0) {
   
   # Advertisements table foreign key
   missing_foreign_keys2 <- c()
-  missing_foreign_keys2 <- c(missing_foreign_keys2, check_referential_integrity(advertisement_data, "product_id", products_db))
-  missing_foreign_keys2 <- c(missing_foreign_keys2, check_referential_integrity(advertisement_data, "supplier_id", suppliers_db))
+  missing_foreign_keys2 <- c(missing_foreign_keys2, 
+                             check_referential_integrity(advertisement_data, "product_id", products_db))
+  missing_foreign_keys2 <- c(missing_foreign_keys2, 
+                             check_referential_integrity(advertisement_data, "supplier_id", suppliers_db))
   if (length(missing_foreign_keys2) > 0) {
     print("Missing foreign keys found:")
-    print(unique(unlist(missing_foreign_keys2)))
+    #print(unique(unlist(missing_foreign_keys2)))
   } else {
     print("No missing foreign keys found.")
     print("Adding Ads Data")
-    RSQLite::dbWriteTable(my_connection, "ADVERTISEMENTS", advertisement_data, append = TRUE)
+    RSQLite::dbWriteTable(my_connection, "ADVERTISEMENTS", advertisement_data, 
+                          append = TRUE)
   }  
   
 
   # Customer table foreign key
   missing_foreign_keys3 <- c()
-  missing_foreign_keys3 <- c(missing_foreign_keys3, check_referential_integrity2(customer_data, "related_id", customer_db,"customer_id"))
+  missing_foreign_keys3 <- c(missing_foreign_keys3, 
+                             check_referential_integrity2(customer_data, "related_id", customer_db,"customer_id"))
   if (length(missing_foreign_keys3) > 0) {
     print("Missing foreign keys found:")
-    print(unique(unlist(missing_foreign_keys3)))
+    #print(unique(unlist(missing_foreign_keys3)))
   } else {
     print("No missing foreign keys found.")
     print("Adding Customer Data")
@@ -732,8 +755,10 @@ if (length(errors) > 0) {
   
   # Supply table foreign keys
   missing_foreign_keys4 <- c()
-  missing_foreign_keys4 <- c(missing_foreign_keys4, check_referential_integrity(supply_data, "product_id", products_db))
-  missing_foreign_keys4 <- c(missing_foreign_keys4, check_referential_integrity(supply_data, "supplier_id", suppliers_db))
+  missing_foreign_keys4 <- c(missing_foreign_keys4, 
+                             check_referential_integrity(supply_data, "product_id", products_db))
+  missing_foreign_keys4 <- c(missing_foreign_keys4, 
+                             check_referential_integrity(supply_data, "supplier_id", suppliers_db))
   if (length(missing_foreign_keys4) > 0) {
     print("Missing foreign keys found:")
     print(unique(unlist(missing_foreign_keys4)))
@@ -745,11 +770,13 @@ if (length(errors) > 0) {
   
   # Store table foreign keys
   missing_foreign_keys5 <- c()
-  missing_foreign_keys5 <- c(missing_foreign_keys5, check_referential_integrity(store_data, "product_id", products_db))
-  missing_foreign_keys5 <- c(missing_foreign_keys5, check_referential_integrity(store_data, "warehouse_id", warehouse_db))
+  missing_foreign_keys5 <- c(missing_foreign_keys5, 
+                             check_referential_integrity(store_data, "product_id", products_db))
+  missing_foreign_keys5 <- c(missing_foreign_keys5, 
+                             check_referential_integrity(store_data, "warehouse_id", warehouse_db))
   if (length(missing_foreign_keys5) > 0) {
     print("Missing foreign keys found:")
-    print(unique(unlist(missing_foreign_keys5)))
+    #print(unique(unlist(missing_foreign_keys5)))
   } else {
     print("No missing foreign keys found.")
     print("Adding Store Data")
@@ -758,13 +785,17 @@ if (length(errors) > 0) {
   
   # Orders table foreign keys
   missing_foreign_keys6 <- c()
-  missing_foreign_keys6 <- c(missing_foreign_keys6, check_referential_integrity(order_data, "product_id", products_db))
-  missing_foreign_keys6 <- c(missing_foreign_keys6, check_referential_integrity(order_data, "supplier_id", suppliers_db))
-  missing_foreign_keys6 <- c(missing_foreign_keys6, check_referential_integrity(order_data, "order_id", order_details_db))
-  missing_foreign_keys6 <- c(missing_foreign_keys6, check_referential_integrity(order_data, "customer_id", customer_db))
+  missing_foreign_keys6 <- c(missing_foreign_keys6, 
+                             check_referential_integrity(order_data, "product_id", products_db))
+  missing_foreign_keys6 <- c(missing_foreign_keys6, 
+                             check_referential_integrity(order_data, "supplier_id", suppliers_db))
+  missing_foreign_keys6 <- c(missing_foreign_keys6, 
+                             check_referential_integrity(order_data, "order_id", order_details_db))
+  missing_foreign_keys6 <- c(missing_foreign_keys6, 
+                             check_referential_integrity(order_data, "customer_id", customer_db))
   if (length(missing_foreign_keys6) > 0) {
     print("Missing foreign keys found:")
-    print(unique(unlist(missing_foreign_keys6)))
+    #print(unique(unlist(missing_foreign_keys6)))
   } else {
     print("No missing foreign keys found.")
     print("Adding Order Data")
@@ -779,23 +810,27 @@ if (length(errors) > 0) {
 
 ```
 
+{{< pagebreak >}}
+
 # Part 3: Data Pipeline Generation
 
-## 3.1 - **GitHub Repository and Workflow Setup**
+## 3.1 - GitHub Repository and Workflow Setup
 
-Objective: We utilized a GitHub repository to manage and version-control our project, ensuring a structured and organized approach to project management.
+Objective: We utilised a GitHub repository to manage and version-control our project, ensuring a structured and organized approach to project management.
 
 Approach: Our GitHub repository contains essential files and folders, including:
 
 -   R folder: Contains all R scripts for data processing and analysis.
 
--   data_upload folder: Houses new data set uploads, facilitating easy access and management of incoming data.
+-   data_upload folder: Houses new data set to be uploaded, facilitating easy access and management of incoming data.
 
--   database folder: Stores the database file, ensuring centralized access to the project's database.
+-   data_versions folder: Contains all the datasets in csv file for all the tables for push
+
+-   database folder: Stores the database file, ensuring centralised access to the project's database.
 
 -   qmd file: Serves as the project report, documenting project progress, findings, and insights.
 
--   figures folder: Stores all plots generated by R scripts, enhancing visualization and analysis capabilities.
+-   figures folder: Stores all plots generated by R scripts, enhancing visualisation and analysis capabilities.
 
 -   project_pics folder: Contains project structure-related images for reference and documentation.
 
@@ -803,7 +838,7 @@ Approach: Our GitHub repository contains essential files and folders, including:
 
 -   README.md file: Provides essential information about the project, including setup instructions, project overview, and contact details.
 
-## 3.2 - **GitHub Actions for Continuous Integration**
+## 3.2 - GitHub Actions for Continuous Integration
 
 Objective: To automate data validation, database updates, and basic data analysis tasks using GitHub Actions, ensuring efficient project management and maintenance.
 
@@ -825,16 +860,13 @@ Approach: We implemented a GitHub Actions workflow triggered on specific events,
 
 8.  Push changes: Pushes committed changes to the main branch of the GitHub repository, updating the repository with the latest data and analysis results.
 
-Conclusion: Through effective GitHub repository and workflow setup, coupled with GitHub Actions for continuous integration, we have established a robust framework for managing, version-controlling, and automating project tasks. This streamlined approach enhances collaboration, ensures data quality and integrity, and promotes efficient project maintenance and scalability.
+Through effective GitHub repository and workflow setup, coupled with GitHub Actions for continuous integration, we have established a robust framework for managing, version-controlling, and automating project tasks. This streamlined approach enhances collaboration, ensures data quality and integrity, and promotes efficient project maintenance and scalability.
 
 ```{r github_workflow, eval=FALSE, warning=FALSE}
 
-name: Update Repo with result
-
-
 on:
-#  schedule:
-#    - cron: '0 */3 * * *' # Run every 3 hours
+  schedule:
+    - cron: '0 */5 * * *' # Run every 5 hours
   push:
     branches: [ main ]
     #paths:
@@ -861,7 +893,7 @@ jobs:
       - name: Install packages
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
-          Rscript -e 'install.packages(c("readr","RSQLite","stringr","dplyr","fs","ggplot2"))'
+          Rscript -e 'install.packages(c("readr","RSQLite","stringr","dplyr","fs","ggplot2","tidyverse","patchwork"))'
       - name: Execute R script
         run: |
           Rscript R/transformation.R
@@ -881,19 +913,21 @@ jobs:
             branch: main
 ```
 
-# Part 4: Data Analysis and Visualization
+# Part 4: Data Analysis and Visualisation
 
 In this final part, we will analyse and visualise our data set and perform a fundamental analysis by manipulating data using RSQLite and visualising them using the package "ggplot2"
 
-```{r warning=FALSE, echo=FALSE}
+```{r warning=FALSE}
 # Get the required data from the database
 
 library(patchwork)
+library(ggplot2)
 conn <- RSQLite::dbConnect(RSQLite::SQLite(),dbname = "database/database.db")
 # Get data from database into a dataframe
-tables_to_read <- c("ADVERTISEMENTS", "WAREHOUSES", "SUPPLY","STORE","PRODUCTS","ORDERS_DETAILS","ORDERS","CUSTOMERS","SUPPLIERS","CATEGORY")
+tables_to_read <- c("ADVERTISEMENTS", "WAREHOUSES", "SUPPLY","STORE","PRODUCTS"
+                    ,"ORDERS_DETAILS","ORDERS","CUSTOMERS","SUPPLIERS","CATEGORY")
 
-# Initialize an empty list to store data frames
+# Initialise an empty list to store data frames
 dfs <- list()
 
 # Loop through each table
@@ -928,15 +962,18 @@ SELECT *
 FROM `SUPPLY` s
 JOIN PRODUCTS p ON s.product_id = p.product_id
 "
+
 # Execute the SQL query and fetch the result into a dataframe
 result_df <- dbGetQuery(conn, sql_query)
 
 supply_product_df <- dbGetQuery(conn, sql_supply_query)
 
+
 RSQLite::dbDisconnect(conn)
 
 # Define the color palette
-color_palette <- c("purple","pink","darkblue","blue","lightblue","black","darkgrey","white")
+color_palette <- c("purple","pink","darkblue","blue",
+                   "lightblue","black","darkgrey","white")
 
 # Check for duplicate column names
 duplicate_columns <- anyDuplicated(names(result_df)) > 0
@@ -959,9 +996,11 @@ this_filename_date <- as.character(Sys.Date())
 this_filename_time <- as.character(format(Sys.time(), format = "%H_%M"))
 ```
 
-## Product Performance Analysis
+## 4.1 - Product Performance Analysis
 
-```{r warning=FALSE, echo=FALSE}
+**Top-Bottom Selling Products:**
+
+```{r warning=FALSE}
 # Best-selling products / low-selling products and their categories.
  
 # Summarize total quantity sold by product
@@ -980,7 +1019,8 @@ low_products <- product_sales_grouped %>%
   slice_head(n = 5)
 
 # Bar plot of best-selling products
-top10_product <- ggplot(top_products, aes(x = total_quantity_sold, y = reorder(product_name, total_quantity_sold), fill = category_id)) +
+top10_product <- ggplot(top_products, aes(x = total_quantity_sold, 
+                                          y = reorder(product_name, total_quantity_sold), fill = category_id)) +
   geom_bar(stat = "identity") +
   labs(title = "Top 5 Best-Selling Products",
        x = "Total Quantity Sold",
@@ -992,9 +1032,10 @@ top10_product <- ggplot(top_products, aes(x = total_quantity_sold, y = reorder(p
         legend.position = "none")
 
 # Bar plot of low-selling products
-bottom10_product <- ggplot(low_products, aes(x = total_quantity_sold, y = reorder(product_name, desc(total_quantity_sold)), fill = category_id)) +
+bottom10_product <- ggplot(low_products, aes(x = total_quantity_sold, 
+                                             y = reorder(product_name, desc(total_quantity_sold)), fill = category_id)) +
   geom_bar(stat = "identity") +
-  labs(title = "Below 5 Worst-Selling Products",
+  labs(title = "Below 5 Low-Selling Products",
        x = "Total Quantity Sold",
        y = "Product Name") +
   theme_minimal() +
@@ -1015,7 +1056,9 @@ print(combined_plot)
 
 This bar chart displays the top five best-selling products and the bottom five bestselling products. The Reebok Classic Leather is the best-selling product, whereas the Hunger Games Series has the poorest performance.
 
-```{r warning=FALSE, echo=FALSE}
+**Reviews based Order Status Change Analysis:**
+
+```{r warning=FALSE}
 
 # Density plot
 density_plot <- ggplot(result_df, aes(x = product_reviewscore, fill = order_status)) +
@@ -1027,27 +1070,24 @@ density_plot <- ggplot(result_df, aes(x = product_reviewscore, fill = order_stat
   scale_fill_manual(values = color_palette) +
   theme_minimal()
 
-# Print the plot
-print(density_plot)
-
 
 # Save plot figure
-ggsave(filename = paste0(figure_directory, "selling_product_trend_", this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = combined_plot)
-ggsave(filename = paste0(figure_directory, "rating_status_plot_", this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = density_plot)
+ggsave(filename = paste0(figure_directory, "selling_product_trend_", 
+                         this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = combined_plot)
+ggsave(filename = paste0(figure_directory, "rating_status_plot_", 
+                         this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = density_plot)
+
+# Print the plot
+print(density_plot)
 ```
 
 This graph exhibits the relationship between the number of each order status and the product review score; we can notice that almost all Cancelled orders receive a review score lower than 3. Also, the processing order needs a better product review score.
 
-## Sales Analysis
+## 4.2 - Product-Category Analysis
 
-```{r warning=FALSE, echo=FALSE}
+**Reviews based Category Analysis:**
 
-
-```
-
-## Product-Category Analysis
-
-```{r warning=FALSE, echo=FALSE}
+```{r warning=FALSE}
 # Calculate average review scores for each category
 category_review_scores <- product %>%
   group_by(category_id) %>%
@@ -1058,9 +1098,11 @@ category_review_scores <- category_review_scores %>%
   left_join(category, by = "category_id")
 
 # Bar plot of average review scores by category
-avg_review_plot <- ggplot(category_review_scores, aes(x = reorder(category_name, -average_review_score), y = average_review_score, fill = category_id)) +
+avg_review_plot <- ggplot(category_review_scores, 
+                          aes(x = reorder(category_name, -average_review_score), y = average_review_score, fill = category_id)) +
   geom_bar(stat = "identity") +
-  geom_text(aes(label = round(average_review_score, 2)), vjust = -0.5, color = "black", size = 3.5) + 
+  geom_text(aes(label = round(average_review_score, 2)), colour = "white", vjust = -0.5, 
+            color = "black", size = 3.5) + 
   labs(title = "Average Customer Values by Category",
        x = "Category",
        y = "Average Review Score") +
@@ -1083,44 +1125,59 @@ print(avg_review_plot)
 
 Among all the product categories, the products in these three categories received the most favourable reviews from our customers.
 
-```{r warning=FALSE, echo=FALSE}
-# Calculate profit margin
-supply_product_df$profit_margin <- supply_product_df$product_price - supply_product_df$product_cost
+**Profit Margin Analysis:**
 
+```{r warning=FALSE}
+# Calculate profit margin
+supply_product_df_origin <- supply_product_df # copy for a return data
+supply_product_df$profit_margin <- supply_product_df$product_price - 
+  supply_product_df$product_cost
+ 
 # Check for duplicate column names
 duplicate_columns1 <- anyDuplicated(names(supply_product_df)) > 0
-
+ 
 # If there are duplicate column names, remove them
 if (duplicate_columns1) {
   supply_product_df <- supply_product_df[, !duplicated(names(supply_product_df))]
 }
-
-
+ 
+# Mutate the Category ID to name
+matchindex <- match(supply_product_df$category_id,category_data$category_id)
+supply_product_df$category_id <- category_data$category_name[matchindex]
+ 
 # Margin Plot for the product wise profit average
 margin_plot <- ggplot(supply_product_df, aes(x = category_id, y = profit_margin)) +
   geom_boxplot() +  # Boxplot to show distribution
-  stat_summary(fun.y = mean, geom = "line", aes(group = 1), color = "red") +  # Average line
-  stat_summary(fun.y = min, geom = "line", aes(group = 1), color = "green") +   # Minimum line
-  stat_summary(fun.y = max, geom = "line", aes(group = 1), color = "black") + # Maximum line
+  stat_summary(fun.y = mean, geom = "line", aes(group = 1), color = "purple") +
+  stat_summary(fun.y = min, geom = "line", aes(group = 1), color = "grey") + 
+  stat_summary(fun.y = max, geom = "line", aes(group = 1), color = "blue") + 
   labs(title = "Profit Margin by Product",
        x = "Product Name",
        y = "Profit Margin") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))+ # Rotate x-axis labels
   scale_fill_manual(values = color_palette) +
   theme_minimal()
-
-print(margin_plot)
-
+ 
+ 
 # Save plot figure
-ggsave(filename = paste0(figure_directory, "review_category_plot_", this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = avg_review_plot)
-ggsave(filename = paste0(figure_directory, "profit_margin_plot_", this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = margin_plot)
+ggsave(filename = paste0(figure_directory, "review_category_plot_", 
+                         this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = avg_review_plot)
+ggsave(filename = paste0(figure_directory, "profit_margin_plot_", 
+                         this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = margin_plot)
+ 
+## return the data to its original form again ##
+supply_product_df <- supply_product_df_origin
+ 
+print(margin_plot)
 ```
 
-As can be seen from the chart, the profit margin for the product in an electronic category (CAT5960069590) is the highest among all categories. The green line displays the lowest margin of each product category. We can observe that each product category's lowest margins are aligned, with no significant difference. In comparison, each category's mean and the highest margin figure seem significant. The electronic section exhibited the best performance among all sections, as can be noticed from the red line that represents the mean of the margin and the black line that represents the highest margin.
+As can be seen from the chart, the gray line displays the lowest margin of each product category. We can observe that each product category's lowest margins are aligned, with no significant difference. In comparison, each category's mean and the highest margin figure seem significant. The electronic section exhibited the best performance among all sections, as can be noticed from the purple line that represents the mean of the margin and the blue line that represents the highest margin.
 
-## Customer Analysis
+## 4.3 - Customer Analysis
 
-```{r warning=FALSE, echo=FALSE}
+**Customer Segmentation:**
+
+```{r warning=FALSE}
 # Customer Segmentation
 
 # Segment customers based on country
@@ -1129,7 +1186,8 @@ customers_country <- customer %>%
   summarise(total_customers = n())
 
 # Plot for number of customers by country
-cust_segm <- ggplot(customers_country, aes(x = customer_country, y = total_customers, fill = customer_country)) +
+cust_segm <- ggplot(customers_country, aes(x = customer_country, y = total_customers, 
+                                           fill = customer_country)) +
   geom_bar(stat = "identity") +
   labs(title = "Number of Customers by Country",
        x = "Country",
@@ -1154,7 +1212,58 @@ print(cust_segm)
 
 These bar charts illustrate the distribution of our application users by each country. Most of our users are live or have placed an order in France.
 
-```{r warning=FALSE, echo=FALSE}
+**Customer Preferences in France:**
+
+```{r warning=FALSE}
+# Merge category name to the result_df table
+matchindex <- match(result_df$category_id,category$category_id)
+result_df$category_name <- category$category_name[matchindex]
+ 
+# Select France customers
+product_fra <- result_df %>%
+  filter(customer_country == "France")
+product_fra_cate <- product_fra %>%
+  group_by(category_name) %>%
+  summarise(quantity=sum(order_quantity))
+ 
+# Calculate the percentage of product category in France
+category_totals <- aggregate(quantity ~ category_name, data = product_fra_cate, sum)
+total_quantity <- sum(category_totals$quantity)
+category_totals$percentage <- category_totals$quantity / total_quantity * 100
+ 
+# Plot the pie chart
+cust_france_plot <- ggplot(category_totals, aes(x = "", y = percentage, fill = category_name)) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar("y", start = 0) +
+  geom_text(aes(label = paste(round(percentage, 1), "%")), color = 'white',position = position_stack(vjust = 0.5)) +
+  scale_fill_manual(values = color_palette) +
+  labs(title = "Customer Preferences in France",
+       fill = "Category",
+       x = NULL, y = NULL) +
+  theme_void() +
+  theme(legend.position = "right") +
+theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1), 
+        panel.background = element_rect(fill = "white", color = "blue"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.line = element_line(color = "blue"),
+        axis.title = element_text(color = "blue"),
+        axis.text = element_text(color = "white"),
+        legend.title = element_text(color = "blue"),
+        legend.text = element_text(color = "blue"))
+
+
+# Save plot figure
+ggsave(filename = paste0(figure_directory, "customer_prefrences_plot-", 
+                         this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = cust_france_plot)
+print(cust_france_plot)
+```
+
+The above is showcasing the categories including Books, Electronics, and Footwear distribution in France country for total orders.
+
+**Payment Method Trend:**
+
+```{r warning=FALSE}
 # Create the payment analysis ggplot
 payment_trend_plot <- ggplot(result_df, aes(x = payment_date, fill = payment_method)) +
   geom_bar(stat = "count", position = "dodge") +
@@ -1175,20 +1284,26 @@ theme_minimal() +
         legend.title = element_text(color = "blue"),
         legend.text = element_text(color = "blue"))
 
-# Print the plot
-print(payment_trend_plot)
+
 
 
 # Save plot figure
-ggsave(filename = paste0(figure_directory, "customer_segment_", this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = cust_segm)
-ggsave(filename = paste0(figure_directory, "payment_trend_plot_", this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = payment_trend_plot)
+ggsave(filename = paste0(figure_directory, "customer_segment_", 
+                         this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = cust_segm)
+ggsave(filename = paste0(figure_directory, "payment_trend_plot_", 
+                         this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = payment_trend_plot)
+
+# Print the plot
+print(payment_trend_plot)
 ```
 
-By observing the payment method throughout the year, we notice that a bank transfer displayed an abnormally high number of transactions in January 2023, while the figure for this payment method seems normal in other periods.
+The bar charts display the distribution of payment methods, the most common method overtime is a Bank transfer.
 
-## Ads vs Supplier Analysis
+## 4.4 - Ads vs Supplier Analysis
 
-```{r warning=FALSE, echo=FALSE}
+**Top-Bottom Supplier Contribution in Ads Revenue:**
+
+```{r warning=FALSE}
 # Advertisement Analysis
 
 # Convert date format to Date type
@@ -1217,7 +1332,8 @@ bottom_suppliers <- ads %>%
 
 
 # Bar plot of top 5 suppliers paying the highest price per day
-top5_suppliers_plot <- ggplot(top_suppliers, aes(x = avg_price_per_day, y = reorder(supplier_id, avg_price_per_day), fill = supplier_id)) +
+top5_suppliers_plot <- ggplot(top_suppliers, aes(x = avg_price_per_day, 
+                                                 y = reorder(supplier_id, avg_price_per_day), fill = supplier_id)) +
   geom_bar(stat = "identity") +
   labs(title = "Top 5 Suppliers with Highest Price per Day",
        x = "Average Price per Day",
@@ -1229,7 +1345,8 @@ top5_suppliers_plot <- ggplot(top_suppliers, aes(x = avg_price_per_day, y = reor
         legend.position = "none")
 
 # Bar plot of bottom 5 suppliers paying the lowest price per day
-bottom5_suppliers_plot <- ggplot(bottom_suppliers, aes(x = avg_price_per_day, y = reorder(supplier_id, avg_price_per_day), fill = supplier_id)) +
+bottom5_suppliers_plot <- ggplot(bottom_suppliers, aes(x = avg_price_per_day, 
+                                                       y = reorder(supplier_id, avg_price_per_day), fill = supplier_id)) +
   geom_bar(stat = "identity") +
   labs(title = "Bottom 5 Suppliers with Lowest Price per Day",
        x = "Average Price per Day",
@@ -1244,12 +1361,22 @@ bottom5_suppliers_plot <- ggplot(bottom_suppliers, aes(x = avg_price_per_day, y 
 combined_suppliers_plot <- top5_suppliers_plot + bottom5_suppliers_plot +
   plot_layout(nrow = 2)
 
-# Print the combined plot
-print(combined_suppliers_plot)
 
 # Save plot figure
 
-ggsave(filename = paste0(figure_directory, "ads_supplier_plot_", this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = combined_suppliers_plot)
+ggsave(filename = paste0(figure_directory, "ads_supplier_plot_", 
+                         this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = combined_suppliers_plot)
+
+# Print the combined plot
+print(combined_suppliers_plot)
 ```
 
 This bar chart displays the top 5 suppliers who purchase our advertisement at the most expensive rate and the bottom 5 of them. We find the Stewart Group (SUP261309764) is the customer who is the most willing to pay for our advertisement service.
+
+# Conclusion
+
+In conclusion, to create our model of an e-commerce platform, we utilised a 7-entity database structure. The ER diagram visually represented each entity and relationship, essential for understanding data organisation whilst taking into account certain assumptions. The data was then normalised to 3NF and physical schema creation was outlined to using SQL (DDL) to ensure database integrity.
+
+Subsequently, by leveraging A.I., we generated datasets for each entity. To ensure synthetic data was realistic and logical quality assurance procedures and data integrity checks (such as Referential Integrity and Entity Integrity Checks)
+
+A GitHub repository and a workflow process was then utilised to manage and version-control our project and automate data management process by establishing validation process for every 2 hours. Efficient project management framework through continuous integration with GitHub Actions. Lastly data Analysis and visualisations were carried out to identify data trends and statistical insights.

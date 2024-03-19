@@ -1,24 +1,33 @@
 ---
-title: "Data Managment Group Assignment 1"
+title: "Group 26 E-commerce Database"
 author: "Group_26"
-format: pdf
+format: pdf 
+geometry: 
+      - top=30mm
+      - left=20mm
+      - right=20mm
+      - heightrounded
 editor: visual
 toc: true
 ---
 
-# Introduction
+## Introduction
 
 The introduction of E-commerce has revolutionised the way businesses operate. Allowing customers to shop from a global range of products, within the convenience of their homes.
 
 To manage the functioning of these platforms most organisations use database structures as they allow to control large amounts of information. A well designed e-commerce database serves as a foundation for effective operations of the platform.
 
-In this report, we will delve into the structure of our e-commerce database by providing an overview of the model. starting with the ER diagram and schema creation after which, we generate the synthetic data and create a Github repository. This is followed with the visualization of our data generated.
+In this report, we will delve into the structure of our e-commerce database by providing an overview of the model. Starting with the ER diagram and schema creation after which, we generate the synthetic data and create a Github repository. This is followed with the visualization of our data generated.
 
 The workflows associated with our database can be found in the GitHub link provided here - <https://github.com/Nazish-Khan/DM_Group_26>
 
 # Part 1: Database Design process
 
-### Entities
+## 1.1.1 Conceptual Schema
+
+Following a process, The ER serves as a visual representation of the structure of our database our system. Its purpose is to provide a clear depiction of the entities within the database and the relationships that exist between them. By examining this diagram, stakeholders gain insights into the organization and interconnections of data within the database.
+
+#### Entities
 
 1.  Suppliers - Represents entities that supply products into our system.
 
@@ -34,39 +43,35 @@ The workflows associated with our database can be found in the GitHub link provi
 
 7.  Warehouse - Represents physical locations where products are stored.
 
-## Conceptual Schema
-
-Following a process, The ER serves as a visual representation of the structure of our database our system. Its purpose is to provide a clear depiction of the entities within the database and the relationships that exist between them. By examining this diagram, stakeholders gain insights into the organization and interconnections of data within the database.
-
-Figure 1 below illustrates our Entity-Relationship (E-R) diagram, showcasing 7 entities along with their respective attributes. Within the diagram, we observe several one-to-many relationships, as well as a single many-to-many relationship existing between Product and Customer entities. Through this diagram, we can visualize how different entities interact and relate to each other within the database.
+Figure 1 below illustrates our Entity-Relationship (E-R) diagram, showcasing 7 entities along with their respective attributes. Within the diagram, we observe several one-to-many relationships and many-to-many relationships existing between entities as well as self-referencing within a customer entity. Through this diagram, we can visualize how different entities interact and relate to each other within the database.
 
 ![Figure 1 - ER Diagram](project_pics/ER-Diagram-x.jpg)
 
-### Relationship Sets and Cardinality
+### 1.1.2 Relationship Sets and Cardinality
 
-Relationship sets, in the context of databases and Entity-Relationship (E-R) modeling, refer to collections of related tuples (or records) that connect entities based on their associations or interactions. These relationship sets define how entities are linked to each other and describe the nature of their connections. The diamond-shaped link between 2 entities helps form a relationship and a group of similar associations or links between entities within an Entity-Relationship (ER) model is called a Relationship Set. A relationship set captures the connections and interactions between entities, providing valuable information about the relationships within a database.
+The diamond-shaped link between 2 entities helps form a relationship and a group of similar associations or links between entities within an Entity-Relationship (ER) model is called a Relationship Set. A relationship set captures the connections and interactions between entities, providing valuable information about the relationships within a database.
 
-From the ER diagram, we have formed our relationship and in the image below we have illustrated 6 different relationship sets with different carnality ratios.
+From the ER diagram, we have formed our relationship and in the image below we have illustrated 6 different relationship sets with different carnality.
 
-![Figure 2- Relationship sets](project_pics/Relationship%20sets.jpg)
+![Figure 2- Relationship Sets](project_pics/Relationship sets.jpg)
 
 1.  **Advertisement-display-Products**: In this [many-to-one relationship]{.underline} set, we see multiple advertisements being displayed for a single product. This relationship enables advertisers to create different advertisements to promote the same product. Furthermore, target different audiences and highlight different aspects of the product's features and benefits.
 
-2.  **Products-store-Warehouse**: This is a [many-to-many relationship]{.underline} set, meaning that both multiple products can be stored in multiple warehouses. This structure makes for highly flexible inventory management, allowing for distribution of products across different warehouses. As a result, this relationship allows efficient inventory management by allocating stock based on demand and location.
+2.  **Warehouse-store-Products:** This is a [many-to-many relationship]{.underline} set, meaning that both multiple products can be stored in multiple warehouses. This structure makes for highly flexible inventory management, allowing for distribution of products across different warehouses. As a result, this relationship allows efficient inventory management by allocating stock based on demand and location.
 
-3.  **Advertisement-purchase-Supplier**: In this [many-to-one relationship]{.underline} set, multiple advertisements can be purchased by a single supplier. This means that different advertisements promoting various products could be purchased from the same supplier. Therefore, the model can effectively showcase the supplier's range of products.
+3.  **Supplier-purchase-Advertisement**: In this [one-to-many relationship]{.underline} set, multiple advertisements can be purchased by a single supplier. This means that different advertisements promoting various products could be purchased from the same supplier. Therefore, the model can effectively showcase the supplier's range of products.
 
-4.  **Products-supply-Supplier**: In this [many-to-many relationship]{.underline}, a supplier can provide various products to an e-commerce platform, while each product can be sourced from multiple suppliers. This relationship provides flexibility in managing inventory and sourcing products.
+4.  **Supplier-supply-Product**: In this [many-to-many relationship]{.underline}, a supplier can provide various products to an e-commerce platform, while each product can be sourced from multiple suppliers. This relationship provides flexibility in managing inventory and sourcing products.
 
 5.  **Products-include-Category**: This [many-to-one relationship]{.underline} allows for efficient organization and classification of products within the e-commerce platform. It enables customers to browse and search for products based on specific categories, making it easier to navigate and find relevant items.
 
-6.  **Product-Order details – Supplier- Customer- order**: In an e-commerce platform, the [many-to-many relationship]{.underline} among Products, Orders, Customers, Suppliers, and Order Details streamlines complex interactions. It enables multiple products to be associated with multiple orders, facilitating flexible inventory management and order fulfilment. This relationship structure is crucial for effective inventory, order, and supplier management, ensuring seamless operations in the e-commerce environment.
+6.  **Product-Order details – Supplier- Customer- order**: In an e-commerce platform, the [many-to-many relationship]{.underline} among Products, Orders, Customers, Suppliers, and Order Details streamlines complex interactions. It enables multiple products to be associated with multiple orders, facilitating flexible inventory management and order fulfillment. This relationship structure is crucial for effective inventory, order, and supplier management, ensuring seamless operations in the e-commerce environment.
 
-### Assumption
+### 1.1.3 Assumptions
 
 -   Assumed no multi-value variables exist - for example all customers have singular addresses and phone numbers.
 
--   Each product assumed to be assigned only 1 category - no multi-catagory products exist.
+-   Each product assumed to be assigned only 1 category - no multi-category products exist.
 
 -   The eCommerce system is assumed to be a single database representing the structure of a single database system - no interactions from external systems or databases unless they are integral to the design.
 
@@ -76,15 +81,17 @@ From the ER diagram, we have formed our relationship and in the image below we h
 
 -   Assumed customers can refer other customers with main customer base from western Europe
 
--   Assuming company is fairly new
+-   The store date is included to identify the product quantity kept at each warehouse on the particular day for the purpose of an inventory management.
 
--   Order Tracking and Status Updates: Assumed functionality includes order tracking features that enable customers to monitor the status of their orders in real-time and receive notifications for order updates such as shipment tracking numbers or delivery estimate.
+-   Due to geographical considerations and operational efficiency we will not factor discounts and supplier bulk-buying.
 
--   Backup and Recovery: Implement regular backup and recovery procedures to protect against data loss or system failures. Establish backup schedules, retention policies, and disaster recovery plans to ensure the availability and integrity of the e-commerce database
+-   All transactions carried using Euro
 
-## Logical Schema
+-   ***Assumed that we have procedures in place for regular backups / recovery to protect against data loss and system failures. - with establish backup schedules, retention policies, and disaster recovery plans to ensure the availability and integrity of the e-commerce database.***
 
-After transferring the relational schema to logical, we have the following tables (underline denote primary key, double underline denote foreign key) with the addition of each table attributes
+## 1.1.4 Logical Schema
+
+After transferring the relational schema to logical, we have the following tables (underline denote primary key, double underline denote foreign key) with the addition of each table attributes.
 
 For Entity tables
 
@@ -110,9 +117,11 @@ For relationship table
 
 -   **ORDER** ($\underline{\underline{product\_id},\underline{customer\_id},\underline{supplier\_id},\underline{order\_id}}$, order_transaction_date, order_quantity)
 
-### Normalisation
+## 1.2.1 Normalisation
 
-However, we notice that the address attributes in SUPPLIERS, CUSTOMERS and WAREHOUSES table are not normalised up to 3NF as the address details contain information of street, city, country and postcode, which are non-atomic value. Therefore, we resolve this problem by splitting up the address column of address in these table to be stress, city, country and postcode. The logical schema of these three tables after normalisation process are as follow;
+However, we noticed that the address attributes in SUPPLIERS, CUSTOMERS and WAREHOUSES table were not normalised up to 3NF as the address details (contained information of street, city, country and postcode) which were non-atomic value.
+
+Therefore, we resolved this problem by splitting up the address column of address in these table to be street, city, country and postcode. The logical schema of these three tables after normalisation process are as follow;
 
 -   **SUPPLIERS** ($\underline{supplier\_id}$, supplier_name, supplier_street, supplier_city, supplier_country, supplier_postcode, supplier_contact, supplier_email)
 
@@ -120,18 +129,20 @@ However, we notice that the address attributes in SUPPLIERS, CUSTOMERS and WAREH
 
 -   **WAREHOUSES** ($\underline{warehouse\_id}$, warehouse_street, warehouse_city, warehouse_country, warehouse_postcode, warehouse_contact)
 
--   After we ensure that our logical schema is designed up to 3NF from, we start the process of transforming it to be a physical schema by creating its skeleton using SQLite. We determine the type of each attributes as follows;
+-   After we ensured that our logical schema was designed up to 3NF, we started the process of transforming it to a physical schema by creating its skeleton using SQLite.
+
+We determine the type of each attributes as follows;
 
 | Attributes                                   | Type         | Reason                                                                                                                                                                                                                                      |
-|----------------------------------------------|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|------------------|------------------|------------------------------------|
 | ID                                           | VARCHAR(15)  | We decide to synthesis our ID data by using a combination of uppercase letter(s) with digits. We select this pattern to ensure that the data contain in this format is unique since we will use these item as a primary key in many tables. |
 | Name, Street, City, Country, Postcode, Email | VARCHAR(255) | We select the type VARCHAR for these attributes since these items are information about location or information that can be read and understand by the users who have an access to this database.                                           |
 | Date                                         | DATE         | We select the DATE type in respond to the value we will contain under this attribute.                                                                                                                                                       |
 | Price, Quantity                              | INT          | As these items must be able to compute and the nature of these information represent a numerical value.                                                                                                                                     |
 
-## Physical Schema
+## 1.2.2 Physical Schema
 
-After considering the circumstance above, we create our physical schema by using SQLite as follow;
+After considering the circumstances above, physical schema using SQLite was created as follows;
 
 ```{r creationTable}
 
@@ -277,6 +288,9 @@ CREATE TABLE IF NOT EXISTS ORDERS (
     FOREIGN KEY (order_id) REFERENCES ORDERS_DETAILS(order_id)
 );"
 
+```
+
+```{r Execute, eval= FALSE}
 
 # Execute the SQL statements
 result <- RSQLite::dbExecute(my_connection, sql_suppliers)
@@ -291,6 +305,9 @@ RSQLite::dbExecute(my_connection, sql_supply)
 RSQLite::dbExecute(my_connection, sql_store)
 RSQLite::dbExecute(my_connection, sql_orders)
 
+```
+
+```{r List Tables, echo=FALSE}
 
 # List all tables in the database
 tables <- dbListTables(my_connection)
@@ -313,93 +330,101 @@ RSQLite::dbDisconnect(my_connection)
 
 ## 2.1 - Synthetic Data Generation
 
-We use a generative A.I. such as a data generating website like 'Mockaroo' to generate a data set for each entity to make sure that the synthetic data is realistic and logical. However, we do not include any foreign keys in these data sets, and we do not create any data for relationship tables from this platform.
+We used a generative A.I. (such as a data generating website like 'Mockaroo') to generate a data set for each entity; making sure that the synthetic data was realistic and logical. After receiving these synthetic data set, we create foreign key(s) for any required entity. We also generate relationship table in an R software to ensure that the composite keys in these entities are selected appropriately.
 
 The code associated with foreign key relation can be found in the GitHub link provided here - <https://github.com/Nazish-Khan/DM_Group_26/blob/main/R/Data_Manipulation.Rmd>
 
-Please see our example of generative supplier data set as below;
+Please see our example of generative data sets below;
 
-```{r}
+```{r, echo=FALSE }
 library(readr) 
+library(kableExtra)
 
 supplier_data <- read_csv("data_upload/Supplier/supplier_data_v1.csv",show_col_types = FALSE) 
-head(supplier_data,5)
+kable(head(supplier_data, 5)) %>% kable_styling(font_size = 10)
+
 ```
 
 Table 1.1: Supplier data set
 
-```{r}
+```{r, echo=FALSE}
 customer_data <- read_csv("data_upload/Customer/customer_data_v1.csv",show_col_types = FALSE) 
-head(customer_data,5)
+
+kable(head(customer_data, 5)) %>% kable_styling(font_size = 10)
 ```
 
 Table 1.2: Customer data set
 
-```{r}
+```{r, echo=FALSE}
 advertisement_data <- read_csv("data_upload/Advertisement/advertisement_data_v1.csv",show_col_types = FALSE) 
-head(advertisement_data,5)
+
+kable(head(advertisement_data, 5)) %>% kable_styling(font_size = 10)
 ```
 
 Table 1.3: Advertisement data set
 
-```{r}
+```{r, echo=FALSE}
 warehouse_data <- read_csv("data_upload/Warehouse/warehouse_data_v1.csv",show_col_types = FALSE) 
-head(warehouse_data,5)
+
+kable(head(advertisement_data, 5)) %>% kable_styling(font_size = 10)
 ```
 
 Table 1.4: Warehouse data set
 
-```{r}
+```{r, echo=FALSE}
 product_data <- read_csv("data_upload/Product/product_data_v1.csv",show_col_types = FALSE) 
-head(product_data,5)
+
+kable(head(product_data, 5)) %>% kable_styling(font_size = 10)
 ```
 
 Table 1.5: product data set
 
-```{r}
+```{r, echo=FALSE}
 category_data <- read_csv("data_upload/Category/category_data_v1.csv",show_col_types = FALSE) 
-head(category_data,5)
+
+kable(head(category_data, 5)) %>% kable_styling(font_size = 10)
 ```
 
 Table 1.6: category data set
 
-```{r}
+```{r, echo=FALSE}
 order_details_data <- read_csv("data_upload/Order_details/order_details_data_v1.csv",show_col_types = FALSE) 
-head(order_details_data,5)
+
+kable(head(order_details_data, 5)) %>% kable_styling(font_size = 10)
 ```
 
 Table 1.7: order details data set
 
-After receiving a data set for each table, we use a package 'tidyverse' in an R software to randomly create a foreign key to any table, which contains this key in its table according to our logical database design. Please see the whole code of data manipulation in Appendix 1.
-
-```{r}
+```{r, echo=FALSE}
 supply_data <- read_csv("data_upload/Supply/supply_data_v1.csv",show_col_types = FALSE) 
-head(supply_data,5)
+kable(head(supply_data, 5)) %>% kable_styling(font_size = 10)
 ```
 
 Table 1.8: supply data set
 
-```{r}
+```{r, echo=FALSE}
 store_data <- read_csv("data_upload/Store/store_data_v1.csv",show_col_types = FALSE) 
-head(store_data,5)
+
+kable(head(store_data, 5)) %>% kable_styling(font_size = 10)
 ```
 
 Table 1.9: warehouse data set
 
-```{r}
+```{r, echo=FALSE}
 order_data <- read_csv("data_upload/Order/order_data_v1.csv",show_col_types = FALSE) 
-head(order_data,5)
+
+kable(head(order_data, 5)) %>% kable_styling(font_size = 10)
 ```
 
 Table 1.10: order data set
 
 ## 2.2 - Data Import and Quality Assurance
 
--   Data Import:
+-   **Data Import:**
 
 To streamline our data import process, we've established a structured approach. Every table has its own folder under the "data_upload" directory that contains CSV files with a version suffix (e.g., "\_data_v1.csv"). Every update to the data is posted into the folder associated with that table. We run a transformation.R script that is specifically made for this purpose in order to add the most recent version of the data to our database. This effective procedure makes sure that our database is always current with the most recent revisions of the data, which makes data administration and analysis easier.
 
--   Quality Assurance:
+-   **Quality Assurance:**
 
 In order to achieve our goal of importing produced data into the SQL database while maintaining data quality, we have coded an extensive data import procedure. Quality assurance procedures and thorough data integrity checks are part of this process. To ensure adherence to common norms, we have specifically created validation methods for the following checks:
 
@@ -764,7 +789,7 @@ Approach: Our GitHub repository contains essential files and folders, including:
 
 -   R folder: Contains all R scripts for data processing and analysis.
 
--   data_upload folder: Houses new dataset uploads, facilitating easy access and management of incoming data.
+-   data_upload folder: Houses new data set uploads, facilitating easy access and management of incoming data.
 
 -   database folder: Stores the database file, ensuring centralized access to the project's database.
 
@@ -857,6 +882,8 @@ jobs:
 ```
 
 # Part 4: Data Analysis and Visualization
+
+In this final part, we will analyse and visualise our data set and perform a fundamental analysis by manipulating data using RSQLite and visualising them using the package "ggplot2"
 
 ```{r warning=FALSE, echo=FALSE}
 # Get the required data from the database
@@ -983,6 +1010,13 @@ combined_plot <- top10_product + bottom10_product +
 # Print the combined plot
 print(combined_plot)
 
+
+```
+
+This bar chart displays the top five best-selling products and the bottom five bestselling products. The Reebok Classic Leather is the best-selling product, whereas the Hunger Games Series has the poorest performance.
+
+```{r warning=FALSE, echo=FALSE}
+
 # Density plot
 density_plot <- ggplot(result_df, aes(x = product_reviewscore, fill = order_status)) +
   geom_density(alpha = 0.8) +
@@ -1002,9 +1036,13 @@ ggsave(filename = paste0(figure_directory, "selling_product_trend_", this_filena
 ggsave(filename = paste0(figure_directory, "rating_status_plot_", this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = density_plot)
 ```
 
+This graph exhibits the relationship between the number of each order status and the product review score; we can notice that almost all Cancelled orders receive a review score lower than 3. Also, the processing order needs a better product review score.
+
 ## Sales Analysis
 
-```{r}
+```{r warning=FALSE, echo=FALSE}
+
+
 ```
 
 ## Product-Category Analysis
@@ -1040,6 +1078,12 @@ avg_review_plot <- ggplot(category_review_scores, aes(x = reorder(category_name,
 
 print(avg_review_plot)
 
+
+```
+
+Among all the product categories, the products in these three categories received the most favourable reviews from our customers.
+
+```{r warning=FALSE, echo=FALSE}
 # Calculate profit margin
 supply_product_df$profit_margin <- supply_product_df$product_price - supply_product_df$product_cost
 
@@ -1072,6 +1116,8 @@ ggsave(filename = paste0(figure_directory, "review_category_plot_", this_filenam
 ggsave(filename = paste0(figure_directory, "profit_margin_plot_", this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = margin_plot)
 ```
 
+As can be seen from the chart, the profit margin for the product in an electronic category (CAT5960069590) is the highest among all categories. The green line displays the lowest margin of each product category. We can observe that each product category's lowest margins are aligned, with no significant difference. In comparison, each category's mean and the highest margin figure seem significant. The electronic section exhibited the best performance among all sections, as can be noticed from the red line that represents the mean of the margin and the black line that represents the highest margin.
+
 ## Customer Analysis
 
 ```{r warning=FALSE, echo=FALSE}
@@ -1103,6 +1149,12 @@ cust_segm <- ggplot(customers_country, aes(x = customer_country, y = total_custo
 
 print(cust_segm)
 
+
+```
+
+These bar charts illustrate the distribution of our application users by each country. Most of our users are live or have placed an order in France.
+
+```{r warning=FALSE, echo=FALSE}
 # Create the payment analysis ggplot
 payment_trend_plot <- ggplot(result_df, aes(x = payment_date, fill = payment_method)) +
   geom_bar(stat = "count", position = "dodge") +
@@ -1131,6 +1183,8 @@ print(payment_trend_plot)
 ggsave(filename = paste0(figure_directory, "customer_segment_", this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = cust_segm)
 ggsave(filename = paste0(figure_directory, "payment_trend_plot_", this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = payment_trend_plot)
 ```
+
+By observing the payment method throughout the year, we notice that a bank transfer displayed an abnormally high number of transactions in January 2023, while the figure for this payment method seems normal in other periods.
 
 ## Ads vs Supplier Analysis
 
@@ -1197,3 +1251,5 @@ print(combined_suppliers_plot)
 
 ggsave(filename = paste0(figure_directory, "ads_supplier_plot_", this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = combined_suppliers_plot)
 ```
+
+This bar chart displays the top 5 suppliers who purchase our advertisement at the most expensive rate and the bottom 5 of them. We find the Stewart Group (SUP261309764) is the customer who is the most willing to pay for our advertisement service.

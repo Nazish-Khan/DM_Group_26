@@ -5,6 +5,7 @@ library(fs)
 library(dplyr)
 library(DBI)
 library(ggplot2)
+library(patchwork)
 
 
 # Function to find the latest version of a file in a folder

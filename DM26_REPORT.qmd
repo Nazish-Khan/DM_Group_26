@@ -1,3 +1,418 @@
+---
+title: "Data Managment Group Assignment 1"
+author: "Group_26"
+format: pdf
+editor: visual
+toc: true
+---
+
+# Introduction
+
+The introduction of E-commerce has revolutionised the way businesses operate. Allowing customers to shop from a global range of products, within the convenience of their homes.
+
+To manage the functioning of these platforms most organisations use database structures as they allow to control large amounts of information. A well designed e-commerce database serves as a foundation for effective operations of the platform.
+
+In this report, we will delve into the structure of our e-commerce database by providing an overview of the model. starting with the ER diagram and schema creation after which, we generate the synthetic data and create a Github repository. This is followed with the visualization of our data generated.
+
+The workflows associated with our database can be found in the GitHub link provided here - <https://github.com/Nazish-Khan/DM_Group_26>
+
+# Part 1: Database Design process
+
+### Entities
+
+1.  Suppliers - Represents entities that supply products into our system.
+
+2.  Advertisement - Represents promotional advertisements associated with products and the webpage.
+
+3.  Order Details - Represents the details of multiple orders placed by individual customers.
+
+4.  Products - Represents individual products available in our system.
+
+5.  Category - Represents categories or types to which products belong.
+
+6.  Customers - Represents individual customers who place orders.
+
+7.  Warehouse - Represents physical locations where products are stored.
+
+## Conceptual Schema
+
+Following a process, The ER serves as a visual representation of the structure of our database our system. Its purpose is to provide a clear depiction of the entities within the database and the relationships that exist between them. By examining this diagram, stakeholders gain insights into the organization and interconnections of data within the database.
+
+Figure 1 below illustrates our Entity-Relationship (E-R) diagram, showcasing 7 entities along with their respective attributes. Within the diagram, we observe several one-to-many relationships, as well as a single many-to-many relationship existing between Product and Customer entities. Through this diagram, we can visualize how different entities interact and relate to each other within the database.
+
+![Figure 1 - ER Diagram](project_pics/ER-Diagram-x.jpg)
+
+### Relationship Sets and Cardinality
+
+Relationship sets, in the context of databases and Entity-Relationship (E-R) modeling, refer to collections of related tuples (or records) that connect entities based on their associations or interactions. These relationship sets define how entities are linked to each other and describe the nature of their connections. The diamond-shaped link between 2 entities helps form a relationship and a group of similar associations or links between entities within an Entity-Relationship (ER) model is called a Relationship Set. A relationship set captures the connections and interactions between entities, providing valuable information about the relationships within a database.
+
+From the ER diagram, we have formed our relationship and in the image below we have illustrated 6 different relationship sets with different carnality ratios.
+
+![Figure 2- Relationship sets](project_pics/Relationship%20sets.jpg)
+
+1.  **Advertisement-display-Products**: In this [many-to-one relationship]{.underline} set, we see multiple advertisements being displayed for a single product. This relationship enables advertisers to create different advertisements to promote the same product. Furthermore, target different audiences and highlight different aspects of the product's features and benefits.
+
+2.  **Products-store-Warehouse**: This is a [many-to-many relationship]{.underline} set, meaning that both multiple products can be stored in multiple warehouses. This structure makes for highly flexible inventory management, allowing for distribution of products across different warehouses. As a result, this relationship allows efficient inventory management by allocating stock based on demand and location.
+
+3.  **Advertisement-purchase-Supplier**: In this [many-to-one relationship]{.underline} set, multiple advertisements can be purchased by a single supplier. This means that different advertisements promoting various products could be purchased from the same supplier. Therefore, the model can effectively showcase the supplier's range of products.
+
+4.  **Products-supply-Supplier**: In this [many-to-many relationship]{.underline}, a supplier can provide various products to an e-commerce platform, while each product can be sourced from multiple suppliers. This relationship provides flexibility in managing inventory and sourcing products.
+
+5.  **Products-include-Category**: This [many-to-one relationship]{.underline} allows for efficient organization and classification of products within the e-commerce platform. It enables customers to browse and search for products based on specific categories, making it easier to navigate and find relevant items.
+
+6.  **Product-Order details – Supplier- Customer- order**: In an e-commerce platform, the [many-to-many relationship]{.underline} among Products, Orders, Customers, Suppliers, and Order Details streamlines complex interactions. It enables multiple products to be associated with multiple orders, facilitating flexible inventory management and order fulfilment. This relationship structure is crucial for effective inventory, order, and supplier management, ensuring seamless operations in the e-commerce environment.
+
+### Assumption
+
+-   Assumed no multi-value variables exist - for example all customers have singular addresses and phone numbers.
+
+-   Each product assumed to be assigned only 1 category - no multi-catagory products exist.
+
+-   The eCommerce system is assumed to be a single database representing the structure of a single database system - no interactions from external systems or databases unless they are integral to the design.
+
+-   Security measures such as user authentication, data encryption and compliance with regulatory bodies (GDPR, consumer act and etc) have been met.
+
+-   Assumed that the system handles payment processing securely with integration of gateways to facilitating multiple payment methods (such as credit/debit cards, digital wallets, etc)
+
+-   Assumed customers can refer other customers with main customer base from western Europe
+
+-   Assuming company is fairly new
+
+-   Order Tracking and Status Updates: Assumed functionality includes order tracking features that enable customers to monitor the status of their orders in real-time and receive notifications for order updates such as shipment tracking numbers or delivery estimate.
+
+-   Backup and Recovery: Implement regular backup and recovery procedures to protect against data loss or system failures. Establish backup schedules, retention policies, and disaster recovery plans to ensure the availability and integrity of the e-commerce database
+
+## Logical Schema
+
+After transferring the relational schema to logical, we have the following tables (underline denote primary key, double underline denote foreign key) with the addition of each table attributes
+
+For Entity tables
+
+-   **SUPPLIERS** ($\underline{supplier\_id}$, supplier_name, supplier_address, supplier_contact, supplier_email)
+
+-   **CUSTOMERS** ($\underline{customer\_id}$, customer_name, customer_address, customer_email, customer_contact, $\underline{\underline{related\_id}}$)
+
+-   **ADVERTISEMENTS** ($\underline{ads\_id}$, ads_startdate, ads_enddate, ads_price, $\underline{\underline{supplier\_id}}$, $\underline{\underline{product\_id}}$)
+
+-   **WAREHOUSES** ($\underline{warehouse\_id}$, warehouse_address, warehouse_contact)
+
+-   **PRODUCTS** ($\underline{product\_id}$, product_name, product_reviewscore, product_price, $\underline{\underline{category\_id}}$)
+
+-   **CATEGORY** ($\underline{category\_id}$, category_name)
+
+-   **ORDER_DETAILS** ($\underline{order\_id}$, order_status, check_outdate, payment_method, payment_status, payment_date)
+
+For relationship table
+
+-   **SUPPLY** ($\underline{\underline{product\_id},\underline{supplier\_id}}$, product_cost, supply_quantity)
+
+-   **STORE** ($\underline{\underline{product\_id},\underline{warehouse\_id},store\_date}$, store_quantity)
+
+-   **ORDER** ($\underline{\underline{product\_id},\underline{customer\_id},\underline{supplier\_id},\underline{order\_id}}$, order_transaction_date, order_quantity)
+
+### Normalisation
+
+However, we notice that the address attributes in SUPPLIERS, CUSTOMERS and WAREHOUSES table are not normalised up to 3NF as the address details contain information of street, city, country and postcode, which are non-atomic value. Therefore, we resolve this problem by splitting up the address column of address in these table to be stress, city, country and postcode. The logical schema of these three tables after normalisation process are as follow;
+
+-   **SUPPLIERS** ($\underline{supplier\_id}$, supplier_name, supplier_street, supplier_city, supplier_country, supplier_postcode, supplier_contact, supplier_email)
+
+-   **CUSTOMERS** ($\underline{customer\_id}$, customer_name, customer_street, customer_city, customer_country, customer_postcode, customer_email, customer_contact, $\underline{\underline{related\_id}}$)
+
+-   **WAREHOUSES** ($\underline{warehouse\_id}$, warehouse_street, warehouse_city, warehouse_country, warehouse_postcode, warehouse_contact)
+
+-   After we ensure that our logical schema is designed up to 3NF from, we start the process of transforming it to be a physical schema by creating its skeleton using SQLite. We determine the type of each attributes as follows;
+
+| Attributes                                   | Type         | Reason                                                                                                                                                                                                                                      |
+|----------------------------------------------|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ID                                           | VARCHAR(15)  | We decide to synthesis our ID data by using a combination of uppercase letter(s) with digits. We select this pattern to ensure that the data contain in this format is unique since we will use these item as a primary key in many tables. |
+| Name, Street, City, Country, Postcode, Email | VARCHAR(255) | We select the type VARCHAR for these attributes since these items are information about location or information that can be read and understand by the users who have an access to this database.                                           |
+| Date                                         | DATE         | We select the DATE type in respond to the value we will contain under this attribute.                                                                                                                                                       |
+| Price, Quantity                              | INT          | As these items must be able to compute and the nature of these information represent a numerical value.                                                                                                                                     |
+
+## Physical Schema
+
+After considering the circumstance above, we create our physical schema by using SQLite as follow;
+
+```{r creationTable}
+
+# Read the relevant libraries
+library(RSQLite)
+library(readr)
+
+# Specify the database file name
+db_file <- "database/database.db"
+
+# Create the db connection with SQLite
+my_connection <- RSQLite::dbConnect(RSQLite::SQLite(),dbname = db_file)
+print(my_connection)
+
+# Delete if tables already exist
+#drop_tables <- "DROP TABLE IF EXISTS SUPPLIERS, CUSTOMERS, PRODUCTS, ADS, WAREHOUSE, CATEGORY, ORDER_DETAILS, ORDERS_PAYMENT, SUPPLY, STORE, ORDERS;"
+
+# Entity Table Creation
+
+# Create table for SUPPLIERS entity
+sql_suppliers <- "
+CREATE TABLE IF NOT EXISTS SUPPLIERS (
+    supplier_id VARCHAR(15) PRIMARY KEY,
+    supplier_name VARCHAR(255),
+    supplier_street VARCHAR(255),
+    supplier_city VARCHAR(255),
+    supplier_country VARCHAR(255),
+    supplier_postcode VARCHAR(255),
+    supplier_contact INT,
+    supplier_email VARCHAR(255)
+);"
+
+# Create table for Customer entity
+sql_customers <- "
+CREATE TABLE IF NOT EXISTS CUSTOMERS (
+    customer_id VARCHAR(15) PRIMARY KEY,
+    customer_name VARCHAR(255),
+    customer_street VARCHAR(255),
+    customer_city VARCHAR(255),
+    customer_country VARCHAR(255),
+    customer_postcode VARCHAR(255),
+    customer_email VARCHAR(255),
+    customer_contact INT,
+    related_id VARCHAR(15),
+    FOREIGN KEY (related_id) REFERENCES CUSTOMERS(customer_id)
+);"
+
+# create table for Advertisements entity
+sql_ads <- "
+CREATE TABLE IF NOT EXISTS ADVERTISEMENTS (
+    ads_id VARCHAR(15) PRIMARY KEY,
+    ads_startdate DATE,
+    ads_enddate DATE,
+    ads_price INT,
+    supplier_id VARCHAR(15),
+    product_id VARCHAR(15),
+    FOREIGN KEY (supplier_id) REFERENCES SUPPLIERS(supplier_id),
+    FOREIGN KEY (product_id) REFERENCES PRODUCTS(product_id)
+);"
+
+# create table for WAREHOUSES entity
+sql_warehouses <- "
+CREATE TABLE IF NOT EXISTS WAREHOUSES (
+    warehouse_id VARCHAR(15) PRIMARY KEY,
+    warehouse_street VARCHAR(255),
+    warehouse_city VARCHAR(255),
+    warehouse_country VARCHAR(255),
+    warehouse_postcode VARCHAR(255),
+    warehouse_contact VARCHAR(255)
+);"
+
+
+# create table for PRODUCTS entity
+sql_products <- "
+CREATE TABLE IF NOT EXISTS PRODUCTS (
+    product_id VARCHAR(15) PRIMARY KEY,
+    product_name VARCHAR(255),
+    product_reviewscore INT,
+    product_price INT,
+    category_id VARCHAR(15),
+    FOREIGN KEY (category_id) REFERENCES CATEGORY(category_id)
+);"
+
+
+# create table for CATEGORY entity
+sql_category <- "
+CREATE TABLE IF NOT EXISTS CATEGORY (
+    category_id VARCHAR(15) PRIMARY KEY,
+    category_name VARCHAR(255)
+);"
+
+
+# create table for ORDERS_DETAILS entity
+sql_order_details <- "
+CREATE TABLE IF NOT EXISTS ORDERS_DETAILS (
+    order_id VARCHAR(15) PRIMARY KEY,
+    order_status VARCHAR(255),
+    check_out_date DATE,
+    payment_method VARCHAR(255),
+    payment_status VARCHAR(255),
+    payment_date DATE
+);"
+
+# Relationship Entities
+
+# create table for SUPPLY relationship entity
+sql_supply <- "
+CREATE TABLE IF NOT EXISTS SUPPLY (
+    product_id VARCHAR(15),
+    supplier_id VARCHAR(15),
+    product_cost INT,
+    supply_quantity INT,
+    PRIMARY KEY (product_id, supplier_id),
+    FOREIGN KEY (product_id) REFERENCES PRODUCTS(product_id),
+    FOREIGN KEY (supplier_id) REFERENCES SUPPLIERS(supplier_id)
+);"
+
+# create table for STORE relationship
+sql_store <- "
+CREATE TABLE IF NOT EXISTS STORE (
+    product_id VARCHAR(15),
+    warehouse_id VARCHAR(15),
+    store_date DATE,
+    store_quantity INT,
+    PRIMARY KEY (product_id, warehouse_id, store_date),
+    FOREIGN KEY (product_id) REFERENCES PRODUCTS(product_id),
+    FOREIGN KEY (warehouse_id) REFERENCES WAREHOUSES(warehouse_id)
+);"
+
+# create table for ORDERS relationship
+sql_orders <- "
+CREATE TABLE IF NOT EXISTS ORDERS (
+    product_id VARCHAR(15),
+    customer_id VARCHAR(15),
+    supplier_id VARCHAR(15),
+    order_id VARCHAR(15),
+    order_transaction_date DATE,
+    order_quantity INT,
+    PRIMARY KEY (product_id, customer_id, supplier_id,  order_id),
+    FOREIGN KEY (product_id) REFERENCES PRODUCTS(product_id),
+    FOREIGN KEY (customer_id) REFERENCES CUSTOMERS(customer_id),
+    FOREIGN KEY (supplier_id) REFERENCES SUPPLIERS(supplier_id),
+    FOREIGN KEY (order_id) REFERENCES ORDERS_DETAILS(order_id)
+);"
+
+
+# Execute the SQL statements
+result <- RSQLite::dbExecute(my_connection, sql_suppliers)
+print(result)
+RSQLite::dbExecute(my_connection, sql_customers)
+RSQLite::dbExecute(my_connection, sql_category)
+RSQLite::dbExecute(my_connection, sql_products)
+RSQLite::dbExecute(my_connection, sql_ads)
+RSQLite::dbExecute(my_connection, sql_warehouses)
+RSQLite::dbExecute(my_connection, sql_order_details)
+RSQLite::dbExecute(my_connection, sql_supply)
+RSQLite::dbExecute(my_connection, sql_store)
+RSQLite::dbExecute(my_connection, sql_orders)
+
+
+# List all tables in the database
+tables <- dbListTables(my_connection)
+
+# Iterate over tables and print the schema
+for (table in tables) {
+  cat("Table:", table, "\n")
+  fields <- dbListFields(my_connection, table)
+  print(fields)
+  cat("\n")
+}
+# Close the database connection
+RSQLite::dbDisconnect(my_connection)
+
+```
+
+------------------------------------------------------------------------
+
+# PART 2: Data Generation and Management
+
+## 2.1 - Synthetic Data Generation
+
+We use a generative A.I. such as a data generating website like 'Mockaroo' to generate a data set for each entity to make sure that the synthetic data is realistic and logical. However, we do not include any foreign keys in these data sets, and we do not create any data for relationship tables from this platform.
+
+The code associated with foreign key relation can be found in the GitHub link provided here - <https://github.com/Nazish-Khan/DM_Group_26/blob/main/R/Data_Manipulation.Rmd>
+
+Please see our example of generative supplier data set as below;
+
+```{r}
+library(readr) 
+
+supplier_data <- read_csv("data_upload/Supplier/supplier_data_v1.csv",show_col_types = FALSE) 
+head(supplier_data,5)
+```
+
+Table 1.1: Supplier data set
+
+```{r}
+customer_data <- read_csv("data_upload/Customer/customer_data_v1.csv",show_col_types = FALSE) 
+head(customer_data,5)
+```
+
+Table 1.2: Customer data set
+
+```{r}
+advertisement_data <- read_csv("data_upload/Advertisement/advertisement_data_v1.csv",show_col_types = FALSE) 
+head(advertisement_data,5)
+```
+
+Table 1.3: Advertisement data set
+
+```{r}
+warehouse_data <- read_csv("data_upload/Warehouse/warehouse_data_v1.csv",show_col_types = FALSE) 
+head(warehouse_data,5)
+```
+
+Table 1.4: Warehouse data set
+
+```{r}
+product_data <- read_csv("data_upload/Product/product_data_v1.csv",show_col_types = FALSE) 
+head(product_data,5)
+```
+
+Table 1.5: product data set
+
+```{r}
+category_data <- read_csv("data_upload/Category/category_data_v1.csv",show_col_types = FALSE) 
+head(category_data,5)
+```
+
+Table 1.6: category data set
+
+```{r}
+order_details_data <- read_csv("data_upload/Order_details/order_details_data_v1.csv",show_col_types = FALSE) 
+head(order_details_data,5)
+```
+
+Table 1.7: order details data set
+
+After receiving a data set for each table, we use a package 'tidyverse' in an R software to randomly create a foreign key to any table, which contains this key in its table according to our logical database design. Please see the whole code of data manipulation in Appendix 1.
+
+```{r}
+supply_data <- read_csv("data_upload/Supply/supply_data_v1.csv",show_col_types = FALSE) 
+head(supply_data,5)
+```
+
+Table 1.8: supply data set
+
+```{r}
+store_data <- read_csv("data_upload/Store/store_data_v1.csv",show_col_types = FALSE) 
+head(store_data,5)
+```
+
+Table 1.9: warehouse data set
+
+```{r}
+order_data <- read_csv("data_upload/Order/order_data_v1.csv",show_col_types = FALSE) 
+head(order_data,5)
+```
+
+Table 1.10: order data set
+
+## 2.2 - Data Import and Quality Assurance
+
+-   Data Import:
+
+To streamline our data import process, we've established a structured approach. Every table has its own folder under the "data_upload" directory that contains CSV files with a version suffix (e.g., "\_data_v1.csv"). Every update to the data is posted into the folder associated with that table. We run a transformation.R script that is specifically made for this purpose in order to add the most recent version of the data to our database. This effective procedure makes sure that our database is always current with the most recent revisions of the data, which makes data administration and analysis easier.
+
+-   Quality Assurance:
+
+In order to achieve our goal of importing produced data into the SQL database while maintaining data quality, we have coded an extensive data import procedure. Quality assurance procedures and thorough data integrity checks are part of this process. To ensure adherence to common norms, we have specifically created validation methods for the following checks:
+
+1.  Entity Integrity Constraint Check: To identify the null primary keys in the data to be loaded
+2.  Email Format Check: To test the format of email addresses.
+3.  Validated Primary Key Format: To check format for all primary keys of the database tables.
+4.  Duplicate Records Identification: To preserve the coherence of the database, we have also incorporated methods for locating and removing duplicate records.
+5.  Referential Integrity Check: In addition, our script includes strong validations to guarantee the correct establishment of foreign key associations in order to protect referential integrity.
+
+This improves the database's consistency and dependability. With the use of these safeguards, our data import procedure not only adds data to the database but also ensures its integrity and quality, setting the stage for further operations and analysis.
+
+```{r tranformationFile, warning=FALSE}
+
 library(RSQLite)
 library(readr)
 library(stringr)
@@ -197,10 +612,6 @@ if (length(errors) > 0) {
 # Writing the data to the database
   print("Writing to the database")
 
-
-#  existing_records <- RSQLite::dbReadTable(my_connection, "SUPPLIERS")
-# Identify new records that don't already exist in the database
-# new_records <- supplier_data[!duplicated(supplier_data$supplier_id) & !supplier_data$supplier_id %in% existing_records$supplier_id, ]
 # Append only new records to the existing table
   print("Adding Supplier Data")
   RSQLite::dbWriteTable(my_connection, "SUPPLIERS", supplier_data, append = TRUE)
@@ -335,16 +746,122 @@ if (length(errors) > 0) {
     RSQLite::dbWriteTable(my_connection, "ORDER", order_data, append = TRUE)
   } 
 
+
   print("Writing Table is done")
+  
   RSQLite::dbDisconnect(my_connection)
 }
 
+```
+
+# Part 3: Data Pipeline Generation
+
+## 3.1 - **GitHub Repository and Workflow Setup**
+
+Objective: We utilized a GitHub repository to manage and version-control our project, ensuring a structured and organized approach to project management.
+
+Approach: Our GitHub repository contains essential files and folders, including:
+
+-   R folder: Contains all R scripts for data processing and analysis.
+
+-   data_upload folder: Houses new dataset uploads, facilitating easy access and management of incoming data.
+
+-   database folder: Stores the database file, ensuring centralized access to the project's database.
+
+-   qmd file: Serves as the project report, documenting project progress, findings, and insights.
+
+-   figures folder: Stores all plots generated by R scripts, enhancing visualization and analysis capabilities.
+
+-   project_pics folder: Contains project structure-related images for reference and documentation.
+
+-   github workflow folder: Houses the GitHub Actions workflow, streamlining automation and continuous integration processes.
+
+-   README.md file: Provides essential information about the project, including setup instructions, project overview, and contact details.
+
+## 3.2 - **GitHub Actions for Continuous Integration**
+
+Objective: To automate data validation, database updates, and basic data analysis tasks using GitHub Actions, ensuring efficient project management and maintenance.
+
+Approach: We implemented a GitHub Actions workflow triggered on specific events, such as push events to the main branch. The workflow consists of the following steps:
+
+1.  Checkout code: Retrieves the project code from the repository for further processing.
+
+2.  Setup R environment: Configures the R environment required for executing R scripts.
+
+3.  Cache R packages: Caches R packages to speed up workflow execution by avoiding redundant package installations.
+
+4.  Install packages: Installs necessary R packages, including readr, RSQLite, stringr, dplyr, fs, and ggplot2, facilitating data processing and analysis.
+
+5.  Execute R script: Runs the specified R script (transformation.R), performing data transformation and analysis tasks.
+
+6.  Add files: Adds generated plot figures to the repository for version control and documentation.
+
+7.  Commit files: Commits changes made to the repository, ensuring changes are tracked and documented.
+
+8.  Push changes: Pushes committed changes to the main branch of the GitHub repository, updating the repository with the latest data and analysis results.
+
+Conclusion: Through effective GitHub repository and workflow setup, coupled with GitHub Actions for continuous integration, we have established a robust framework for managing, version-controlling, and automating project tasks. This streamlined approach enhances collaboration, ensures data quality and integrity, and promotes efficient project maintenance and scalability.
+
+```{r github_workflow, eval=FALSE, warning=FALSE}
+
+name: Update Repo with result
+
+
+on:
+#  schedule:
+#    - cron: '0 */3 * * *' # Run every 3 hours
+  push:
+    branches: [ main ]
+    #paths:
+    # - 'data_upload/**' # Trigger only when changes occur in the data_upload folder or its subfolders
+  
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup R environment
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: '4.3.3'
+      - name: Cache R packages
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-r-${{ hashFiles('**/lockfile') }}
+          restore-keys: |
+            ${{ runner.os }}-r-
+      - name: Install packages
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          Rscript -e 'install.packages(c("readr","RSQLite","stringr","dplyr","fs","ggplot2"))'
+      - name: Execute R script
+        run: |
+          Rscript R/transformation.R
+      - name: Add files
+        run: |
+          git config --local --unset-all "http.https://github.com/.extraheader"
+          git config --global user.email "knazish1122@gmail.com"
+          git config --global user.name "Nazish-Khan"
+          git add --all figures/
+      - name: Commit files
+        run: |
+          git commit -m "Add Plot figure"
+      - name: Push changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+            github_token: ${{ secrets.MY_TOKEN }}
+            branch: main
+```
 
 # Part 4: Data Analysis and Visualization
 
-
+```{r warning=FALSE, echo=FALSE}
 # Get the required data from the database
 
+library(patchwork)
 conn <- RSQLite::dbConnect(RSQLite::SQLite(),dbname = "database/database.db")
 # Get data from database into a dataframe
 tables_to_read <- c("ADVERTISEMENTS", "WAREHOUSES", "SUPPLY","STORE","PRODUCTS","ORDERS_DETAILS","ORDERS","CUSTOMERS","SUPPLIERS","CATEGORY")
@@ -413,13 +930,13 @@ if (!dir.exists(figure_directory)) {
 # Save each plot as an image
 this_filename_date <- as.character(Sys.Date())
 this_filename_time <- as.character(format(Sys.time(), format = "%H_%M"))
-
+```
 
 ## Product Performance Analysis
 
-
+```{r warning=FALSE, echo=FALSE}
 # Best-selling products / low-selling products and their categories.
-
+ 
 # Summarize total quantity sold by product
 product_sales_grouped <- result_df %>%
   group_by(product_name, category_id) %>%
@@ -483,16 +1000,16 @@ print(density_plot)
 # Save plot figure
 ggsave(filename = paste0(figure_directory, "selling_product_trend_", this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = combined_plot)
 ggsave(filename = paste0(figure_directory, "rating_status_plot_", this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = density_plot)
-
+```
 
 ## Sales Analysis
 
-
-
+```{r}
+```
 
 ## Product-Category Analysis
 
-
+```{r warning=FALSE, echo=FALSE}
 # Calculate average review scores for each category
 category_review_scores <- product %>%
   group_by(category_id) %>%
@@ -553,11 +1070,11 @@ print(margin_plot)
 # Save plot figure
 ggsave(filename = paste0(figure_directory, "review_category_plot_", this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = avg_review_plot)
 ggsave(filename = paste0(figure_directory, "profit_margin_plot_", this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = margin_plot)
-
+```
 
 ## Customer Analysis
 
-
+```{r warning=FALSE, echo=FALSE}
 # Customer Segmentation
 
 # Segment customers based on country
@@ -594,8 +1111,8 @@ payment_trend_plot <- ggplot(result_df, aes(x = payment_date, fill = payment_met
        x = "Payment Date",
        y = "Number of Payments",
        fill = "Payment Method") +
-  scale_fill_manual(values = color_palette) +
-  theme_minimal() +
+scale_fill_manual(values = color_palette) +
+theme_minimal() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1), 
         panel.background = element_rect(fill = "white", color = "blue"),
         panel.grid.major = element_blank(),
@@ -613,11 +1130,11 @@ print(payment_trend_plot)
 # Save plot figure
 ggsave(filename = paste0(figure_directory, "customer_segment_", this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = cust_segm)
 ggsave(filename = paste0(figure_directory, "payment_trend_plot_", this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = payment_trend_plot)
-
+```
 
 ## Ads vs Supplier Analysis
 
-
+```{r warning=FALSE, echo=FALSE}
 # Advertisement Analysis
 
 # Convert date format to Date type
@@ -679,3 +1196,4 @@ print(combined_suppliers_plot)
 # Save plot figure
 
 ggsave(filename = paste0(figure_directory, "ads_supplier_plot_", this_filename_date, "_", this_filename_time, ".png"), width = 6, height = 5, plot = combined_suppliers_plot)
+```
